@@ -1,5 +1,3 @@
-package org.energyos.espi.thirdparty.integration;
-
 /*
  * Copyright 2013 EnergyOS.org
  *
@@ -15,6 +13,8 @@ package org.energyos.espi.thirdparty.integration;
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
+package org.energyos.espi.thirdparty.integration;
 
 import org.junit.Before;
 import org.junit.Test;
