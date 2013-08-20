@@ -1,0 +1,54 @@
+<!--
+  ~ Copyright 2013 EnergyOS.org
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+    <security:http use-expressions="true">
+
+        <security:intercept-url pattern="/home" access="permitAll"/>
+        <security:intercept-url pattern="/css/**" access="permitAll"/>
+        <security:intercept-url pattern="/ico/**" access="permitAll"/>
+        <security:intercept-url pattern="/img/**" access="permitAll"/>
+        <security:intercept-url pattern="/js/**" access="permitAll"/>
+
+        <security:form-login login-page="/login" default-target-url="/"/>
+        <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
+        <security:remember-me/>
+        <security:session-management invalid-session-url="/">
+            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </security:session-management>
+    </security:http>
+
+    <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
+
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:password-encoder ref="encoder"/>
+            <security:user-service>
+                <!-- Password: "koala" -->
+                <security:user name="alan"
+                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
+                               authorities="ROLE_CUSTOMER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

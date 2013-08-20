@@ -24,6 +24,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
@@ -42,7 +43,8 @@ public class RetailCustomersSteps {
 
     @Then("^I should be logged in$")
     public void I_should_be_logged_in() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Logout"));
+        assertTrue(driver.getPageSource().contains("logout"));
+        assertFalse(driver.getPageSource().contains("login"));
     }
 
     @When("^I log in with invalid credentials$")
