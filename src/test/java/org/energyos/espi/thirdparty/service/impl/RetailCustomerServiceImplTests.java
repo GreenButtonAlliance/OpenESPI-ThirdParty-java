@@ -14,49 +14,47 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.thirdparty.web;
+package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.service.RetailCustomerService;
-import org.energyos.espi.thirdparty.service.impl.RetailCustomerServiceImpl;
+import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
+import org.energyos.espi.thirdparty.repository.impl.RetailCustomerRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.stubbing.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class UsagePointControllerTests {
-
-    private RetailCustomerService retailCustomerService;
+public class RetailCustomerServiceImplTests {
 
     @Autowired
-    protected UsagePointController controller;
+    protected RetailCustomerServiceImpl service;
+    protected RetailCustomerRepository repository;
 
     @Before
-    public void before() {
-        retailCustomerService = mock(RetailCustomerServiceImpl.class);
-        controller.setRetailCustomerService(retailCustomerService);
-    }
-
-
-    @Test
-    public void index() {
-        assertEquals("usagepoints", controller.index());
+    public void setup() {
+        repository = mock(RetailCustomerRepositoryImpl.class);
+        service.setRepository(repository);
     }
 
     @Test
-    public void feed() {
-        when(retailCustomerService.getUsagePoints()).thenReturn("THIS ARE A FEED");
-        assertEquals("THIS ARE A FEED", controller.feed());
-        verify(retailCustomerService).getUsagePoints();
+    public void getUsagePoints() {
+        when(repository.getUsagePoints()).thenReturn("THIS IS A USAGE POINTS");
+
+        String result = service.getUsagePoints();
+
+        verify(repository).getUsagePoints();
+        assertEquals("THIS IS A USAGE POINTS", result);
     }
 }

@@ -28,6 +28,9 @@
     <div class="row">
         <div class="span12">
             <h2>Usage Points</h2>
+
+            <a href="<c:url value='/usagepoints/feed'/>">Download XML</a>
+
         </div>
     </div>
 
