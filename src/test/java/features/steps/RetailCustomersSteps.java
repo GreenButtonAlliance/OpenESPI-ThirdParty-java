@@ -19,10 +19,7 @@ package features.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RetailCustomersSteps {
 
-    private WebDriver driver = new HtmlUnitDriver();
+    private WebDriver driver = WebDriverSingleton.getInstance();
 
     @Given("^I have a Retail Customer account$")
     public void I_have_a_Retail_Customer_account() throws Throwable {
@@ -38,7 +35,7 @@ public class RetailCustomersSteps {
 
     @When("^I log in as Alan Turing$")
     public void I_log_in_as_Alan_Turing() throws Throwable {
-        login("alan", "koala");
+        StepUtils.login("alan", "koala");
     }
 
     @Then("^I should be logged in$")
@@ -49,23 +46,11 @@ public class RetailCustomersSteps {
 
     @When("^I log in with invalid credentials$")
     public void I_log_in_with_invalid_credentials() throws Throwable {
-        login("alan", "incorrect");
-    }
-
-    private void login(String username, String password) {
-        driver.get("http://localhost:9000/");
-        WebElement loginLink = driver.findElement(By.id("login"));
-        loginLink.click();
-        WebElement usernameInput = driver.findElement(By.name("j_username"));
-        usernameInput.sendKeys(username);
-        WebElement passwordInput = driver.findElement(By.name("j_password"));
-        passwordInput.sendKeys(password);
-        WebElement login = driver.findElement(By.name("submit"));
-        login.click();
+        StepUtils.login("alan", "incorrect");
     }
 
     @Then("^I should see the login form$")
     public void I_should_see_the_login_form() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Sign in"));
+        assertTrue(driver.getPageSource().contains("Login"));
     }
 }

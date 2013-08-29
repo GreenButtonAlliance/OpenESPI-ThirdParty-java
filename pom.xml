@@ -223,7 +223,7 @@
                     <scanIntervalSeconds>10</scanIntervalSeconds>
                     <stopPort>8005</stopPort>
                     <stopKey>STOP</stopKey>
-                    <contextPath>/</contextPath>
+                    <contextPath>/ThirdParty</contextPath>
                     <connectors>
                         <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
                             <port>9000</port>
@@ -258,7 +258,7 @@
                 <version>2.0</version>
                 <configuration>
                     <port>9000</port>
-                    <path>/</path>
+                    <path>/ThirdParty</path>
                 </configuration>
             </plugin>
 

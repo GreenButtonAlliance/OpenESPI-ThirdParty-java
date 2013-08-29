@@ -16,29 +16,17 @@
 
 package features.steps;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
-import static org.junit.Assert.assertTrue;
+public class WebDriverSingleton {
+    private WebDriverSingleton() { }
 
-
-public class HomePageSteps {
-
-    private WebDriver driver = WebDriverSingleton.getInstance();
-
-    @Given("^I am a Retail Customer$")
-    public void I_am_a_Retail_Customer() throws Throwable {
+    private static class SingletonHolder {
+        public static final WebDriver INSTANCE = new HtmlUnitDriver();
     }
 
-    @When("^I visit the home page$")
-    public void I_visit_the_home_page() throws Throwable {
-        driver.get(StepUtils.BASE_URL);
-    }
-
-    @Then("^I should see a welcome message$")
-    public void I_should_see_a_welcome_message() throws Throwable {
-        assertTrue(driver.getPageSource().contains("Welcome"));
+    public static WebDriver getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 }
