@@ -53,4 +53,9 @@ public class RetailCustomersSteps {
     public void I_should_see_the_login_form() throws Throwable {
         assertTrue(driver.getPageSource().contains("Login"));
     }
+
+    @Then("^I should see Usage Point with title \"([^\"]*)\"$")
+    public void I_should_see_my_Usage_Points_with_title(String title) throws Throwable {
+        assertTrue(driver.getPageSource().contains(title));
+    }
 }
