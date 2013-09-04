@@ -16,9 +16,11 @@
 
 package org.energyos.espi.thirdparty.repository;
 
-import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
 
-public interface RetailCustomerRepository {
-    public String getUsagePoints();
+import javax.xml.bind.JAXBException;
+import java.util.List;
+
+public interface UsagePointRepository {
+    List<UsagePoint> findAllByRetailCustomerId(Long retailCustomerId) throws JAXBException;
 }
