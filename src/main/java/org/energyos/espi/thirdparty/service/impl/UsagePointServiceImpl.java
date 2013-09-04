@@ -14,40 +14,29 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.thirdparty.web;
+package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
+import java.util.List;
 
-@Controller
-@RequestMapping("/usagepoints")
-public class UsagePointController {
+@Service
+public class UsagePointServiceImpl implements UsagePointService {
 
     @Autowired
-    private UsagePointService usagePointService;
+    private UsagePointRepository repository;
 
-    @ModelAttribute
-    public java.util.List<UsagePoint> usagePoints() throws JAXBException {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
-
-        return usagePointService.findAllByRetailCustomer(customer);
+    public void setRepository(UsagePointRepository repository) {
+        this.repository = repository;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String index() {
-        return "usagepoints/index";
-    }
-
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
+    public List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException {
+        return repository.findAllByRetailCustomerId(retailCustomer.getId());
     }
 }

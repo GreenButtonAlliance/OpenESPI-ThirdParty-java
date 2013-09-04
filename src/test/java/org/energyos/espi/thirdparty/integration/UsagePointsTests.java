@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -27,14 +28,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class UsagePointsPageTests {
+@Profile("test")
+public class UsagePointsTests {
     private MockMvc mockMvc;
 
     @Autowired
@@ -46,8 +47,17 @@ public class UsagePointsPageTests {
     }
 
     @Test
-    public void index_should_renderUsagePoints() throws Exception {
-        mockMvc.perform(get("/usagepoints")).andExpect(status().isOk())
-                                 .andExpect(view().name("usagepoints"));
+    public void index_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void index_displaysUsagePointIndexView() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(view().name("usagepoints/index"));
+    }
+
+    @Test
+    public void index_setsUsagePointListModel() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(model().attributeExists("usagePointList"));
     }
 }

@@ -14,12 +14,18 @@
  *    limitations under the License.
  */
 
-package features;
+package org.energyos.espi.thirdparty.service;
 
-import cucumber.api.junit.Cucumber;
-import org.junit.runner.RunWith;
 
-@RunWith(Cucumber.class)
-@Cucumber.Options(features = {"classpath:features/RetailCustomerData.feature"})
-public class RetailCustomerDataFeature {
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+
+import javax.xml.bind.JAXBException;
+import java.util.List;
+
+public interface UsagePointService {
+    void setRepository(UsagePointRepository repository);
+
+    List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException;
 }

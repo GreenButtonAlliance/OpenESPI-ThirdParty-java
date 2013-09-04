@@ -23,10 +23,34 @@
     <version>1.0-SNAPSHOT</version>
     <name>ThirdParty</name>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>heroku</id>
+            <properties>
+                <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <!-- Spring -->
         <spring.version>3.2.0.RELEASE</spring.version>
 
+        <!-- Hibernate / JPA -->
+        <hibernate.version>4.2.1.Final</hibernate.version>
+
+        <!-- Bean validation -->
+        <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
     </properties>
 
     <repositories>
@@ -99,10 +123,28 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <version>1.4</version>
         </dependency>
 
         <dependency>
@@ -139,6 +181,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
@@ -162,16 +210,49 @@
             <version>3.1.3.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>rome</groupId>
+            <artifactId>rome</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <finalName>ThirdParty</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
 
@@ -224,11 +305,6 @@
                     <stopPort>8005</stopPort>
                     <stopKey>STOP</stopKey>
                     <contextPath>/ThirdParty</contextPath>
-                    <connectors>
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>9000</port>
-                        </connector>
-                    </connectors>
                 </configuration>
                 <executions>
                     <execution>
@@ -257,7 +333,6 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
-                    <port>9000</port>
                     <path>/ThirdParty</path>
                 </configuration>
             </plugin>
@@ -275,7 +350,6 @@
                     </licenseMapping>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

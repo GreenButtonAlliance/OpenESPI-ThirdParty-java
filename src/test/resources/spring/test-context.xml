@@ -27,4 +27,19 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/>
+
+    <bean id="API_FEED_URL" class="java.lang.String">
+        <constructor-arg value="http://localhost:8080/DataCustodian/api/feed"/>
+    </bean>
+
+    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan">
+            <list>
+                <value>org.energyos.espi.thirdparty.models.atom</value>
+                <value>org.energyos.espi.thirdparty.domain</value>
+            </list>
+        </property>
+    </bean>
 </beans>
