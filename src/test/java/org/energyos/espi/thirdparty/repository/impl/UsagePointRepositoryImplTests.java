@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 public class UsagePointRepositoryImplTests {
 
     public static final String EMPTY_FEED = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed></feed>";
-    public static final String FEED_WITH_USAGE_POINT = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><entry><content><UsagePoint/></content></entry></feed>";
+    public static final String FEED_WITH_USAGE_POINTS = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><entry><content><UsagePoint/></content></entry>entry><content><UsagePoint/></content></entry></feed>";
 
     UsagePointRepositoryImpl repository;
     private RetailCustomer customer;
@@ -72,14 +72,15 @@ public class UsagePointRepositoryImplTests {
     }
 
     @Test
-    public void findAllByRetailCustomer_givenXmlWithUsagePoint_returnsUsagePointList() throws JAXBException {
+    public void findAllByRetailCustomer_givenXmlWithUsagePoints_returnsUsagePointList() throws JAXBException {
         List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
         usagePointList.add(new UsagePoint());
+        usagePointList.add(new UsagePoint());
 
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINT);
+        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
         when(builder.newUsagePointList(any(FeedType.class))).thenReturn(usagePointList);
 
-        assertEquals(1, repository.findAllByRetailCustomerId(1L).size());
+        assertEquals(2, repository.findAllByRetailCustomerId(1L).size());
     }
 }

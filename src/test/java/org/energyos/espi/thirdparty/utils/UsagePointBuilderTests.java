@@ -52,6 +52,14 @@ public class UsagePointBuilderTests {
     }
 
     @Test
+    public void givenFeedWithUsagePointEntries_returnsUsagePoints() {
+        UsagePointBuilder builder = new UsagePointBuilder();
+        FeedType feed = newFeed("Usage Point Title", 2);
+
+        assertEquals(2, builder.newUsagePointList(feed).size());
+    }
+
+    @Test
     public void givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
         UsagePointBuilder builder = new UsagePointBuilder();
         String title = "Usage Point Title";
@@ -84,12 +92,18 @@ public class UsagePointBuilderTests {
     }
 
     private FeedType newFeed(String title) {
+        return newFeed(title, 1);
+    }
+
+    private FeedType newFeed(String title, int count) {
         FeedType feed = new FeedType();
 
-        EntryType entryType = new EntryType();
-        entryType.setTitle(title);
-        newUsagePoint(entryType);
-        feed.getEntries().add(entryType);
+        for(int i = 0; i < count; i++) {
+            EntryType entryType = new EntryType();
+            entryType.setTitle(title);
+            newUsagePoint(entryType);
+            feed.getEntries().add(entryType);
+        }
 
         return feed;
     }

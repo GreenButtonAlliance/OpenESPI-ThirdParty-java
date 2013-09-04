@@ -98,6 +98,26 @@ public class ATOMMarshallerTests {
     }
 
     @Test
+    public void unmarshal_givenFeedWithUsagePointEntries_returnsFeedWithUsagePoints() throws JAXBException {
+        String xml = FEED_PREFIX +
+                "  <entry>" +
+                "    <content>" +
+                "      <UsagePoint xmlns=\"http://naesb.org/espi\"></UsagePoint>" +
+                "    </content>" +
+                "  </entry>" +
+                "  <entry>" +
+                "    <content>" +
+                "      <UsagePoint xmlns=\"http://naesb.org/espi\"></UsagePoint>" +
+                "    </content>" +
+                "  </entry>" +
+                FEED_POSTFIX;
+        InputStream xmlStream = new ByteArrayInputStream(xml.getBytes());
+        FeedType feed = marshaller.unmarshal(xmlStream);
+
+        assertEquals(2, feed.getEntries().size());
+    }
+
+    @Test
     public void unmarshal_givenFeedWithId_returnsFeedWithId() throws JAXBException {
         String xml = FEED_PREFIX +
                 "   <id>urn:uuid:D7B58EA6-D94D-45D1-A0CA-F8A843AB1080</id>" +

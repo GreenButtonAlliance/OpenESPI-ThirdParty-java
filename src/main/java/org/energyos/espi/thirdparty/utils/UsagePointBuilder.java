@@ -31,24 +31,13 @@ import java.util.Map;
 @Component
 public class UsagePointBuilder {
     public List<UsagePoint> newUsagePointList(FeedType feed) {
-        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
-        EntryType usagePointEntry = null;
         Map<String, Object> lookup = new HashMap<String, Object>();
 
         addSelfLinks(feed, lookup);
         addRelatedLinks(feed, lookup);
         associate(feed, lookup);
-        usagePointEntry = findUsagePoint(feed, usagePointEntry);
 
-        if (usagePointEntry != null)
-        {
-            UsagePoint usagePoint = usagePointEntry.getContent().getUsagePoint();
-            usagePoint.setTitle(usagePointEntry.getTitle());
-            usagePoints.add(usagePoint);
-            return usagePoints;
-        }
-
-        return usagePoints;
+        return findUsagePoints(feed);
     }
 
     private void associateWithParent(Map<String, Object> lookup, ContentType content, LinkType upLink) {
@@ -57,12 +46,17 @@ public class UsagePointBuilder {
         }
     }
 
-    private EntryType findUsagePoint(FeedType feed, EntryType usagePointEntry) {
+    private List<UsagePoint> findUsagePoints(FeedType feed) {
+        List<UsagePoint> usagePointList = new ArrayList<>();
+
         for(EntryType entryType : feed.getEntries()) {
-            if (entryType.getContent().getUsagePoint() != null)
-                usagePointEntry = entryType;
+            UsagePoint usagePoint = entryType.getContent().getUsagePoint();
+            if (usagePoint != null) {
+                usagePoint.setTitle(entryType.getTitle());
+                usagePointList.add(usagePoint);
+            }
         }
-        return usagePointEntry;
+        return usagePointList;
     }
 
     private void associate(FeedType feed, Map<String, Object> lookup) {
