@@ -19,7 +19,9 @@ package features.steps;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -52,5 +54,16 @@ public class RetailCustomersSteps {
     @Then("^I should see the login form$")
     public void I_should_see_the_login_form() throws Throwable {
         assertTrue(driver.getPageSource().contains("Login"));
+    }
+
+    @Then("^I should see Usage Point with title \"([^\"]*)\"$")
+    public void I_should_see_my_Usage_Points_with_title(String title) throws Throwable {
+        assertTrue(driver.getPageSource().contains(title));
+    }
+
+    @When("^I look at my Usage Points page$")
+    public void I_look_at_my_usage_page() throws Throwable {
+        WebElement usagePointLink = driver.findElement(By.linkText("Usage Points"));
+        usagePointLink.click();
     }
 }

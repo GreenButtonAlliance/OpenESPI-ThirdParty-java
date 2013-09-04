@@ -18,20 +18,45 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="tiles/head.jsp"/>
+<jsp:include page="../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="tiles/header.jsp"/>
+<jsp:include page="../tiles/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
             <h2>Usage Points</h2>
+
+            <%--<a href="<c:url value='/customer/usagepoints/feed'/>">Download XML</a>--%>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="usagePoint" items="${usagePointList}">
+                    <tr>
+                        <td>
+                            <c:out value="${usagePoint.title}"/>
+                        </td>
+                        <td>
+                            <c:out value="${usagePoint.serviceCategory}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <jsp:include page="tiles/footer.jsp"/>
+    <hr>
+
+    <jsp:include page="../tiles/footer.jsp"/>
+
 </div>
 
 </body>

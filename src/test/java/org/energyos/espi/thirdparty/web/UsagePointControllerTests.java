@@ -16,25 +16,42 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.service.UsagePointService;
+import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration("/spring/test-context.xml")
 public class UsagePointControllerTests {
 
-    @Autowired
-    protected UsagePointController controller;
+    private UsagePointController controller;
+    private UsagePointService service;
+
+    @Before
+    public void setupUp() {
+        controller = new UsagePointController();
+        service = mock(UsagePointServiceImpl.class);
+        controller.setUsagePointService(service);
+    }
 
     @Test
-    public void shouldDisplayHomePage() throws Exception {
-        assertEquals("usagepoints", controller.index());
+    public void index_displaysUsagePointsView() throws Exception {
+        assertTrue(controller.index() == "usagepoints/index");
+    }
+
+    @Test
+    public void usagePoints_returnsUsagePointList() throws Exception {
+        List<UsagePoint> points = new ArrayList<UsagePoint>();
+        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
+
+        assertEquals(controller.usagePoints(), points);
     }
 }

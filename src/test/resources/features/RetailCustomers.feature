@@ -14,3 +14,11 @@ Feature: Retail Customers
 
     When I log in with invalid credentials
     Then I should see the login form
+
+  Scenario: Retail Customer views Usage Points
+    Given I have a Retail Customer account
+
+    When I log in as Alan Turing
+    And I look at my Usage Points page
+    Then I should see Usage Point with title "Gas meter"
+
