@@ -32,7 +32,6 @@ import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
 
-
     private UsagePointController controller;
     private UsagePointService service;
 
@@ -44,12 +43,12 @@ public class UsagePointControllerTests {
     }
 
     @Test
-    public void index_should_displayUsagePointsPage() throws Exception {
+    public void index_displaysUsagePointsView() throws Exception {
         assertTrue(controller.index() == "usagepoints/index");
     }
 
     @Test
-    public void usagePoints_should_returnUsagePointList() throws Exception {
+    public void usagePoints_returnsUsagePointList() throws Exception {
         List<UsagePoint> points = new ArrayList<UsagePoint>();
         when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
 

@@ -16,7 +16,6 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
-
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
@@ -35,7 +34,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
-
 public class UsagePointRepositoryImplTests {
 
     public static final String EMPTY_FEED = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed></feed>";
@@ -46,7 +44,6 @@ public class UsagePointRepositoryImplTests {
     private RestTemplate template;
     private ATOMMarshaller marshaller;
     private UsagePointBuilder builder;
-
 
     @Before
     public void setup() {
