@@ -31,7 +31,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -41,7 +40,7 @@ public class UsagePointBuilderTests {
     public void givenFeedWithNoEntries_returnsNull() {
         UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = new FeedType();
-        assertNull(builder.newUsagePoint(feed));
+        assertEquals(0, builder.newUsagePointList(feed).size());
     }
 
     @Test
@@ -49,7 +48,7 @@ public class UsagePointBuilderTests {
         UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = newFeed("Usage Point Title");
 
-        assertEquals(UsagePoint.class, builder.newUsagePoint(feed).getClass());
+        assertEquals(UsagePoint.class, builder.newUsagePointList(feed).get(0).getClass());
     }
 
     @Test
@@ -58,7 +57,7 @@ public class UsagePointBuilderTests {
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
 
-        assertEquals(title, builder.newUsagePoint(feed).getTitle());
+        assertEquals(title, builder.newUsagePointList(feed).get(0).getTitle());
     }
 
     @Test
@@ -69,7 +68,7 @@ public class UsagePointBuilderTests {
         MeterReading meterReading = new MeterReading();
 
         feed.getEntries().add(newMeterReading(meterReading));
-        UsagePoint usagePoint = builder.newUsagePoint(feed);
+        UsagePoint usagePoint = builder.newUsagePointList(feed).get(0);
 
         assertEquals(meterReading, usagePoint.getMeterReadings().get(0));
     }

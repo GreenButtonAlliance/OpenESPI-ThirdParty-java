@@ -23,13 +23,15 @@ import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.energyos.espi.thirdparty.models.atom.LinkType;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 public class UsagePointBuilder {
-
-    public UsagePoint newUsagePoint(FeedType feed) {
+    public List<UsagePoint> newUsagePointList(FeedType feed) {
+        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         EntryType usagePointEntry = null;
         Map<String, Object> lookup = new HashMap<String, Object>();
 
@@ -42,10 +44,11 @@ public class UsagePointBuilder {
         {
             UsagePoint usagePoint = usagePointEntry.getContent().getUsagePoint();
             usagePoint.setTitle(usagePointEntry.getTitle());
-            return usagePoint;
+            usagePoints.add(usagePoint);
+            return usagePoints;
         }
 
-        return null;
+        return usagePoints;
     }
 
     private void associateWithParent(Map<String, Object> lookup, ContentType content, LinkType upLink) {
