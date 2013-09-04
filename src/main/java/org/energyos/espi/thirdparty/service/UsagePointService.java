@@ -16,6 +16,16 @@
 
 package org.energyos.espi.thirdparty.service;
 
-public interface RetailCustomerService {
-    public String getUsagePoints();
+
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+
+import javax.xml.bind.JAXBException;
+import java.util.List;
+
+public interface UsagePointService {
+    void setRepository(UsagePointRepository repository);
+
+    List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException;
 }

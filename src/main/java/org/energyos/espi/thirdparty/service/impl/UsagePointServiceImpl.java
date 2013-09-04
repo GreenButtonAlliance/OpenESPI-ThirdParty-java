@@ -16,22 +16,27 @@
 
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
-import org.energyos.espi.thirdparty.service.RetailCustomerService;
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
-public class RetailCustomerServiceImpl implements RetailCustomerService {
-    @Autowired
-    private RetailCustomerRepository repository;
+import javax.xml.bind.JAXBException;
+import java.util.List;
 
-    @Override
-    public String getUsagePoints() {
-        return repository.getUsagePoints();
+@Service
+public class UsagePointServiceImpl implements UsagePointService {
+
+    @Autowired
+    private UsagePointRepository repository;
+
+    public void setRepository(UsagePointRepository repository) {
+        this.repository = repository;
     }
 
-    public void setRepository(RetailCustomerRepository repository) {
-        this.repository = repository;
+    public List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException {
+        return repository.findAllByRetailCustomerId(retailCustomer.getId());
     }
 }
