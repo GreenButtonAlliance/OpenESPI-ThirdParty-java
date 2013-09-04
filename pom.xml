@@ -23,6 +23,25 @@
     <version>1.0-SNAPSHOT</version>
     <name>ThirdParty</name>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>heroku</id>
+            <properties>
+                <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
+            </properties>
+        </profile>
+    </profiles>
+
     <properties>
         <!-- Spring -->
         <spring.version>3.2.0.RELEASE</spring.version>
@@ -218,6 +237,16 @@
 
     <build>
         <finalName>ThirdParty</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
