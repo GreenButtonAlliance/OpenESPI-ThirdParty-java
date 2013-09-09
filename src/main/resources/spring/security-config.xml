@@ -35,6 +35,9 @@
         <security:session-management invalid-session-url="/">
             <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login"/>
         </security:session-management>
+        <security:anonymous />
+        <security:custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+
     </security:http>
 
     <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>

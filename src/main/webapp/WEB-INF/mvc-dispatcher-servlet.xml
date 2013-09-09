@@ -23,6 +23,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+    <import resource="classpath:spring/oauth.xml"/>
     <import resource="classpath:spring/security-config.xml"/>
     <import resource="classpath:spring/rest-config.xml"/>
 
