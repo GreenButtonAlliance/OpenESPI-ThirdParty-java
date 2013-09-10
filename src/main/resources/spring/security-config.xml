@@ -42,16 +42,24 @@
 
     <bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
 
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:password-encoder ref="encoder"/>
-            <security:user-service>
-                <!-- Password: "koala" -->
-                <security:user name="alan"
-                               password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"
-                               authorities="ROLE_CUSTOMER"/>
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
+    <!--<security:authentication-manager>-->
+        <!--<security:authentication-provider>-->
+            <!--<security:password-encoder ref="encoder"/>-->
+            <!--<security:user-service>-->
+                <!--&lt;!&ndash; Password: "koala" &ndash;&gt;-->
+                <!--<security:user name="alan"-->
+                               <!--password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde"-->
+                               <!--authorities="ROLE_CUSTOMER"/>-->
+            <!--</security:user-service>-->
+        <!--</security:authentication-provider>-->
+    <!--</security:authentication-manager>-->
+    <authentication-manager xmlns="http://www.springframework.org/schema/security">
+        <authentication-provider>
+            <user-service>
+                <user name="marissa" password="wombat" authorities="ROLE_USER,ROLE_CUSTOMER" />
+                <user name="sam" password="kangaroo" authorities="ROLE_USER,ROLE_CUSTOMER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
 
 </beans>
