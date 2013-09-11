@@ -27,26 +27,25 @@
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Points</h2>
+            <h2>Usage Point: <c:out value="${usagePoint.description}"/></h2>
 
             <table class="table table-striped">
+                <caption class="text-left">Meter Readings:</caption>
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Service Category</th>
+                    <th>Description</th>
+                    <th>Reading Type</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="usagePoint" items="${usagePointList}">
+                <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/usagepoints/${usagePoint.MRID}/show'/>">
-                                <c:out value="${usagePoint.title}"/>
+                            <a href="<c:url value='/meterreadings/${meterReading.id}/show'/>">
+                                <c:out value="${meterReading.description}"/>
                             </a>
                         </td>
-                        <td>
-                            <c:out value="${usagePoint.serviceCategory}"/>
-                        </td>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
