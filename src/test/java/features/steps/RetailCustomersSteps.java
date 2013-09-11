@@ -70,7 +70,7 @@ public class RetailCustomersSteps {
 
     @And("^I select Usage Point$")
     public void I_select_Usage_Point() throws Throwable {
-        WebElement usagePointLink = driver.findElement(By.linkText("Gas meter"));
+        WebElement usagePointLink = driver.findElement(By.linkText("Front Electric Meter"));
         usagePointLink.click();
     }
 

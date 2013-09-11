@@ -63,19 +63,19 @@ public class UsagePointsTests {
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/usagepoints/1/show"))
+        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/usagepoints/1/show"))
+        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
                 .andExpect(view().name("/usagepoints/show"));
     }
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/usagepoints/1/show"))
+        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
                 .andExpect(model().attributeExists("usagePoint"));
     }
 }

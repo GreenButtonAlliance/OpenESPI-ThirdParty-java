@@ -20,7 +20,7 @@ Feature: Retail Customers
 
     When I log in as Alan Turing
     And I look at my Usage Points page
-    Then I should see Usage Point with title "Gas meter"
+    Then I should see Usage Point with title "Front Electric Meter"
 
   Scenario: Retail Customer views Usage Points with Meter Readings
     Given I have a Retail Customer account
