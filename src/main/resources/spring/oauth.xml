@@ -125,4 +125,16 @@
 		</property>
 	</bean>
 
+	<bean id="usagePointRepositoryImpl" class="org.energyos.espi.thirdparty.repository.impl.UsagePointRepositoryImpl">
+		<!--<property name="sparklrPhotoListURL" value="${sparklrPhotoListURL}" />-->
+		<!--<property name="sparklrTrustedMessageURL" value="${sparklrTrustedMessageURL}" />-->
+		<!--<property name="sparklrPhotoURLPattern" value="${sparklrPhotoURLPattern}" />-->
+		<property name="template">
+			<oauth:rest-template resource="sparklr" />
+		</property>
+		<!--<property name="trustedClientRestTemplate">-->
+			<!--<oauth:rest-template resource="trusted" />-->
+		<!--</property>-->
+	</bean>
+
 </beans>
