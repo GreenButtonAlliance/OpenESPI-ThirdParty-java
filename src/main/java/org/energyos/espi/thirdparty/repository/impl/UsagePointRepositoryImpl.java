@@ -50,6 +50,19 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
        return builder.newUsagePointList(unmarshallFeedType(requestUsagePoints()));
     }
 
+    @Override
+    public UsagePoint findById(String usagePointId) throws JAXBException {
+        List<UsagePoint> usagePoints = builder.newUsagePointList(unmarshallFeedType(requestUsagePoints()));
+
+        for (UsagePoint usagePoint : usagePoints) {
+            if (usagePoint.getMRID() == usagePointId) {
+                return usagePoint;
+            }
+        }
+
+        return null;
+    }
+
     private String requestUsagePoints() {
         return template.getForObject(apiFeedURL, String.class);
     }

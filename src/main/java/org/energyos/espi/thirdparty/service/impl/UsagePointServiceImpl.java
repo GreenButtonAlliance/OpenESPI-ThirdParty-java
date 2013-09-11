@@ -39,4 +39,9 @@ public class UsagePointServiceImpl implements UsagePointService {
     public List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException {
         return repository.findAllByRetailCustomerId(retailCustomer.getId());
     }
+
+    @Override
+    public UsagePoint findById(String usagePointId) throws JAXBException {
+        return repository.findById(usagePointId);
+    }
 }

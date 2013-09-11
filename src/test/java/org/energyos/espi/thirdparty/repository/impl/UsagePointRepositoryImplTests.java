@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -82,5 +83,20 @@ public class UsagePointRepositoryImplTests {
         when(builder.newUsagePointList(any(FeedType.class))).thenReturn(usagePointList);
 
         assertEquals(2, repository.findAllByRetailCustomerId(1L).size());
+    }
+
+    @Test
+    public void findById_returnsUsagePoint() throws JAXBException {
+        UsagePoint usagePoint = new UsagePoint();
+        usagePoint.setMRID("1");
+
+        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
+        usagePointList.add(usagePoint);
+
+        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
+        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
+        when(builder.newUsagePointList(any(FeedType.class))).thenReturn(usagePointList);
+
+        assertEquals(usagePoint, repository.findById("1"));
     }
 }
