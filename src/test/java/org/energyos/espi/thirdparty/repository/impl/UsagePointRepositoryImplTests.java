@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UsagePointRepositoryImplTests {
 
@@ -67,20 +67,20 @@ public class UsagePointRepositoryImplTests {
     public void findAllByRetailCustomer_givenXmlWithNoUsagePoints_returnsEmptyList() throws JAXBException {
         when(template.getForObject(any(String.class), any(Class.class))).thenReturn(EMPTY_FEED);
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePointList(any(FeedType.class))).thenReturn(new ArrayList<UsagePoint>());
+        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(new ArrayList<UsagePoint>());
 
         assertEquals(0, repository.findAllByRetailCustomerId(1L).size());
     }
 
     @Test
-    public void findAllByRetailCustomer_givenXmlWithUsagePoints_returnsUsagePointList() throws JAXBException {
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
-        usagePointList.add(new UsagePoint());
-        usagePointList.add(new UsagePoint());
+    public void findAllByRetailCustomer_givenXmlWithUsagePoints_returnsUsagePoints() throws JAXBException {
+        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
+        usagePoints.add(new UsagePoint());
+        usagePoints.add(new UsagePoint());
 
         when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePointList(any(FeedType.class))).thenReturn(usagePointList);
+        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
         assertEquals(2, repository.findAllByRetailCustomerId(1L).size());
     }
@@ -90,12 +90,12 @@ public class UsagePointRepositoryImplTests {
         UsagePoint usagePoint = new UsagePoint();
         usagePoint.setMRID("1");
 
-        List<UsagePoint> usagePointList = new ArrayList<UsagePoint>();
-        usagePointList.add(usagePoint);
+        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
+        usagePoints.add(usagePoint);
 
         when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePointList(any(FeedType.class))).thenReturn(usagePointList);
+        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
         assertEquals(usagePoint, repository.findById("1"));
     }

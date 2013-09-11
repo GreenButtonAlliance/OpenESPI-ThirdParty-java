@@ -47,12 +47,12 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
 
    @Override
     public List<UsagePoint> findAllByRetailCustomerId(Long id) throws JAXBException {
-       return builder.newUsagePointList(unmarshallFeedType(requestUsagePoints()));
+       return builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
     }
 
     @Override
     public UsagePoint findById(String usagePointId) throws JAXBException {
-        List<UsagePoint> usagePoints = builder.newUsagePointList(unmarshallFeedType(requestUsagePoints()));
+        List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
 
         for (UsagePoint usagePoint : usagePoints) {
             if (usagePoint.getMRID() == usagePointId) {
