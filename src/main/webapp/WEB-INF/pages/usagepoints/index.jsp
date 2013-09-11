@@ -41,7 +41,7 @@
                     <tr>
                         <td>
                             <a href="<c:url value='/usagepoints/${usagePoint.MRID}/show'/>">
-                                <c:out value="${usagePoint.title}"/>
+                                <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>
                         <td>

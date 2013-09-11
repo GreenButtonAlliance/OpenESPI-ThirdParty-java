@@ -52,7 +52,7 @@ public class UsagePointBuilder {
         for(EntryType entryType : feed.getEntries()) {
             UsagePoint usagePoint = entryType.getContent().getUsagePoint();
             if (usagePoint != null) {
-                usagePoint.setTitle(entryType.getTitle());
+                usagePoint.setDescription(entryType.getTitle());
                 usagePointList.add(usagePoint);
             }
         }
