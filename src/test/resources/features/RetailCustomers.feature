@@ -22,3 +22,13 @@ Feature: Retail Customers
     And I look at my Usage Points page
     Then I should see Usage Point with title "Gas meter"
 
+  Scenario: Retail Customer views Usage Points with Meter Readings
+    Given I have a Retail Customer account
+
+    When I log in as Alan Turing
+    And I look at my Usage Points page
+    And I select Usage Point
+    And I select Meter Reading
+
+    Then I should see Meter Reading
+    And I should see Reading Type
