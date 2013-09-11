@@ -55,7 +55,7 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
 
         for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getMRID() == usagePointId) {
+            if (usagePoint.getMRID().equals(usagePointId)) {
                 return usagePoint;
             }
         }

@@ -13,7 +13,7 @@ public class MockRestTemplate extends RestTemplate {
             "    <updated>2012-10-24T00:00:00Z</updated>\n" +
             "    <link rel=\"self\" href=\"/ThirdParty/83e269c1/Batch\"/>\n" +
             "    <entry>\n" +
-            "        <id>urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2</id>\n" +
+            "        <id>1</id>\n" +
             "        <link rel=\"self\" href=\"RetailCustomer/9b6c7063/UsagePoint/01\"/>\n" +
             "        <link rel=\"up\" href=\"RetailCustomer/9b6c7063/UsagePoint\"/>\n" +
             "        <link rel=\"related\" href=\"RetailCustomer/9b6c7063/UsagePoint/01/MeterReading\"/>\n" +

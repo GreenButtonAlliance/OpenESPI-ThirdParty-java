@@ -52,6 +52,7 @@ public class UsagePointBuilder {
         UsagePoint usagePoint = entry.getContent().getUsagePoint();
 
         usagePoint.setDescription(entry.getTitle());
+        usagePoint.setMRID(entry.getId().getValue());
 
         usagePoints.add(usagePoint);
     }

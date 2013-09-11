@@ -19,10 +19,7 @@ package org.energyos.espi.thirdparty.utils;
 
 import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.ContentType;
-import org.energyos.espi.thirdparty.models.atom.EntryType;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.models.atom.LinkType;
+import org.energyos.espi.thirdparty.models.atom.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -77,6 +74,7 @@ public class UsagePointBuilderTests {
         for(int i = 0; i < count; i++) {
             EntryType entryType = new EntryType();
             entryType.setTitle(title);
+            entryType.setId(new IdType());
             newUsagePoint(entryType);
             feed.getEntries().add(entryType);
         }
