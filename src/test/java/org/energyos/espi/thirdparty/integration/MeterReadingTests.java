@@ -1,6 +1,5 @@
 package org.energyos.espi.thirdparty.integration;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,30 +23,29 @@ public class MeterReadingTests {
     @Autowired
     protected WebApplicationContext wac;
 
-    private MeterReading meterReading;
+
+    private static final String UUID = "urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE";
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        meterReading = new MeterReading();
-        meterReading.setMRID("urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE");
     }
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/meterreadings/" + meterReading.getMRID() + "/show"))
+        mockMvc.perform(get("/meterreadings/" + UUID + "/show"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/meterreadings/" + meterReading.getMRID() + "/show"))
+        mockMvc.perform(get("/meterreadings/" + UUID + "/show"))
                 .andExpect(view().name("/meterreadings/show"));
     }
 
     @Test
     public void show_setsMeterReadingModel() throws Exception {
-        mockMvc.perform(get("/meterreadings/" + meterReading.getMRID() + "/show"))
+        mockMvc.perform(get("/meterreadings/" + UUID + "/show"))
                 .andExpect(model().attributeExists("meterReading"));
     }
 }

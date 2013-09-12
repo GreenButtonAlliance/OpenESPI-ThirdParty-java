@@ -21,6 +21,7 @@ import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
 import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
@@ -75,8 +76,8 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void findAllByRetailCustomer_givenXmlWithUsagePoints_returnsUsagePoints() throws JAXBException {
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
-        usagePoints.add(new UsagePoint());
-        usagePoints.add(new UsagePoint());
+        usagePoints.add(Factory.newUsagePoint());
+        usagePoints.add(Factory.newUsagePoint());
 
         when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
@@ -87,8 +88,7 @@ public class UsagePointRepositoryImplTests {
 
     @Test
     public void findById_returnsUsagePoint() throws JAXBException {
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setMRID("1");
+        UsagePoint usagePoint = Factory.newUsagePoint();
 
         List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
         usagePoints.add(usagePoint);

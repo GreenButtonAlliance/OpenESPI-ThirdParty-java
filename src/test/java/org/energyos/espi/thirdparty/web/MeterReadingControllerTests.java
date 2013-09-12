@@ -18,6 +18,7 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.service.MeterReadingService;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
@@ -47,7 +48,7 @@ public class MeterReadingControllerTests {
 
     @Test
     public void show_setsMeterReadingModel() throws JAXBException {
-        MeterReading meterReading = new MeterReading();
+        MeterReading meterReading = Factory.newMeterReading();
         ModelMap model = new ModelMap();
         when(service.findById(anyString())).thenReturn(meterReading);
 

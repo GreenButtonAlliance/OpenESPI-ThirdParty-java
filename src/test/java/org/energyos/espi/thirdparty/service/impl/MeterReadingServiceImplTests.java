@@ -3,6 +3,7 @@ package org.energyos.espi.thirdparty.service.impl;
 import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
 import org.energyos.espi.thirdparty.service.MeterReadingService;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class MeterReadingServiceImplTests {
 
     @Test
     public void findById_returnsMeterReading() throws JAXBException {
-        MeterReading meterReading = new MeterReading();
+        MeterReading meterReading = Factory.newMeterReading();
 
         when(repository.findById(any(String.class))).thenReturn(meterReading);
 

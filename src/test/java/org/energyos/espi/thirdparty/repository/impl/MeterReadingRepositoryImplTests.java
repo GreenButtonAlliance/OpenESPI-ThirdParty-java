@@ -16,11 +16,11 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
 import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.client.RestTemplate;
@@ -60,10 +60,7 @@ public class MeterReadingRepositoryImplTests {
 
     @Test
     public void findById_returnsMeterReading() throws JAXBException {
-        MeterReading meterReading = new MeterReading();
-        meterReading.setMRID("1");
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.getMeterReadings().add(meterReading);
+        UsagePoint usagePoint = Factory.newUsagePoint();
 
         List<UsagePoint> usagePoints = new ArrayList<>();
         usagePoints.add(usagePoint);
@@ -72,6 +69,6 @@ public class MeterReadingRepositoryImplTests {
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
         when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
-        assertEquals(meterReading, repository.findById("1"));
+        assertEquals(usagePoint.getMeterReadings().get(0), repository.findById("1"));
     }
 }

@@ -4,6 +4,7 @@ import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.service.UsagePointService;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +14,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class UsagePointServiceImplTests {
 
@@ -39,7 +41,7 @@ public class UsagePointServiceImplTests {
 
     @Test
     public void findById_returnsUsagePoint() throws JAXBException {
-        UsagePoint usagePoint = new UsagePoint();
+        UsagePoint usagePoint = Factory.newUsagePoint();
 
         when(repository.findById(any(String.class))).thenReturn(usagePoint);
 

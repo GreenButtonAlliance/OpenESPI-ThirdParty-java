@@ -17,9 +17,9 @@
 package org.energyos.espi.thirdparty.utils;
 
 
-import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.*;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,63 +50,61 @@ public class UsagePointBuilderTests {
 
     @Test
     public void givenFeedWithUsagePointEntry_returnsUsagePoint() {
-        FeedType feed = newFeed("Usage Point Title");
+        FeedType feed = newFeed();
 
         assertEquals(UsagePoint.class, builder.newUsagePoints(feed).get(0).getClass());
     }
 
     @Test
     public void givenFeedWithUsagePointEntries_returnsUsagePoints() {
-        FeedType feed = newFeed("Usage Point Title", 2);
+        FeedType feed = newFeed(2);
 
         assertEquals(2, builder.newUsagePoints(feed).size());
     }
 
     @Test
     public void givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
-        String title = "Usage Point Title";
-        FeedType feed = newFeed(title);
+        FeedType feed = newFeed();
 
-        assertEquals(title, builder.newUsagePoints(feed).get(0).getDescription());
+        assertEquals("Usage Point Title", builder.newUsagePoints(feed).get(0).getDescription());
     }
 
     @Test
     public void setsMRID() {
-        String title = "Usage Point Title";
-        FeedType feed = newFeed(title);
+        FeedType feed = newFeed();
 
         assertNotNull(builder.newUsagePoints(feed).get(0).getMRID());
     }
 
-    private FeedType newFeed(String title) {
-        return newFeed(title, 1);
+    private FeedType newFeed() {
+        return newFeed(1);
     }
 
-    private FeedType newFeed(String title, int count) {
+    private FeedType newFeed(int count) {
         FeedType feed = new FeedType();
 
         for(int i = 0; i < count; i++) {
-            EntryType entryType = new EntryType();
-            entryType.setTitle(title);
-            entryType.setId(new IdType());
-            newUsagePoint(entryType);
+            EntryType entryType = newEntry();
             feed.getEntries().add(entryType);
         }
 
         return feed;
     }
 
-    private void newUsagePoint(EntryType entryType) {
+    private EntryType newEntry() {
+        EntryType entryType = new EntryType();
+
         ContentType usagePointContentType = new ContentType();
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        usagePointContentType.setUsagePoint(usagePoint);
+        usagePointContentType.setUsagePoint(Factory.newUsagePoint());
         entryType.setContent(usagePointContentType);
         entryType.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01"));
         entryType.getLinks().add(newLinkType("related", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
         IdType id = new IdType();
         id.setValue("1");
+        entryType.setTitle("Usage Point Title");
         entryType.setId(id);
+
+        return entryType;
     }
 
     private LinkType newLinkType(String rel, String href) {
