@@ -41,11 +41,11 @@
                 <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/meterreadings/${meterReading.id}/show'/>">
+                            <a href="<c:url value='/meterreadings/${meterReading.MRID}/show'/>">
                                 <c:out value="${meterReading.description}"/>
                             </a>
                         </td>
-                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                        <%--<td><c:out value="${meterReading.readingType.description}"/></td>--%>
                     </tr>
                 </c:forEach>
                 </tbody>
