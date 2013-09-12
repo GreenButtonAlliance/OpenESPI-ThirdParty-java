@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.utils;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,16 +30,17 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class UsagePointBuilderMeterReadingTests {
+public class UsagePointBuilderReadingTypeTests {
 
     @Autowired
     private ATOMMarshaller marshaller;
-    private MeterReading meterReading;
+    private ReadingType readingType;
 
     @Before
     public void before() throws IOException, JAXBException {
@@ -47,28 +48,22 @@ public class UsagePointBuilderMeterReadingTests {
         FeedType feedType = marshaller.unmarshal(sourceFile.getInputStream());
 
         UsagePointBuilder builder = new UsagePointBuilder();
-
-        meterReading = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0);
+        readingType = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0).getReadingType();
     }
 
     @Test
-    public void buildsMeterReading() {
-        assertEquals(MeterReading.class, meterReading.getClass());
+    public void buildsReadingType() {
+        assertEquals(ReadingType.class, readingType.getClass());
     }
 
     @Test
     public void setsDescription() {
-        assertNotNull(meterReading.getDescription());
+        assertNotNull(readingType.getDescription());
     }
 
     @Test
     public void setsMRID() {
-        assertNotNull(meterReading.getMRID());
-    }
-
-    @Test
-    public void setsReadingType() {
-        assertNotNull(meterReading.getReadingType());
+        assertNotNull(readingType.getMRID());
     }
 }
 

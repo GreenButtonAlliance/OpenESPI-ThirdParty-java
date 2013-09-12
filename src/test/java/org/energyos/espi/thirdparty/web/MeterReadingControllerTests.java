@@ -25,8 +25,7 @@ import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
 
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class MeterReadingControllerTests {

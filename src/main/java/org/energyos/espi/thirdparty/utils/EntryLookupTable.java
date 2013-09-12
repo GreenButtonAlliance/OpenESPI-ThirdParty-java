@@ -3,6 +3,7 @@ package org.energyos.espi.thirdparty.utils;
 import org.energyos.espi.thirdparty.models.atom.EntryType;
 import org.energyos.espi.thirdparty.models.atom.LinkType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,16 @@ class EntryLookupTable {
 
     public EntryType getUpEntry(EntryType entry) {
         return entryMap.get(getUpLinkHref(entry));
+    }
+
+    public List<EntryType> getRelatedEntries(EntryType entryType) {
+        List<EntryType> relatedEntries = new ArrayList<>();
+        for (LinkType link : entryType.getLinks()) {
+            if (link.getRel().equals("related")) {
+                relatedEntries.add(entryMap.get(link.getHref()));
+            }
+        }
+        return relatedEntries;
     }
 
     private void addSelfLinks(List<EntryType> entries) {

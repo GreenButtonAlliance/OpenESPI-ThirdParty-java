@@ -17,6 +17,7 @@
 package org.energyos.espi.thirdparty.utils;
 
 import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.ContentType;
 import org.energyos.espi.thirdparty.models.atom.EntryType;
@@ -48,8 +49,17 @@ public class UsagePointBuilder {
                 handleUsagePoint(entry);
             } else if (content.getMeterReading() != null ) {
                 handleMeterReading(entry);
+            } else if (content.getReadingType() != null ) {
+                handleReadingType(entry);
             }
         }
+    }
+
+    private void handleReadingType(EntryType entry) {
+        ReadingType readingType = entry.getContent().getReadingType();
+
+        readingType.setDescription(entry.getTitle());
+        readingType.setMRID(entry.getId().getValue());
     }
 
     private void handleMeterReading(EntryType entry) {
@@ -57,6 +67,8 @@ public class UsagePointBuilder {
 
         meterReading.setDescription(entry.getTitle());
         meterReading.setMRID(entry.getId().getValue());
+
+        meterReading.setReadingType(findReadingType(entry));
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
@@ -69,6 +81,15 @@ public class UsagePointBuilder {
         usagePoint.setMRID(entry.getId().getValue());
 
         usagePoints.add(usagePoint);
+    }
+
+    private ReadingType findReadingType(EntryType entry) {
+        for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
+            if (relatedEntry != entry) {
+                return relatedEntry.getContent().getReadingType();
+            }
+        }
+        return null;
     }
 
 }
