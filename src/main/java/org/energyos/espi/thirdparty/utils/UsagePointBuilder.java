@@ -29,26 +29,24 @@ import java.util.List;
 
 @Component
 public class UsagePointBuilder {
-    private EntryLookupTable lookup;
-    private List<UsagePoint> usagePoints;
 
     public List<UsagePoint> newUsagePoints(FeedType feed) {
-        usagePoints = new ArrayList<>();
-        lookup = new EntryLookupTable(feed.getEntries());
+        List<UsagePoint> usagePoints = new ArrayList<>();
+        EntryLookupTable lookup = new EntryLookupTable(feed.getEntries());
 
-        associate(feed);
+        associate(feed, lookup, usagePoints);
 
         return usagePoints;
     }
 
-    private void associate(FeedType feed) {
+    private void associate(FeedType feed, EntryLookupTable lookup, List<UsagePoint> usagePoints) {
         for (EntryType entry : feed.getEntries()) {
             ContentType content = entry.getContent();
 
             if (content.getUsagePoint() != null) {
-                handleUsagePoint(entry);
+                handleUsagePoint(entry, usagePoints);
             } else if (content.getMeterReading() != null ) {
-                handleMeterReading(entry);
+                handleMeterReading(entry, lookup);
             } else if (content.getReadingType() != null ) {
                 handleReadingType(entry);
             }
@@ -62,19 +60,19 @@ public class UsagePointBuilder {
         readingType.setMRID(entry.getId().getValue());
     }
 
-    private void handleMeterReading(EntryType entry) {
+    private void handleMeterReading(EntryType entry, EntryLookupTable lookup) {
         MeterReading meterReading = entry.getContent().getMeterReading();
 
         meterReading.setDescription(entry.getTitle());
         meterReading.setMRID(entry.getId().getValue());
 
-        meterReading.setReadingType(findReadingType(entry));
+        meterReading.setReadingType(findReadingType(entry, lookup));
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
     }
 
-    private void handleUsagePoint(EntryType entry) {
+    private void handleUsagePoint(EntryType entry, List<UsagePoint> usagePoints) {
         UsagePoint usagePoint = entry.getContent().getUsagePoint();
 
         usagePoint.setDescription(entry.getTitle());
@@ -83,7 +81,7 @@ public class UsagePointBuilder {
         usagePoints.add(usagePoint);
     }
 
-    private ReadingType findReadingType(EntryType entry) {
+    private ReadingType findReadingType(EntryType entry, EntryLookupTable lookup) {
         for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
             if (relatedEntry != entry) {
                 return relatedEntry.getContent().getReadingType();
@@ -91,5 +89,4 @@ public class UsagePointBuilder {
         }
         return null;
     }
-
 }

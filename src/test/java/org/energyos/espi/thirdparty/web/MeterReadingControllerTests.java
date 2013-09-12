@@ -42,7 +42,7 @@ public class MeterReadingControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertTrue(controller.show("1", mock(ModelMap.class)) == "/meterreadings/show");
+        assertEquals("/meterreadings/show", controller.show("1", mock(ModelMap.class)));
     }
 
     @Test

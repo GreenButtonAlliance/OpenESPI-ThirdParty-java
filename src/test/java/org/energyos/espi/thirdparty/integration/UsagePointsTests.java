@@ -36,7 +36,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration("/spring/test-context.xml")
 @Profile("test")
 public class UsagePointsTests {
+
     private MockMvc mockMvc;
+    private static final String UUID = "urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2";
 
     @Autowired
     protected WebApplicationContext wac;
@@ -63,19 +65,19 @@ public class UsagePointsTests {
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
                 .andExpect(view().name("/usagepoints/show"));
     }
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/usagepoints/urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2/show"))
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
                 .andExpect(model().attributeExists("usagePoint"));
     }
 }

@@ -34,7 +34,6 @@ public class MeterReadingServiceImpl implements MeterReadingService {
         return repository.findById(meterReadingId);
     }
 
-    @Override
     public void setRepository(MeterReadingRepository repository) {
        this.repository = repository;
     }

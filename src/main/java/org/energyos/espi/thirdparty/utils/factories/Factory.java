@@ -12,7 +12,7 @@ public class Factory {
     public static UsagePoint newUsagePoint() {
         UsagePoint usagePoint = new UsagePoint();
 
-        usagePoint.setMRID("1");
+        usagePoint.setMRID("urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2");
         usagePoint.setDescription("Electric meter");
         usagePoint.setServiceCategory(newServiceCategory());
 
@@ -29,7 +29,7 @@ public class Factory {
         MeterReading meterReading = new MeterReading();
 
         meterReading.setId(98L);
-        meterReading.setMRID("1");
+        meterReading.setMRID("urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE");
         meterReading.setDescription("Electricity consumption");
 
         return meterReading;

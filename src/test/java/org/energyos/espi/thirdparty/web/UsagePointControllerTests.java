@@ -44,12 +44,12 @@ public class UsagePointControllerTests {
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        assertTrue(controller.index() == "/usagepoints/index");
+        assertEquals("/usagepoints/index", controller.index());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertTrue(controller.show("1", mock(ModelMap.class)) == "/usagepoints/show");
+        assertEquals("/usagepoints/show", controller.show("1", mock(ModelMap.class)));
     }
 
     @Test

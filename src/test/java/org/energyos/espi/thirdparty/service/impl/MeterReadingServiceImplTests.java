@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class MeterReadingServiceImplTests {
 
     private MeterReadingRepository repository;
-    private MeterReadingService service;
+    private MeterReadingServiceImpl service;
 
     @Before
     public void before() {
