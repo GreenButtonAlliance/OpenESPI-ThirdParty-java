@@ -26,6 +26,7 @@ package org.energyos.espi.thirdparty.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -49,7 +50,17 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeterReading")
+@XmlRootElement(name="MeterReading")
 public class MeterReading
     extends IdentifiedObject
 {
+    private ReadingType readingType;
+
+    public ReadingType getReadingType() {
+        return readingType;
+    }
+
+    public void setReadingType(ReadingType readingType) {
+        this.readingType = readingType;
+    }
 }

@@ -23,4 +23,6 @@ import java.util.List;
 
 public interface UsagePointRepository {
     List<UsagePoint> findAllByRetailCustomerId(Long retailCustomerId) throws JAXBException;
+
+    UsagePoint findById(String usagePointId) throws JAXBException;
 }

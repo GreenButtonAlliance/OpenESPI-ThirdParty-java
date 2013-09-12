@@ -1,8 +1,9 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
+import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
 import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
 import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +16,23 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Repository
-public class UsagePointRepositoryImpl implements UsagePointRepository {
-    @Autowired
-    private RestTemplate template;
+public class MeterReadingRepositoryImpl implements MeterReadingRepository {
 
     @Autowired
     @Qualifier("API_FEED_URL")
     private String apiFeedURL;
 
     @Autowired
-    ATOMMarshaller marshaller;
+    private UsagePointBuilder builder;
 
     @Autowired
-    UsagePointBuilder builder;
+    private RestTemplate template;
+
+    @Autowired
+    private ATOMMarshaller marshaller;
 
     public void setTemplate(RestTemplate template) {
         this.template = template;
-    }
-
-    public void setApiFeedURL(String apiFeedURL) {
-        this.apiFeedURL = apiFeedURL;
     }
 
     public void setMarshaller(ATOMMarshaller marshaller) {
@@ -45,21 +43,29 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         this.builder = builder;
     }
 
-   @Override
-    public List<UsagePoint> findAllByRetailCustomerId(Long id) throws JAXBException {
-       return builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+    @Override
+    public MeterReading findById(String meterReadingId) throws JAXBException {
+        List<UsagePoint> usagePointList = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+
+        return findMeterReading(usagePointList, meterReadingId);
     }
 
-    @Override
-    public UsagePoint findById(String usagePointId) throws JAXBException {
-        List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
-
-        for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getMRID().equals(usagePointId)) {
-                return usagePoint;
+    private MeterReading findMeterReading(List<UsagePoint> usagePointList, String meterReadingId) {
+        for (UsagePoint usagePoint : usagePointList) {
+            MeterReading meterReading = findMeterReadingInUsagePoint(usagePoint.getMeterReadings(), meterReadingId);
+            if (meterReading != null) {
+                return meterReading;
             }
         }
+        return null;
+    }
 
+    private MeterReading findMeterReadingInUsagePoint(List<MeterReading> meterReadings, String meterReadingId) {
+        for (MeterReading meterReading : meterReadings) {
+            if (meterReading.getMRID().equals(meterReadingId)) {
+                return meterReading;
+            }
+        }
         return null;
     }
 
@@ -70,4 +76,5 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
     private FeedType unmarshallFeedType(String  xml) throws JAXBException {
         return marshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
     }
+
 }

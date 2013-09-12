@@ -16,32 +16,25 @@
 
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
-import org.energyos.espi.thirdparty.service.UsagePointService;
+import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
+import org.energyos.espi.thirdparty.service.MeterReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
-import java.util.List;
 
 @Service
-public class UsagePointServiceImpl implements UsagePointService {
-
+public class MeterReadingServiceImpl implements MeterReadingService {
     @Autowired
-    private UsagePointRepository repository;
-
-    public void setRepository(UsagePointRepository repository) {
-        this.repository = repository;
-    }
-
-    public List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException {
-        return repository.findAllByRetailCustomerId(retailCustomer.getId());
-    }
+    protected MeterReadingRepository repository;
 
     @Override
-    public UsagePoint findById(String usagePointId) throws JAXBException {
-        return repository.findById(usagePointId);
+    public MeterReading findById(String meterReadingId) throws JAXBException {
+        return repository.findById(meterReadingId);
+    }
+
+    public void setRepository(MeterReadingRepository repository) {
+       this.repository = repository;
     }
 }

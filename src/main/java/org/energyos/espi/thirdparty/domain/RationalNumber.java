@@ -58,7 +58,7 @@ import java.math.BigInteger;
 public class RationalNumber {
 
     protected BigInteger numerator;
-    protected java.lang.Object denominator;
+    protected BigInteger denominator;
 
     /**
      * Gets the value of the numerator property.
@@ -89,10 +89,10 @@ public class RationalNumber {
      *
      * @return
      *     possible object is
-     *     {@link java.lang.Object }
+     *     {@link BigInteger }
      *
      */
-    public java.lang.Object getDenominator() {
+    public BigInteger getDenominator() {
         return denominator;
     }
 
@@ -101,10 +101,10 @@ public class RationalNumber {
      *
      * @param value
      *     allowed object is
-     *     {@link java.lang.Object }
+     *     {@link BigInteger }
      *
      */
-    public void setDenominator(java.lang.Object value) {
+    public void setDenominator(BigInteger value) {
         this.denominator = value;
     }
 

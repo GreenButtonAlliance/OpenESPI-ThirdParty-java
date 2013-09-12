@@ -22,12 +22,12 @@ import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
@@ -43,8 +43,13 @@ public class UsagePointControllerTests {
     }
 
     @Test
-    public void index_displaysUsagePointsView() throws Exception {
-        assertTrue(controller.index() == "usagepoints/index");
+    public void index_displaysIndexView() throws Exception {
+        assertEquals("/usagepoints/index", controller.index());
+    }
+
+    @Test
+    public void show_displaysShowView() throws Exception {
+        assertEquals("/usagepoints/show", controller.show("1", mock(ModelMap.class)));
     }
 
     @Test
