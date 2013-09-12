@@ -180,4 +180,5 @@ public class UsagePoint
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
     }
+
 }
