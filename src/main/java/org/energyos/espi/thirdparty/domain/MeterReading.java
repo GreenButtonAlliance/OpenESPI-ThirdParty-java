@@ -54,4 +54,13 @@ import javax.xml.bind.annotation.XmlType;
 public class MeterReading
     extends IdentifiedObject
 {
+    private ReadingType readingType;
+
+    public ReadingType getReadingType() {
+        return readingType;
+    }
+
+    public void setReadingType(ReadingType readingType) {
+        this.readingType = readingType;
+    }
 }
