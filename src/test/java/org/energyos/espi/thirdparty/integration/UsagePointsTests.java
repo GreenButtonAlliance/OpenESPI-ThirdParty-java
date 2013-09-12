@@ -36,7 +36,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ContextConfiguration("/spring/test-context.xml")
 @Profile("test")
 public class UsagePointsTests {
+
     private MockMvc mockMvc;
+    private static final String UUID = "urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2";
 
     @Autowired
     protected WebApplicationContext wac;
@@ -52,12 +54,30 @@ public class UsagePointsTests {
     }
 
     @Test
-    public void index_displaysUsagePointIndexView() throws Exception {
-        mockMvc.perform(get("/usagepoints")).andExpect(view().name("usagepoints/index"));
+    public void index_displaysIndexView() throws Exception {
+        mockMvc.perform(get("/usagepoints")).andExpect(view().name("/usagepoints/index"));
     }
 
     @Test
     public void index_setsUsagePointListModel() throws Exception {
         mockMvc.perform(get("/usagepoints")).andExpect(model().attributeExists("usagePointList"));
+    }
+
+    @Test
+    public void show_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void show_displaysShowView() throws Exception {
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+                .andExpect(view().name("/usagepoints/show"));
+    }
+
+    @Test
+    public void show_setsUsagePointModel() throws Exception {
+        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+                .andExpect(model().attributeExists("usagePoint"));
     }
 }

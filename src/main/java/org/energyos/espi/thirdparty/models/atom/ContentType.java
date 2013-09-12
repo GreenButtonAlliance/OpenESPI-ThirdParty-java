@@ -25,6 +25,7 @@
 package org.energyos.espi.thirdparty.models.atom;
 
 import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
 
@@ -70,7 +71,8 @@ import java.util.Map;
 @XmlType(name = "contentType", propOrder = {
         "usagePoint",
         "meterReading",
-    "content"
+        "readingType",
+        "content"
 })
 public class ContentType {
 
@@ -110,6 +112,14 @@ public class ContentType {
 
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(GenericAdapter.class)
+    private ReadingType readingType;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -270,5 +280,9 @@ public class ContentType {
      */
     public Map<QName, String> getOtherAttributes() {
         return otherAttributes;
+    }
+
+    public ReadingType getReadingType() {
+        return readingType;
     }
 }

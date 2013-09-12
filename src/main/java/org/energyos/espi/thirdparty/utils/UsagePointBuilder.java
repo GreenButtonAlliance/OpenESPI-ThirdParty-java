@@ -16,90 +16,77 @@
 
 package org.energyos.espi.thirdparty.utils;
 
+import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.ContentType;
 import org.energyos.espi.thirdparty.models.atom.EntryType;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.models.atom.LinkType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class UsagePointBuilder {
-    public List<UsagePoint> newUsagePointList(FeedType feed) {
-        Map<String, Object> lookup = new HashMap<String, Object>();
 
-        addSelfLinks(feed, lookup);
-        addRelatedLinks(feed, lookup);
-        associate(feed, lookup);
+    public List<UsagePoint> newUsagePoints(FeedType feed) {
+        List<UsagePoint> usagePoints = new ArrayList<>();
+        EntryLookupTable lookup = new EntryLookupTable(feed.getEntries());
 
-        return findUsagePoints(feed);
+        associate(feed, lookup, usagePoints);
+
+        return usagePoints;
     }
 
-    private void associateWithParent(Map<String, Object> lookup, ContentType content, LinkType upLink) {
-        if (content.getMeterReading() != null) {
-            ((EntryType) lookup.get(upLink.getHref())).getContent().getUsagePoint().getMeterReadings().add(content.getMeterReading());
-        }
-    }
+    private void associate(FeedType feed, EntryLookupTable lookup, List<UsagePoint> usagePoints) {
+        for (EntryType entry : feed.getEntries()) {
+            ContentType content = entry.getContent();
 
-    private List<UsagePoint> findUsagePoints(FeedType feed) {
-        List<UsagePoint> usagePointList = new ArrayList<>();
-
-        for(EntryType entryType : feed.getEntries()) {
-            UsagePoint usagePoint = entryType.getContent().getUsagePoint();
-            if (usagePoint != null) {
-                usagePoint.setTitle(entryType.getTitle());
-                usagePointList.add(usagePoint);
-            }
-        }
-        return usagePointList;
-    }
-
-    private void associate(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entryType : feed.getEntries()) {
-            associateWithParent(lookup, entryType.getContent(), findUpLink(entryType));
-        }
-    }
-
-    private void addRelatedLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
-            for(LinkType link : entry.getLinks()){
-                if(link.getRel().equals("related") && !lookup.containsKey(link.getHref())){
-                    lookup.put(link.getHref(), entry);
-                }
+            if (content.getUsagePoint() != null) {
+                handleUsagePoint(entry, usagePoints);
+            } else if (content.getMeterReading() != null ) {
+                handleMeterReading(entry, lookup);
+            } else if (content.getReadingType() != null ) {
+                handleReadingType(entry);
             }
         }
     }
 
-    private void addSelfLinks(FeedType feed, Map<String, Object> lookup) {
-        for(EntryType entry : feed.getEntries()) {
-            lookup.put(findSelfLink(entry).getHref(), entry);
-        }
+    private void handleReadingType(EntryType entry) {
+        ReadingType readingType = entry.getContent().getReadingType();
+
+        readingType.setDescription(entry.getTitle());
+        readingType.setMRID(entry.getId().getValue());
     }
 
-    private LinkType findUpLink(EntryType entryType) {
-        LinkType selfLink = null;
-        for (LinkType link : entryType.getLinks()) {
-            if (link.getRel().equals("up")) {
-                selfLink = link;
-                break;
-            }
-        }
-        return selfLink;
+    private void handleMeterReading(EntryType entry, EntryLookupTable lookup) {
+        MeterReading meterReading = entry.getContent().getMeterReading();
+
+        meterReading.setDescription(entry.getTitle());
+        meterReading.setMRID(entry.getId().getValue());
+
+        meterReading.setReadingType(findReadingType(entry, lookup));
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
     }
 
-    private LinkType findSelfLink(EntryType entryType) {
-        LinkType selfLink = null;
-        for (LinkType link : entryType.getLinks()) {
-            if (link.getRel().equals("self")) {
-                selfLink = link;
-                break;
+    private void handleUsagePoint(EntryType entry, List<UsagePoint> usagePoints) {
+        UsagePoint usagePoint = entry.getContent().getUsagePoint();
+
+        usagePoint.setDescription(entry.getTitle());
+        usagePoint.setMRID(entry.getId().getValue());
+
+        usagePoints.add(usagePoint);
+    }
+
+    private ReadingType findReadingType(EntryType entry, EntryLookupTable lookup) {
+        for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
+            if (relatedEntry != entry) {
+                return relatedEntry.getContent().getReadingType();
             }
         }
-        return selfLink;
+        return null;
     }
 }

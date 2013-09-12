@@ -16,6 +16,7 @@
 
 package features.steps;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -65,5 +66,27 @@ public class RetailCustomersSteps {
     public void I_look_at_my_usage_page() throws Throwable {
         WebElement usagePointLink = driver.findElement(By.linkText("Usage Points"));
         usagePointLink.click();
+    }
+
+    @And("^I select Usage Point$")
+    public void I_select_Usage_Point() throws Throwable {
+        WebElement usagePointLink = driver.findElement(By.linkText("Front Electric Meter"));
+        usagePointLink.click();
+    }
+
+    @And("^I select Meter Reading$")
+    public void I_select_Meter_Reading() throws Throwable {
+        WebElement usagePointLink = driver.findElement(By.linkText("Fifteen Minute Electricity Consumption"));
+        usagePointLink.click();
+    }
+
+    @Then("^I should see Meter Reading$")
+    public void I_should_see_Meter_Reading() throws Throwable {
+        assertTrue("MeterReading title missing", driver.getPageSource().contains("Fifteen Minute Electricity Consumption"));
+    }
+
+    @And("^I should see Reading Type$")
+    public void I_should_see_Reading_Type() throws Throwable {
+        assertTrue("ReadingType title missing", driver.getPageSource().contains("Energy Delivered (kWh)"));
     }
 }

@@ -17,13 +17,10 @@
 package org.energyos.espi.thirdparty.utils;
 
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.ContentType;
-import org.energyos.espi.thirdparty.models.atom.EntryType;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.models.atom.LinkType;
+import org.energyos.espi.thirdparty.models.atom.*;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,91 +28,83 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 public class UsagePointBuilderTests {
+
+    UsagePointBuilder builder;
+
+    @Before
+    public void before() {
+       builder = new UsagePointBuilder();
+    }
+
     @Test
     public void givenFeedWithNoEntries_returnsNull() {
-        UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = new FeedType();
-        assertEquals(0, builder.newUsagePointList(feed).size());
+        assertEquals(0, builder.newUsagePoints(feed).size());
     }
 
     @Test
     public void givenFeedWithUsagePointEntry_returnsUsagePoint() {
-        UsagePointBuilder builder = new UsagePointBuilder();
-        FeedType feed = newFeed("Usage Point Title");
+        FeedType feed = newFeed();
 
-        assertEquals(UsagePoint.class, builder.newUsagePointList(feed).get(0).getClass());
+        assertEquals(UsagePoint.class, builder.newUsagePoints(feed).get(0).getClass());
     }
 
     @Test
     public void givenFeedWithUsagePointEntries_returnsUsagePoints() {
-        UsagePointBuilder builder = new UsagePointBuilder();
-        FeedType feed = newFeed("Usage Point Title", 2);
+        FeedType feed = newFeed(2);
 
-        assertEquals(2, builder.newUsagePointList(feed).size());
+        assertEquals(2, builder.newUsagePoints(feed).size());
     }
 
     @Test
     public void givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
-        UsagePointBuilder builder = new UsagePointBuilder();
-        String title = "Usage Point Title";
-        FeedType feed = newFeed(title);
+        FeedType feed = newFeed();
 
-        assertEquals(title, builder.newUsagePointList(feed).get(0).getTitle());
+        assertEquals("Usage Point Title", builder.newUsagePoints(feed).get(0).getDescription());
     }
 
     @Test
-    public void givenFeedWithUsagePointAndMeterReading_returnsUsagePointWithMeterReading() {
-        UsagePointBuilder builder = new UsagePointBuilder();
-        FeedType feed = newFeed("Super title");
+    public void setsMRID() {
+        FeedType feed = newFeed();
 
-        MeterReading meterReading = new MeterReading();
-
-        feed.getEntries().add(newMeterReading(meterReading));
-        UsagePoint usagePoint = builder.newUsagePointList(feed).get(0);
-
-        assertEquals(meterReading, usagePoint.getMeterReadings().get(0));
+        assertNotNull(builder.newUsagePoints(feed).get(0).getMRID());
     }
 
-    private EntryType newMeterReading(MeterReading meterReading) {
-        EntryType meterReadingEntry = new EntryType();
-        ContentType meterReadingContentType = new ContentType();
-        meterReadingContentType.setMeterReading(meterReading);
-        meterReadingEntry.setContent(meterReadingContentType);
-        meterReadingEntry.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading/01"));
-        meterReadingEntry.getLinks().add(newLinkType("up", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
-        return meterReadingEntry;
+    private FeedType newFeed() {
+        return newFeed(1);
     }
 
-    private FeedType newFeed(String title) {
-        return newFeed(title, 1);
-    }
-
-    private FeedType newFeed(String title, int count) {
+    private FeedType newFeed(int count) {
         FeedType feed = new FeedType();
 
         for(int i = 0; i < count; i++) {
-            EntryType entryType = new EntryType();
-            entryType.setTitle(title);
-            newUsagePoint(entryType);
+            EntryType entryType = newEntry();
             feed.getEntries().add(entryType);
         }
 
         return feed;
     }
 
-    private void newUsagePoint(EntryType entryType) {
+    private EntryType newEntry() {
+        EntryType entryType = new EntryType();
+
         ContentType usagePointContentType = new ContentType();
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
-        usagePointContentType.setUsagePoint(usagePoint);
+        usagePointContentType.setUsagePoint(Factory.newUsagePoint());
         entryType.setContent(usagePointContentType);
         entryType.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01"));
         entryType.getLinks().add(newLinkType("related", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
+        IdType id = new IdType();
+        id.setValue("1");
+        entryType.setTitle("Usage Point Title");
+        entryType.setId(id);
+
+        return entryType;
     }
 
     private LinkType newLinkType(String rel, String href) {

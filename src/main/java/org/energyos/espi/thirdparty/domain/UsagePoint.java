@@ -24,11 +24,8 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -87,10 +84,6 @@ public class UsagePoint
     protected ServiceCategory serviceCategory;
 
     protected Short status;
-
-    @XmlTransient
-    @NotEmpty @Size(min = 0, max = 100)
-    protected String title;
 
     @XmlTransient
     @Transient
@@ -172,14 +165,6 @@ public class UsagePoint
         this.status = value;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public List<MeterReading> getMeterReadings() {
         return meterReadings;
     }
@@ -195,4 +180,5 @@ public class UsagePoint
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
     }
+
 }

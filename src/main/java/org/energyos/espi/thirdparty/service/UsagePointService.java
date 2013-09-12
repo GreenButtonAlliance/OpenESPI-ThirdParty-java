@@ -28,4 +28,6 @@ public interface UsagePointService {
     void setRepository(UsagePointRepository repository);
 
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException;
+
+    UsagePoint findById(String usagePointId) throws JAXBException;
 }
