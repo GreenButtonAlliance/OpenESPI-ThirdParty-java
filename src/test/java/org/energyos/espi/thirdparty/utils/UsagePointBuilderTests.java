@@ -20,6 +20,7 @@ package org.energyos.espi.thirdparty.utils;
 import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.*;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,21 +28,28 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 public class UsagePointBuilderTests {
+
+    UsagePointBuilder builder;
+
+    @Before
+    public void before() {
+       builder = new UsagePointBuilder();
+    }
+
     @Test
     public void givenFeedWithNoEntries_returnsNull() {
-        UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = new FeedType();
         assertEquals(0, builder.newUsagePoints(feed).size());
     }
 
     @Test
     public void givenFeedWithUsagePointEntry_returnsUsagePoint() {
-        UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = newFeed("Usage Point Title");
 
         assertEquals(UsagePoint.class, builder.newUsagePoints(feed).get(0).getClass());
@@ -49,7 +57,6 @@ public class UsagePointBuilderTests {
 
     @Test
     public void givenFeedWithUsagePointEntries_returnsUsagePoints() {
-        UsagePointBuilder builder = new UsagePointBuilder();
         FeedType feed = newFeed("Usage Point Title", 2);
 
         assertEquals(2, builder.newUsagePoints(feed).size());
@@ -57,11 +64,18 @@ public class UsagePointBuilderTests {
 
     @Test
     public void givenFeedWithTitledUsagePointEntry_addsEntryTitleToUsagePoint() {
-        UsagePointBuilder builder = new UsagePointBuilder();
         String title = "Usage Point Title";
         FeedType feed = newFeed(title);
 
         assertEquals(title, builder.newUsagePoints(feed).get(0).getDescription());
+    }
+
+    @Test
+    public void setsMRID() {
+        String title = "Usage Point Title";
+        FeedType feed = newFeed(title);
+
+        assertNotNull(builder.newUsagePoints(feed).get(0).getMRID());
     }
 
     private FeedType newFeed(String title) {
@@ -90,6 +104,9 @@ public class UsagePointBuilderTests {
         entryType.setContent(usagePointContentType);
         entryType.getLinks().add(newLinkType("self", "RetailCustomer/9b6c7063/UsagePoint/01"));
         entryType.getLinks().add(newLinkType("related", "RetailCustomer/9b6c7063/UsagePoint/01/MeterReading"));
+        IdType id = new IdType();
+        id.setValue("1");
+        entryType.setId(id);
     }
 
     private LinkType newLinkType(String rel, String href) {

@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.utils;
 
+import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.ContentType;
 import org.energyos.espi.thirdparty.models.atom.EntryType;
@@ -27,11 +28,12 @@ import java.util.List;
 
 @Component
 public class UsagePointBuilder {
-
+    private EntryLookupTable lookup;
     private List<UsagePoint> usagePoints;
 
     public List<UsagePoint> newUsagePoints(FeedType feed) {
         usagePoints = new ArrayList<>();
+        lookup = new EntryLookupTable(feed.getEntries());
 
         associate(feed);
 
@@ -44,8 +46,20 @@ public class UsagePointBuilder {
 
             if (content.getUsagePoint() != null) {
                 handleUsagePoint(entry);
+            } else if (content.getMeterReading() != null ) {
+                handleMeterReading(entry);
             }
         }
+    }
+
+    private void handleMeterReading(EntryType entry) {
+        MeterReading meterReading = entry.getContent().getMeterReading();
+
+        meterReading.setDescription(entry.getTitle());
+        meterReading.setMRID(entry.getId().getValue());
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
     }
 
     private void handleUsagePoint(EntryType entry) {
