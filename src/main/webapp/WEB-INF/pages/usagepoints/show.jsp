@@ -45,7 +45,7 @@
                                 <c:out value="${meterReading.description}"/>
                             </a>
                         </td>
-                        <%--<td><c:out value="${meterReading.readingType.description}"/></td>--%>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
