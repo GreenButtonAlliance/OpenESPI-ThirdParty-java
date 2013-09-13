@@ -8,6 +8,7 @@ import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.JAXBException;
@@ -16,8 +17,7 @@ import java.util.List;
 
 @Repository
 public class UsagePointRepositoryImpl implements UsagePointRepository {
-    @Autowired
-    private RestTemplate template;
+    private RestOperations template;
 
     @Autowired
     @Qualifier("API_FEED_URL")
