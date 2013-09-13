@@ -26,6 +26,7 @@ public class MeterReadingRepositoryImpl implements MeterReadingRepository {
     private UsagePointBuilder builder;
 
     @Autowired
+    @Qualifier("repositoryTemplate")
     private RestTemplate template;
 
     @Autowired

@@ -15,13 +15,9 @@ import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-//@Repository
+@Repository
 public class UsagePointRepositoryImpl implements UsagePointRepository {
-//    @Autowired
-//    @Qualifier("sparklrRestTemplate")
     private RestOperations template;
-//    private RestOperations sparklrRestTemplate;
-//    private RestOperations trustedClientRestTemplate;
 
     @Autowired
     @Qualifier("API_FEED_URL")
