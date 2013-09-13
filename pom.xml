@@ -32,6 +32,8 @@
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <rest.template>org.energyos.espi.thirdparty.mocks.MockRestTemplate</rest.template>
+                <template>mockTemplate</template>
+                <profile>dev</profile>
             </properties>
         </profile>
 
@@ -40,6 +42,8 @@
             <properties>
                 <datacustodian.base.url>http://datacustodian-dev.herokuapp.com/DataCustodian</datacustodian.base.url>
                 <rest.template>org.springframework.web.client.RestTemplate</rest.template>
+                <template>oauthTemplate</template>
+                <profile>heroku</profile>
             </properties>
         </profile>
     </profiles>
@@ -91,12 +95,6 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.security.oauth</groupId>-->
-            <!--<artifactId>spring-security-oauth</artifactId>-->
-            <!--<version>1.0.0.M4</version>-->
-        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.security</groupId>
