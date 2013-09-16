@@ -32,3 +32,4 @@ Feature: Retail Customers
 
     Then I should see Meter Reading
     And I should see Reading Type
+    And I should see Interval Blocks

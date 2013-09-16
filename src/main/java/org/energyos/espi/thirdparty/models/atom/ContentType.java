@@ -24,10 +24,12 @@
 
 package org.energyos.espi.thirdparty.models.atom;
 
+import org.energyos.espi.thirdparty.domain.IntervalBlock;
 import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -72,6 +74,7 @@ import java.util.Map;
         "usagePoint",
         "meterReading",
         "readingType",
+        "intervalBlocks",
         "content"
 })
 public class ContentType {
@@ -120,6 +123,12 @@ public class ContentType {
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(GenericAdapter.class)
     private ReadingType readingType;
+    @XmlElementRefs({
+            @XmlElementRef(name = "IntervalBlock", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
+    private List<IntervalBlock> intervalBlocks;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -284,5 +293,13 @@ public class ContentType {
 
     public ReadingType getReadingType() {
         return readingType;
+    }
+
+    public List<IntervalBlock> getIntervalBlocks() {
+        return intervalBlocks;
+    }
+
+    public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
+        this.intervalBlocks = intervalBlocks;
     }
 }
