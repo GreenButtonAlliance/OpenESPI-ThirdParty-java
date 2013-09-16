@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.utils;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
+import org.energyos.espi.thirdparty.domain.IntervalBlock;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,16 +31,16 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-public class UsagePointBuilderMeterReadingTests {
+public class UsagePointBuilderIntervalBlockTests {
 
     @Autowired
     private ATOMMarshaller marshaller;
-    private MeterReading meterReading;
+    private IntervalBlock firstIntervalBlock;
+    private IntervalBlock secondIntervalBlock;
 
     @Before
     public void before() throws IOException, JAXBException {
@@ -49,32 +49,14 @@ public class UsagePointBuilderMeterReadingTests {
 
         UsagePointBuilder builder = new UsagePointBuilder();
 
-        meterReading = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0);
+        firstIntervalBlock = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0).getIntervalBlocks().get(0);
+        secondIntervalBlock = builder.newUsagePoints(feedType).get(0).getMeterReadings().get(0).getIntervalBlocks().get(1);
     }
 
     @Test
-    public void buildsMeterReading() {
-        assertEquals(MeterReading.class, meterReading.getClass());
-    }
-
-    @Test
-    public void setsDescription() {
-        assertNotNull(meterReading.getDescription());
-    }
-
-    @Test
-    public void setsMRID() {
-        assertNotNull(meterReading.getMRID());
-    }
-
-    @Test
-    public void setsReadingType() {
-        assertNotNull(meterReading.getReadingType());
-    }
-
-    @Test
-    public void setsIntervalBlocks() {
-        assertNotNull(meterReading.getIntervalBlocks());
+    public void buildsIntervalBlocks() throws IOException, JAXBException {
+        assertEquals(IntervalBlock.class, firstIntervalBlock.getClass());
+        assertEquals(IntervalBlock.class, secondIntervalBlock.getClass());
     }
 }
 
