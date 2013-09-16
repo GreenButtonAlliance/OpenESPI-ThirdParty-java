@@ -24,10 +24,7 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +51,7 @@ import java.util.List;
  *
  *
  */
+@XmlRootElement(name = "IntervalBlock")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IntervalBlock", propOrder = {
     "interval",
@@ -119,5 +117,4 @@ public class IntervalBlock
         }
         return this.intervalReading;
     }
-
 }

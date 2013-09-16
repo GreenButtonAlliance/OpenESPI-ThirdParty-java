@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.utils;
 
+import org.energyos.espi.thirdparty.domain.IntervalBlock;
 import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.ReadingType;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
@@ -49,15 +50,19 @@ public class UsagePointBuilder {
                 handleMeterReading(entry, lookup);
             } else if (content.getReadingType() != null ) {
                 handleReadingType(entry);
+            } else if (content.getIntervalBlocks() != null) {
+                handleIntervalBlocks(entry, lookup);
             }
         }
     }
 
-    private void handleReadingType(EntryType entry) {
-        ReadingType readingType = entry.getContent().getReadingType();
+    private void handleUsagePoint(EntryType entry, List<UsagePoint> usagePoints) {
+        UsagePoint usagePoint = entry.getContent().getUsagePoint();
 
-        readingType.setDescription(entry.getTitle());
-        readingType.setMRID(entry.getId().getValue());
+        usagePoint.setDescription(entry.getTitle());
+        usagePoint.setMRID(entry.getId().getValue());
+
+        usagePoints.add(usagePoint);
     }
 
     private void handleMeterReading(EntryType entry, EntryLookupTable lookup) {
@@ -72,13 +77,19 @@ public class UsagePointBuilder {
         usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
     }
 
-    private void handleUsagePoint(EntryType entry, List<UsagePoint> usagePoints) {
-        UsagePoint usagePoint = entry.getContent().getUsagePoint();
+    private void handleReadingType(EntryType entry) {
+        ReadingType readingType = entry.getContent().getReadingType();
 
-        usagePoint.setDescription(entry.getTitle());
-        usagePoint.setMRID(entry.getId().getValue());
+        readingType.setDescription(entry.getTitle());
+        readingType.setMRID(entry.getId().getValue());
+    }
 
-        usagePoints.add(usagePoint);
+    private void handleIntervalBlocks(EntryType entry, EntryLookupTable lookup) {
+        MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
+
+        for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
+            meterReading.addIntervalBlock(intervalBlock);
+        }
     }
 
     private ReadingType findReadingType(EntryType entry, EntryLookupTable lookup) {

@@ -53,6 +53,28 @@
                 </tr>
                 </tbody>
             </table>
+
+            <table class="table table-striped">
+                <caption class="text-left">Interval Blocks:</caption>
+                <thead>
+                <tr>
+                    <th>Duration</th>
+                    <th>Start</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="intervalBlock" items="${meterReading.intervalBlocks}">
+                    <tr>
+                        <td>
+                            <c:out value="${intervalBlock.interval.duration}"/>
+                        </td>
+                        <td>
+                            <c:out value="${intervalBlock.interval.start}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 
