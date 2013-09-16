@@ -28,6 +28,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -55,6 +57,7 @@ public class MeterReading
     extends IdentifiedObject
 {
     private ReadingType readingType;
+    private List<IntervalBlock> intervalBlocks = new ArrayList<>();
 
     public ReadingType getReadingType() {
         return readingType;
@@ -62,5 +65,13 @@ public class MeterReading
 
     public void setReadingType(ReadingType readingType) {
         this.readingType = readingType;
+    }
+
+    public List<IntervalBlock> getIntervalBlocks() {
+        return intervalBlocks;
+    }
+
+    public void addIntervalBlock(IntervalBlock intervalBlock) {
+        intervalBlocks.add(intervalBlock);
     }
 }
