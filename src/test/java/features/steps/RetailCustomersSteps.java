@@ -93,4 +93,9 @@ public class RetailCustomersSteps {
     public void I_should_see_Interval_Blocks() throws Throwable {
         assertTrue("Interval blocks missing", driver.getPageSource().contains("86400"));
     }
+
+    @Then("^I should see Electric Power Usage Summary$")
+    public void I_should_see_Electric_Power_Usage_Summary() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Usage Summary"));
+    }
 }
