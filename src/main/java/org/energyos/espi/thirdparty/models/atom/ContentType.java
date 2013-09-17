@@ -24,10 +24,7 @@
 
 package org.energyos.espi.thirdparty.models.atom;
 
-import org.energyos.espi.thirdparty.domain.IntervalBlock;
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.domain.ReadingType;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
 import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
 
@@ -36,6 +33,7 @@ import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.namespace.QName;
+import java.lang.Object;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +73,7 @@ import java.util.Map;
         "meterReading",
         "readingType",
         "intervalBlocks",
+        "electricPowerUsageSummary",
         "content"
 })
 public class ContentType {
@@ -129,6 +128,12 @@ public class ContentType {
     @XmlAnyElement(lax = true)
     @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
     private List<IntervalBlock> intervalBlocks;
+    @XmlElementRefs({
+            @XmlElementRef(name = "ElectricPowerUsageSummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    @XmlJavaTypeAdapter(GenericAdapter.class)
+    private ElectricPowerUsageSummary electricPowerUsageSummary;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -301,5 +306,13 @@ public class ContentType {
 
     public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
         this.intervalBlocks = intervalBlocks;
+    }
+
+    public ElectricPowerUsageSummary getElectricPowerUsageSummary() {
+        return electricPowerUsageSummary;
+    }
+
+    public void setElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        this.electricPowerUsageSummary = electricPowerUsageSummary;
     }
 }
