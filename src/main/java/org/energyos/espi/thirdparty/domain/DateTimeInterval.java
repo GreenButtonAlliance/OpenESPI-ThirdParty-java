@@ -63,6 +63,13 @@ public class DateTimeInterval
     protected Long duration;
     protected Long start;
 
+    public DateTimeInterval() {}
+
+    public DateTimeInterval(Long duration, Long start) {
+        this.duration = duration;
+        this.start = start;
+    }
+
     /**
      * Gets the value of the duration property.
      *

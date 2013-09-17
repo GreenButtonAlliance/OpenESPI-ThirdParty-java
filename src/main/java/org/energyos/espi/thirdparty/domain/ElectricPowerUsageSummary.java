@@ -26,6 +26,7 @@ package org.energyos.espi.thirdparty.domain;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -66,35 +67,39 @@ import javax.xml.bind.annotation.XmlType;
  *
  *
  */
+@XmlRootElement(name="ElectricPowerUsageSummary")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ElectricPowerUsageSummary", propOrder = {
-    "billingPeriod",
-    "billLastPeriod",
-    "billToDate",
-    "costAdditionalLastPeriod",
-    "currency",
-    "currentBillingPeriodOverAllConsumption",
-    "currentDayLastYearNetConsumption",
-    "currentDayNetConsumption",
-    "currentDayOverallConsumption",
-    "peakDemand",
-    "previousDayLastYearOverallConsumption",
-    "previousDayNetConsumption",
-    "previousDayOverallConsumption",
-    "qualityOfReading",
-    "ratchetDemand",
-    "ratchetDemandPeriod",
-    "statusTimeStamp"
+        "billingPeriod",
+        "billLastPeriod",
+        "billToDate",
+        "costAdditionalLastPeriod",
+        "currency",
+        "currentBillingPeriodOverAllConsumption",
+        "currentDayLastYearNetConsumption",
+        "currentDayNetConsumption",
+        "currentDayOverallConsumption",
+        "peakDemand",
+        "previousDayLastYearOverallConsumption",
+        "previousDayNetConsumption",
+        "previousDayOverallConsumption",
+        "ratchetDemand",
+        "qualityOfReading",
+        "ratchetDemandPeriod",
+        "statusTimeStamp"
 })
 public class ElectricPowerUsageSummary
-    extends IdentifiedObject
+        extends IdentifiedObject
 {
 
-    protected DateTimeInterval billingPeriod;
     protected Long billLastPeriod;
     protected Long billToDate;
     protected Long costAdditionalLastPeriod;
     protected String currency;
+    protected String qualityOfReading;
+    protected long statusTimeStamp;
+    protected DateTimeInterval ratchetDemandPeriod;
+    protected DateTimeInterval billingPeriod;
     protected SummaryMeasurement currentBillingPeriodOverAllConsumption;
     protected SummaryMeasurement currentDayLastYearNetConsumption;
     protected SummaryMeasurement currentDayNetConsumption;
@@ -103,10 +108,7 @@ public class ElectricPowerUsageSummary
     protected SummaryMeasurement previousDayLastYearOverallConsumption;
     protected SummaryMeasurement previousDayNetConsumption;
     protected SummaryMeasurement previousDayOverallConsumption;
-    protected String qualityOfReading;
     protected SummaryMeasurement ratchetDemand;
-    protected DateTimeInterval ratchetDemandPeriod;
-    protected long statusTimeStamp;
 
     /**
      * Gets the value of the billingPeriod property.
@@ -250,6 +252,30 @@ public class ElectricPowerUsageSummary
      */
     public void setCurrentBillingPeriodOverAllConsumption(SummaryMeasurement value) {
         this.currentBillingPeriodOverAllConsumption = value;
+    }
+
+    /**
+     * Gets the value of the qualityOfReading property.
+     *
+     * @return
+     *     possible object is
+     *     {@link String }
+     *
+     */
+    public String getQualityOfReading() {
+        return qualityOfReading;
+    }
+
+    /**
+     * Sets the value of the qualityOfReading property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *
+     */
+    public void setQualityOfReading(String value) {
+        this.qualityOfReading = value;
     }
 
     /**
@@ -419,31 +445,6 @@ public class ElectricPowerUsageSummary
     public void setPreviousDayOverallConsumption(SummaryMeasurement value) {
         this.previousDayOverallConsumption = value;
     }
-
-    /**
-     * Gets the value of the qualityOfReading property.
-     *
-     * @return
-     *     possible object is
-     *     {@link String }
-     *
-     */
-    public String getQualityOfReading() {
-        return qualityOfReading;
-    }
-
-    /**
-     * Sets the value of the qualityOfReading property.
-     *
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *
-     */
-    public void setQualityOfReading(String value) {
-        this.qualityOfReading = value;
-    }
-
     /**
      * Gets the value of the ratchetDemand property.
      *
@@ -507,5 +508,5 @@ public class ElectricPowerUsageSummary
     public void setStatusTimeStamp(long value) {
         this.statusTimeStamp = value;
     }
-
 }
+
