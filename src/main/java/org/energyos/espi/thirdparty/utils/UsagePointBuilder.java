@@ -16,10 +16,7 @@
 
 package org.energyos.espi.thirdparty.utils;
 
-import org.energyos.espi.thirdparty.domain.IntervalBlock;
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.domain.ReadingType;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.models.atom.ContentType;
 import org.energyos.espi.thirdparty.models.atom.EntryType;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
@@ -52,6 +49,8 @@ public class UsagePointBuilder {
                 handleReadingType(entry);
             } else if (content.getIntervalBlocks() != null) {
                 handleIntervalBlocks(entry, lookup);
+            } else if (content.getElectricPowerUsageSummary() != null) {
+                handleElectricPowerUsageSummary(entry, lookup);
             }
         }
     }
@@ -90,6 +89,16 @@ public class UsagePointBuilder {
         for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
             meterReading.addIntervalBlock(intervalBlock);
         }
+    }
+
+    private void handleElectricPowerUsageSummary(EntryType entry, EntryLookupTable lookup) {
+        ElectricPowerUsageSummary electricPowerUsageSummary = entry.getContent().getElectricPowerUsageSummary();
+
+        electricPowerUsageSummary.setDescription(entry.getTitle());
+        electricPowerUsageSummary.setMRID(entry.getId().getValue());
+
+        EntryType usagePointEntry = lookup.getUpEntry(entry);
+        usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
     }
 
     private ReadingType findReadingType(EntryType entry, EntryLookupTable lookup) {

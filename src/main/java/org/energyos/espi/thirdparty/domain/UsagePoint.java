@@ -24,8 +24,6 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -59,38 +57,34 @@ import java.util.List;
 @XmlRootElement(name="UsagePoint")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UsagePoint", propOrder = {
-    "roleFlags",
-    "serviceCategory",
-    "status"
-})
-@Entity
-@Table(name = "usage_points")
-@NamedQueries(value = {
-        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
-                query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId")
+        "roleFlags",
+        "serviceCategory",
+        "status"
 })
 public class UsagePoint
-    extends IdentifiedObject
+        extends IdentifiedObject
 {
-    public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
-
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
     protected byte[] roleFlags;
 
     @XmlElement(name = "ServiceCategory")
-    @NotNull
-    @ManyToOne
     protected ServiceCategory serviceCategory;
 
     protected Short status;
 
     @XmlTransient
-    @Transient
-    private List<MeterReading> meterReadings = new ArrayList<MeterReading>();
+    private List<MeterReading> meterReadings = new ArrayList<>();
 
     @XmlTransient
-    @ManyToOne @JoinColumn(name="retail_customer_id")
+    private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
+
+    public void addMeterReading(MeterReading meterReading)
+    {
+        meterReadings.add(meterReading);
+    }
+
+    @XmlTransient
     protected RetailCustomer retailCustomer;
 
     /**
@@ -181,4 +175,11 @@ public class UsagePoint
         this.retailCustomer = retailCustomer;
     }
 
+    public List<ElectricPowerUsageSummary> getElectricPowerUsageSummaries() {
+        return electricPowerUsageSummaries;
+    }
+
+    public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        electricPowerUsageSummaries.add(electricPowerUsageSummary);
+    }
 }

@@ -28,8 +28,9 @@ Feature: Retail Customers
     When I log in as Alan Turing
     And I look at my Usage Points page
     And I select Usage Point
-    And I select Meter Reading
+    Then I should see Electric Power Usage Summary
 
+    When I select Meter Reading
     Then I should see Meter Reading
     And I should see Reading Type
     And I should see Interval Blocks
