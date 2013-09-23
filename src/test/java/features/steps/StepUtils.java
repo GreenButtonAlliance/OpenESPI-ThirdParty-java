@@ -23,6 +23,8 @@ import org.openqa.selenium.WebElement;
 public class StepUtils {
 
     public final static String BASE_URL = "http://localhost:8080/ThirdParty";
+    public final static String USERNAME = "alan";
+    public final static String PASSWORD = "koala";
 
     public static void login(String username, String password) {
         WebDriver driver = WebDriverSingleton.getInstance();
