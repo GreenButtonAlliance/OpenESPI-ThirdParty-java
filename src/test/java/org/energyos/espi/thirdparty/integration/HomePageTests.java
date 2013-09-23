@@ -46,8 +46,26 @@ public class HomePageTests {
     }
 
     @Test
-    public void index_should_renderHome() throws Exception {
-        mockMvc.perform(get("/")).andExpect(status().isOk())
-                                 .andExpect(view().name("home"));
+    public void index_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void index_displaysHomeView() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(view().name("home"));
+    }
+
+    @Test
+    public void home_returnsOkStatus() throws Exception {
+        mockMvc.perform(get("/home"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void home_displaysHomeView() throws Exception {
+        mockMvc.perform(get("/home"))
+                .andExpect(view().name("home"));
     }
 }

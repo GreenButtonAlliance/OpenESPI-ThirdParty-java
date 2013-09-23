@@ -34,7 +34,12 @@ public class HomeControllerTests {
     protected HomeController controller;
 
     @Test
-    public void shouldDisplayHomePage() throws Exception {
+    public void index_displaysHomeView() throws Exception {
         assertEquals("home", controller.index());
+    }
+
+    @Test
+    public void home_displaysHomeView() throws Exception {
+        assertEquals("home", controller.home());
     }
 }
