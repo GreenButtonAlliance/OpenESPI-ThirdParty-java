@@ -20,4 +20,9 @@
             </list>
         </property>
     </bean>
+
+    <bean id="usagePointRepositoryImpl" class="org.energyos.espi.thirdparty.repository.impl.UsagePointRepositoryImpl">
+        <property name="template" ref="${template}"/>
+    </bean>
+
 </beans>

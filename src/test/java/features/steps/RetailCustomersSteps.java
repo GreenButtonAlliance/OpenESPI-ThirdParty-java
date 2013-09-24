@@ -37,7 +37,7 @@ public class RetailCustomersSteps {
 
     @When("^I log in as Alan Turing$")
     public void I_log_in_as_Alan_Turing() throws Throwable {
-        StepUtils.login("alan", "koala");
+        StepUtils.login(StepUtils.USERNAME, StepUtils.PASSWORD);
     }
 
     @Then("^I should be logged in$")
@@ -48,7 +48,7 @@ public class RetailCustomersSteps {
 
     @When("^I log in with invalid credentials$")
     public void I_log_in_with_invalid_credentials() throws Throwable {
-        StepUtils.login("alan", "incorrect");
+        StepUtils.login(StepUtils.USERNAME, "incorrect");
     }
 
     @Then("^I should see the login form$")
