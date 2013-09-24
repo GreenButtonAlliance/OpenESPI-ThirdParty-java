@@ -30,6 +30,7 @@
                 <ul class="nav">
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/usagepoints'/>">Usage Points</a></li>
+                        <li><a href="<c:url value='/RetailCustomer/1/DataCustodianList'/>">Data Custodians</a></li>
                         <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
