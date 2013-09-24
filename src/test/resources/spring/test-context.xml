@@ -44,6 +44,8 @@
         </property>
     </bean>
 
+    <import resource="classpath:spring/persistence-config.xml"/>
+
     <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 
     <bean id="usagePointRepositoryImpl" class="org.energyos.espi.thirdparty.repository.impl.UsagePointRepositoryImpl">
