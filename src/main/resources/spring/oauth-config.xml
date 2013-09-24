@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+
+	<!--apply the oauth client context -->
+	<oauth:client id="oauth2ClientFilter" />
+
+	<!--define an oauth 2 resource for sparklr-->
+	<oauth:resource id="sparklr" type="authorization_code" client-id="tonr" client-secret="secret"
+		access-token-uri="${accessTokenUri}" user-authorization-uri="${userAuthorizationUri}" scope="read,write" />
+
+	<!--define an oauth 2 resource for trusted client on sparklr -->
+	<oauth:resource id="trusted" type="client_credentials" client-id="my-client-with-registered-redirect"
+		access-token-uri="${accessTokenUri}" scope="trust" />
+
+    <oauth:rest-template id="oauthTemplate" resource="sparklr"/>
+</beans>
