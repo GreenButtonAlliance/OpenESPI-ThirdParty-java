@@ -41,13 +41,7 @@
     </security:http>
 
     <authentication-manager xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider>
-            <user-service>
-                <user name="marissa" password="wombat" authorities="ROLE_USER,ROLE_CUSTOMER" />
-                <user name="alan" password="koala" authorities="ROLE_USER,ROLE_CUSTOMER" />
-                <user name="sam" password="kangaroo" authorities="ROLE_USER,ROLE_CUSTOMER" />
-            </user-service>
-        </authentication-provider>
+        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </authentication-manager>
 
 </beans>
