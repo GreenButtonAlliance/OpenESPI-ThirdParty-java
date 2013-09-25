@@ -22,6 +22,7 @@ public class DataCustodianTests {
 
         DataCustodian dataCustodian = new DataCustodian();
         dataCustodian.setDescription("Description");
+        dataCustodian.setUrl("url");
 
         Set<ConstraintViolation<DataCustodian>> violations = validator.validate(dataCustodian);
 
@@ -43,6 +44,11 @@ public class DataCustodianTests {
     public void id() {
         assertAnnotationPresent(DataCustodian.class, "id", Id.class);
         assertAnnotationPresent(DataCustodian.class, "id", GeneratedValue.class);
+    }
+
+    @Test
+    public void url() {
+        assertAnnotationPresent(DataCustodian.class, "url", NotEmpty.class);
     }
 
     @Test
