@@ -15,6 +15,12 @@ public class DataCustodianRepositoryImpl implements DataCustodianRepository {
     protected EntityManager em;
 
     @Override
+    public DataCustodian findById(Long dataCustodianId) {
+        return (DataCustodian)em.createNamedQuery(DataCustodian.QUERY_FIND_BY_ID)
+                .setParameter("id", dataCustodianId).getSingleResult();
+    }
+
+    @Override
     public List<DataCustodian> findAll() {
         return em.createNamedQuery(DataCustodian.QUERY_FIND_ALL).getResultList();
     }

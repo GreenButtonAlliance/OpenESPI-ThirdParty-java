@@ -2,6 +2,7 @@ package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.repository.DataCustodianRepository;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,21 @@ public class DataCustodianRepositoryImplTest {
 
     @Test
     @Transactional
-    public void findAll() throws Exception {
+    public void findById() throws Exception {
         DataCustodian dataCustodian = new DataCustodian();
         dataCustodian.setDescription("Description");
+        dataCustodian.setUrl("URL");
         repository.persist(dataCustodian);
 
-        assertEquals(2, repository.findAll().size());
+        assertEquals(dataCustodian.getId(), repository.findById(dataCustodian.getId()).getId());
+    }
+
+    @Test
+    @Transactional
+    public void findAll() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        repository.persist(dataCustodian);
+
+        assertEquals(3, repository.findAll().size());
     }
 }
