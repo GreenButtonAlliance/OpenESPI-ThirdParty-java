@@ -8,16 +8,22 @@ import javax.persistence.*;
 @Table(name = "data_custodians")
 @NamedQueries(value = {
         @NamedQuery(name = DataCustodian.QUERY_FIND_ALL,
-                query = "SELECT custodian FROM DataCustodian custodian")
+                query = "SELECT custodian FROM DataCustodian custodian"),
+        @NamedQuery(name = DataCustodian.QUERY_FIND_BY_ID,
+            query = "SELECT custodian FROM DataCustodian custodian WHERE custodian.id = :id")
 })
 public class DataCustodian {
     public static final String QUERY_FIND_ALL = "DataCustodian.findAll";
+    public static final String QUERY_FIND_BY_ID = "DataCustodian.findById";
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
     private String description;
+
+    @NotEmpty
+    private String url;
 
     public Long getId() {
         return id;
@@ -33,5 +39,17 @@ public class DataCustodian {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String[] getAvailableScopes() {
+        return new String [] { "FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13", "FB=4,5,12,15,16 IntervalDuration=monthly BlockDuration=monthly HistoryLength=13" };
     }
 }
