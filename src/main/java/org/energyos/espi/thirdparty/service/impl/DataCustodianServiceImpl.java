@@ -5,11 +5,13 @@ import org.energyos.espi.thirdparty.repository.DataCustodianRepository;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class DataCustodianServiceImpl implements DataCustodianService{
+@Transactional
+public class DataCustodianServiceImpl implements DataCustodianService {
 
     @Autowired
     private DataCustodianRepository repository;
@@ -26,5 +28,9 @@ public class DataCustodianServiceImpl implements DataCustodianService{
 
     public void setRepository(DataCustodianRepository repository) {
         this.repository = repository;
+    }
+
+    public void persist(DataCustodian dataCustodian) {
+        repository.persist(dataCustodian);
     }
 }

@@ -8,4 +8,6 @@ public interface DataCustodianService {
     DataCustodian findById(Long dataCustodianId);
 
     List<DataCustodian> findAll();
+
+    void persist(DataCustodian dataCustodian);
 }
