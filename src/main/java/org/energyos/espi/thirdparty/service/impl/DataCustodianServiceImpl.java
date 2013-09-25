@@ -15,6 +15,11 @@ public class DataCustodianServiceImpl implements DataCustodianService{
     private DataCustodianRepository repository;
 
     @Override
+    public DataCustodian findById(Long dataCustodianId) {
+        return repository.findById(dataCustodianId);
+    }
+
+    @Override
     public List<DataCustodian> findAll() {
         return repository.findAll();
     }

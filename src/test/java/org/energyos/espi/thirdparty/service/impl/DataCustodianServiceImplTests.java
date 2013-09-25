@@ -9,6 +9,17 @@ import static org.mockito.Mockito.verify;
 public class DataCustodianServiceImplTests {
 
     @Test
+    public void findById() {
+        DataCustodianServiceImpl service = new DataCustodianServiceImpl();
+        DataCustodianRepository repository = mock(DataCustodianRepository.class);
+        service.setRepository(repository);
+
+        service.findById(99L);
+
+        verify(repository).findById(99L);
+    }
+
+    @Test
     public void findAll() {
         DataCustodianServiceImpl service = new DataCustodianServiceImpl();
         DataCustodianRepository repository = mock(DataCustodianRepository.class);
