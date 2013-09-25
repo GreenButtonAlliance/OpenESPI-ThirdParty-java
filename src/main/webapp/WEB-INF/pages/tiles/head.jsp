@@ -36,6 +36,8 @@
     <script src="<c:url value='/resources/js/html5shiv.js'/>"></script>
     <![endif]-->
 
+    <script src="<c:url value='/resources/js/jquery.js'/>"></script>
+
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
           href="<c:url value='/resources/ico/apple-touch-icon-144-precomposed.png'/>">
     <link rel="apple-touch-icon-precomposed" sizes="114x114"
