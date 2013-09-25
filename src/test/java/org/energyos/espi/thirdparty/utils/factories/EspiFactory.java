@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.utils.factories;
 
+import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 
 public class EspiFactory {
@@ -13,5 +14,13 @@ public class EspiFactory {
         retailCustomer.setPassword("koala");
 
         return retailCustomer;
+    }
+
+    public static DataCustodian newDataCustodian() {
+        DataCustodian dataCustodian = new DataCustodian();
+        dataCustodian.setDescription("Description" + System.currentTimeMillis());
+        dataCustodian.setUrl("URL" + System.currentTimeMillis());
+
+        return dataCustodian;
     }
 }
