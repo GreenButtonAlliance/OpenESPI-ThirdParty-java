@@ -20,6 +20,17 @@ public class DataCustodianRepositoryImplTest {
 
     @Test
     @Transactional
+    public void findById() throws Exception {
+        DataCustodian dataCustodian = new DataCustodian();
+        dataCustodian.setDescription("Description");
+        dataCustodian.setUrl("URL");
+        repository.persist(dataCustodian);
+
+        assertEquals(dataCustodian.getId(), repository.findById(dataCustodian.getId()).getId());
+    }
+
+    @Test
+    @Transactional
     public void findAll() throws Exception {
         DataCustodian dataCustodian = new DataCustodian();
         dataCustodian.setDescription("Description");
