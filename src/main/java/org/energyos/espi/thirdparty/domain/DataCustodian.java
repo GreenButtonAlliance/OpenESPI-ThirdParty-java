@@ -49,7 +49,4 @@ public class DataCustodian {
         this.url = url;
     }
 
-    public String[] getAvailableScopes() {
-        return new String [] { "FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13", "FB=4,5,12,15,16 IntervalDuration=monthly BlockDuration=monthly HistoryLength=13" };
-    }
 }
