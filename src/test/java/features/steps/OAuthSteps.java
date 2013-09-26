@@ -17,7 +17,7 @@ public class OAuthSteps extends BaseSteps {
 
     @Given("^a logged in Retail Customer$")
     public void a_logged_in_Retail_Customer() throws Throwable {
-        login(StepUtils.USERNAME, StepUtils.PASSWORD);
+        StepUtils.login(StepUtils.USERNAME, StepUtils.PASSWORD);
     }
 
     @When("^I navigate to Data Custodian list$")
@@ -55,15 +55,6 @@ public class OAuthSteps extends BaseSteps {
         assertContains("Select Scope");
     }
 
-    public void login(String username, String password) {
-        driver.get(StepUtils.THIRD_PARTY_BASE_URL + "/j_spring_security_logout");
-        driver.get(StepUtils.THIRD_PARTY_BASE_URL + "/");
-        clickById("login");
-        fillInByName("j_username", username);
-        fillInByName("j_password", password);
-        clickByName("submit");
-    }
-
     @When("^I log into Data Custodian$")
     public void I_log_into_Data_Custodian() throws Throwable {
         clickById("login");
@@ -75,6 +66,7 @@ public class OAuthSteps extends BaseSteps {
     @Then("^I should see Scope selection screen$")
     public void I_should_see_Scope_selection_screen() throws Throwable {
         assertContains("Select Scope");
+        assertContains("FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13");
     }
 
 }
