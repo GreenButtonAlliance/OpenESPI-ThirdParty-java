@@ -17,20 +17,29 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.Routes;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.xml.bind.JAXBException;
+import java.util.Arrays;
 
 @Controller
-@RequestMapping("/RetailCustomer")
 public class ScopeSelectionController {
 
-    @RequestMapping(value = "{retailCustomerId}/ScopeSelection", method = RequestMethod.POST)
-    public String index(@PathVariable String retailCustomerId, @RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
+    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
+    public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
+        model.put("scopeList", Arrays.asList(scopes));
+
+        return "/RetailCustomer/ScopeSelection";
+    }
+
+    @RequestMapping(value = "/RetailCustomer/{retailCustomerId}/ScopeSelection", method = RequestMethod.POST)
+    public String scopeSelection(@PathVariable String retailCustomerId, @RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
     }
 
