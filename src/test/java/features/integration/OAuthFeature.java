@@ -14,19 +14,12 @@
  *    limitations under the License.
  */
 
-package features.steps;
+package features.integration;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import cucumber.api.junit.Cucumber;
+import org.junit.runner.RunWith;
 
-public class ChromeDriverSingleton {
-    private ChromeDriverSingleton() { }
-
-    private static class SingletonHolder {
-        public static final WebDriver INSTANCE = new ChromeDriver();
-    }
-
-    public static WebDriver getInstance() {
-        return SingletonHolder.INSTANCE;
-    }
+@RunWith(Cucumber.class)
+@Cucumber.Options(features = {"classpath:features/OAuth.feature"})
+public class OAuthFeature {
 }

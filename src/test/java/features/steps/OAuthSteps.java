@@ -1,6 +1,5 @@
 package features.steps;
 
-import cucumber.api.java.After;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -11,12 +10,7 @@ import org.openqa.selenium.WebElement;
 import static org.junit.Assert.assertTrue;
 
 public class OAuthSteps {
-    private WebDriver driver = ChromeDriverSingleton.getInstance();
-
-    @After("@close")
-    public void after() {
-       driver.close();
-    }
+    private WebDriver driver = WebDriverSingleton.getInstance();
 
     @Given("^a logged in Retail Customer$")
     public void a_logged_in_Retail_Customer() throws Throwable {
