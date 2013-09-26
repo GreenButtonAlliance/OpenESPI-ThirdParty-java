@@ -18,6 +18,7 @@ package org.energyos.espi.thirdparty.integration.web;
 
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
+import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Before;
@@ -31,9 +32,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,7 +57,7 @@ public class ScopeSelectionTests {
     }
 
     @Test
-    public void index_returnsOkStatus() throws Exception {
+    public void post_scopeSelection_returnsRedirectStatus() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         service.persist(dataCustodian);
 
@@ -67,7 +68,7 @@ public class ScopeSelectionTests {
     }
 
     @Test
-    public void index_redirectsToDataCustodian() throws Exception {
+    public void post_scopeSelection_redirectsToDataCustodian() throws Exception {
         String redirectURL = "http://localhost:8080/DataCustodian/ScopeSelection";
 
         mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
@@ -77,5 +78,23 @@ public class ScopeSelectionTests {
                         "FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13",
                         "FB=4,5,12,15,16 IntervalDuration=monthly BlockDuration=monthly HistoryLength=13",
                         Configuration.THIRD_PARTY_CLIENT_ID)));
+    }
+
+    @Test
+    public void get_scopeSelection_returnsOkStatus() throws Exception {
+        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void get_scopeSelection_displaysScopeSelectionView() throws Exception {
+        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+                .andExpect(view().name("/RetailCustomer/ScopeSelection"));
+    }
+
+    @Test
+    public void get_scopeSelection_setsScopeListModel() throws Exception {
+        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+                .andExpect(model().attributeExists("scopeList"));
     }
 }
