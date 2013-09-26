@@ -18,6 +18,7 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.Routes;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ import javax.xml.bind.JAXBException;
 import java.util.Arrays;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController {
 
     @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
