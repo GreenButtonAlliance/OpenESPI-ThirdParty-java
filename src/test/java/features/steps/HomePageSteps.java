@@ -34,7 +34,7 @@ public class HomePageSteps {
 
     @When("^I visit the home page$")
     public void I_visit_the_home_page() throws Throwable {
-        driver.get(StepUtils.BASE_URL);
+        driver.get(StepUtils.THIRD_PARTY_BASE_URL);
     }
 
     @Then("^I should see a welcome message$")
