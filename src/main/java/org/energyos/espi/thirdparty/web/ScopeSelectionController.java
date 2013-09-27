@@ -17,11 +17,13 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +35,9 @@ import java.util.Arrays;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController {
 
+    @Autowired
+    private DataCustodianService dataCustodianService;
+
     @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
         model.put("scopeList", Arrays.asList(scopes));
@@ -41,8 +46,22 @@ public class ScopeSelectionController {
     }
 
     @RequestMapping(value = "/RetailCustomer/{retailCustomerId}/ScopeSelection", method = RequestMethod.POST)
-    public String scopeSelection(@PathVariable String retailCustomerId, @RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
+    public String scopeSelection(@RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
+    }
+
+    @RequestMapping(value = Routes.ThirdPartyScopeAuthorization, method = RequestMethod.POST)
+    public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") Long dataCustodianId) throws JAXBException {
+        DataCustodian dataCustodian = dataCustodianService.findById(dataCustodianId);
+
+        return String.format("redirect:%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
+                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
+                scope, "state");
+    }
+
+    public void setDataCustodianService(DataCustodianService dataCustodianService) {
+        this.dataCustodianService = dataCustodianService;
     }
 
     private String newScopeParams(String[] scopes) {

@@ -16,7 +16,12 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import cucumber.api.java.Before;
 import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
+import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
 
@@ -24,16 +29,27 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ScopeSelectionControllerTests {
+
+    private ScopeSelectionController controller;
+    private DataCustodianService dataCustodianService;
+
+    @Before
+    public void before() {
+        controller = new ScopeSelectionController();
+        controller.setDataCustodianService(dataCustodianService);
+        dataCustodianService = mock(DataCustodianService.class);
+    }
 
     @Test
     public void post_scopeSelection_redirects() throws Exception {
         String url = "DataCustodianURL";
 
-        ScopeSelectionController controller = new ScopeSelectionController();
-
-        String redirectURL = controller.scopeSelection("1", 1L, url);
+        String redirectURL = controller.scopeSelection(1L, url);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, Configuration.SCOPES[0], Configuration.SCOPES[1],
                 Configuration.THIRD_PARTY_CLIENT_ID), redirectURL);
@@ -48,12 +64,23 @@ public class ScopeSelectionControllerTests {
 
     @Test
     public void get_scopeSelection_setsScopeListModel() throws Exception {
-        ScopeSelectionController controller = new ScopeSelectionController();
-
         ModelMap model = new ModelMap();
 
         controller.scopeSelection(new String [] {"scope1", "scope2"}, model);
 
         assertTrue(((List<String>)model.get("scopeList")).size() > 0);
+    }
+
+    @Test
+    public void post_scopeAuthorization_redirects() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+
+        String expectedRedirectURL = String.format("redirect:%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
+                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
+                Configuration.SCOPES[0], "state");
+
+        assertEquals(expectedRedirectURL, controller.scopeAuthorization(Configuration.SCOPES[0], 1L));
     }
 }

@@ -97,4 +97,30 @@ public class ScopeSelectionTests {
         mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
                 .andExpect(model().attributeExists("scopeList"));
     }
+
+    @Test
+    public void post_scopeAuthorization_returnsRedirectStatus() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        service.persist(dataCustodian);
+        String scope = Configuration.SCOPES[0];
+
+        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization)
+                .param("scope", scope).param("DataCustodianID", dataCustodian.getId().toString()))
+                .andExpect(status().is(302));
+    }
+
+    @Test
+    public void post_scopeAuthorization_redirectsToDataCustodian() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        service.persist(dataCustodian);
+
+        String redirectURL = String.format("%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
+                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
+                Configuration.SCOPES[0], "state");
+
+        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization)
+                .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getId().toString()))
+                .andExpect(redirectedUrl(redirectURL));
+    }
 }
