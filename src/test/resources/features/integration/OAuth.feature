@@ -22,3 +22,18 @@ Feature: OAuth
 
     When I log into Data Custodian
     Then I should see Scope selection screen
+
+  Scenario: Retail Customer authorizes Third Party
+    Given a logged in Retail Customer
+
+    When I select a Data Custodian from the list
+    Then I should see the Data Custodian login screen
+
+    When I log into Data Custodian
+    Then I should see Scope selection screen
+
+    When I select Scopes
+    Then I should see authorization screen
+
+    When I authorize Third Party
+    Then I should see all my authorizations

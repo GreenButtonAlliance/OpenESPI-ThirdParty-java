@@ -69,4 +69,25 @@ public class OAuthSteps extends BaseSteps {
         assertContains("FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13");
     }
 
+    @When("^I select Scopes$")
+    public void I_select_Scope() throws Throwable {
+        clickByClass("scope");
+        clickByName("next");
+    }
+
+    @Then("^I should see authorization screen$")
+    public void I_should_see_authorization_screen() throws Throwable {
+        assertContains("Please Confirm");
+    }
+
+    @When("^I authorize Third Party$")
+    public void I_authorize_Third_Party() throws Throwable {
+        clickByName("authorize");
+    }
+
+    @Then("^I should see all my authorizations$")
+    public void I_should_see_all_my_authorizations() throws Throwable {
+        assertContains("Authorizations");
+        assertContains("ConEdison");
+    }
 }
