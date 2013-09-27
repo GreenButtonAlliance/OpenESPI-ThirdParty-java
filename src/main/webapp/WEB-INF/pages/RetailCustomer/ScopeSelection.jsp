@@ -23,6 +23,14 @@
 
 <body>
 
+<script type="text/javascript">
+    $(function() {
+        $("form input[type=radio]").on("click", function() {
+            $("input[type=submit]").removeAttr("disabled")
+        });
+    });
+</script>
+
 <jsp:include page="../tiles/header.jsp"/>
 <security:authentication var="principal" property="principal" />
 
@@ -31,22 +39,29 @@
         <div class="span12">
             <h2>Select Scope</h2>
 
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Scope</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="scope" items="${scopeList}">
+            <form method="POST" action="<c:url value='/RetailCustomer/ScopeAuthorization'/>">
+                <table class="table table-striped">
+                    <thead>
                     <tr>
-                        <td>
-                            <c:out value="${scope}"/>
-                        </td>
+                        <th>Scope</th>
                     </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="scope" items="${scopeList}">
+                        <tr>
+                            <td>
+                                <label>
+                                    <input type="radio" name="scope" class="scope" />
+                                    <c:out value="${scope}"/>
+                                </label>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <input type="hidden" name="DataCustodianID" value="${param.DataCustodianID}"/>
+                <input type="submit" name="next" value="Next" disabled="true" class="btn btn-primary">
+            </form>
         </div>
     </div>
 
