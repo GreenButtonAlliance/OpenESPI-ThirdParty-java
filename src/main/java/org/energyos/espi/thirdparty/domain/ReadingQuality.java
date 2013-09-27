@@ -24,10 +24,10 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import org.energyos.espi.thirdparty.models.atom.adapters.ReadingQualityAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -55,12 +55,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "ReadingQuality", propOrder = {
     "quality"
 })
+@XmlJavaTypeAdapter(ReadingQualityAdapter.class)
 public class ReadingQuality
-    extends java.lang.Object
 {
 
     @XmlElement(required = true)
     protected String quality;
+    @XmlTransient
+    private IntervalReading intervalReading;
 
     /**
      * Gets the value of the quality property.
@@ -86,4 +88,11 @@ public class ReadingQuality
         this.quality = value;
     }
 
+    public IntervalReading getIntervalReading() {
+        return intervalReading;
+    }
+
+    public void setIntervalReading(IntervalReading intervalReading) {
+        this.intervalReading = intervalReading;
+    }
 }

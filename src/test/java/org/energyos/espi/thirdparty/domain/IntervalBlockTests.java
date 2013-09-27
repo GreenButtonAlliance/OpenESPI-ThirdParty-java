@@ -5,11 +5,7 @@ import org.energyos.espi.thirdparty.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,6 +17,8 @@ public class IntervalBlockTests {
                     "<duration>86400</duration>" +
                     "<start>1330578000</start>" +
                 "</interval>" +
+                "<IntervalReading></IntervalReading>" +
+                "<IntervalReading></IntervalReading>" +
             "</IntervalBlock>";
 
     private IntervalBlock intervalBlock;
@@ -45,5 +43,11 @@ public class IntervalBlockTests {
     @Test
     public void unmarshal_setsIntervalStart() {
         assertEquals(1330578000L, intervalBlock.getInterval().getStart().longValue());
+    }
+
+    @Test
+    public void unmarshal_setsIntervalReadings() {
+        assertEquals(intervalBlock, intervalBlock.getIntervalReadings().get(0).getIntervalBlock());
+        assertEquals(intervalBlock, intervalBlock.getIntervalReadings().get(1).getIntervalBlock());
     }
 }

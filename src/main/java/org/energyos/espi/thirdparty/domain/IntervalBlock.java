@@ -59,7 +59,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IntervalBlock", propOrder = {
     "interval",
-    "intervalReading"
+    "intervalReadings"
 })
 @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
 public class IntervalBlock
@@ -67,8 +67,11 @@ public class IntervalBlock
 {
 
     protected DateTimeInterval interval;
-    @XmlElement(name = "IntervalReading")
-    protected List<IntervalReading> intervalReading;
+    @XmlElementRefs({
+            @XmlElementRef(name = "IntervalReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    protected List<IntervalReading> intervalReadings = new ArrayList<>();
 
     /**
      * Gets the value of the interval property.
@@ -95,18 +98,18 @@ public class IntervalBlock
     }
 
     /**
-     * Gets the value of the intervalReading property.
+     * Gets the value of the intervalReadings property.
      *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the intervalReading property.
+     * This is why there is not a <CODE>set</CODE> method for the intervalReadings property.
      *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getIntervalReading().add(newItem);
+     *    getIntervalReadings().add(newItem);
      * </pre>
      *
      *
@@ -116,10 +119,7 @@ public class IntervalBlock
      *
      *
      */
-    public List<IntervalReading> getIntervalReading() {
-        if (intervalReading == null) {
-            intervalReading = new ArrayList<IntervalReading>();
-        }
-        return this.intervalReading;
+    public List<IntervalReading> getIntervalReadings() {
+        return this.intervalReadings;
     }
 }

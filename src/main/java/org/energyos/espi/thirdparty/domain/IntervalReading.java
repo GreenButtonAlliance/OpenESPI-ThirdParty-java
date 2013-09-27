@@ -24,10 +24,11 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import org.energyos.espi.thirdparty.models.atom.adapters.IntervalReadingAdapter;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,19 +60,26 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IntervalReading", propOrder = {
     "cost",
-    "readingQuality",
+    "readingQualities",
     "timePeriod",
     "value"
 })
+@XmlJavaTypeAdapter(IntervalReadingAdapter.class)
+@XmlRootElement(name = "IntervalReading")
 public class IntervalReading
-    extends Object
+    extends IdentifiedObject
 {
 
     protected Long cost;
-    @XmlElement(name = "ReadingQuality")
-    protected List<ReadingQuality> readingQuality;
+    @XmlElementRefs({
+            @XmlElementRef(name = "ReadingQuality", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    protected List<ReadingQuality> readingQualities = new ArrayList<>();
     protected DateTimeInterval timePeriod;
     protected Long value;
+    @XmlTransient
+    private IntervalBlock intervalBlock;
 
     /**
      * Gets the value of the cost property.
@@ -98,7 +106,7 @@ public class IntervalReading
     }
 
     /**
-     * Gets the value of the readingQuality property.
+     * Gets the value of the readingQualities property.
      *
      * <p>
      * This accessor method returns a reference to the live list,
@@ -119,11 +127,8 @@ public class IntervalReading
      *
      *
      */
-    public List<ReadingQuality> getReadingQuality() {
-        if (readingQuality == null) {
-            readingQuality = new ArrayList<ReadingQuality>();
-        }
-        return this.readingQuality;
+    public List<ReadingQuality> getReadingQualities() {
+        return this.readingQualities;
     }
 
     /**
@@ -174,4 +179,11 @@ public class IntervalReading
         this.value = value;
     }
 
+    public IntervalBlock getIntervalBlock() {
+        return intervalBlock;
+    }
+
+    public void setIntervalBlock(IntervalBlock intervalBlock) {
+        this.intervalBlock = intervalBlock;
+    }
 }
