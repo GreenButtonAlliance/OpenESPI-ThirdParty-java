@@ -25,8 +25,6 @@
 package org.energyos.espi.thirdparty.models.atom;
 
 import org.energyos.espi.thirdparty.domain.*;
-import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
-import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
@@ -82,14 +80,12 @@ public class ContentType {
             @XmlElementRef(name = "UsagePoint", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected UsagePoint usagePoint;
 
     @XmlElementRefs({
             @XmlElementRef(name = "MeterReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     protected MeterReading meterReading;
 
     @XmlMixed
@@ -120,19 +116,16 @@ public class ContentType {
             @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     private ReadingType readingType;
     @XmlElementRefs({
             @XmlElementRef(name = "IntervalBlock", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
     private List<IntervalBlock> intervalBlocks;
     @XmlElementRefs({
             @XmlElementRef(name = "ElectricPowerUsageSummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
-    @XmlJavaTypeAdapter(GenericAdapter.class)
     private ElectricPowerUsageSummary electricPowerUsageSummary;
 
     public UsagePoint getUsagePoint() {

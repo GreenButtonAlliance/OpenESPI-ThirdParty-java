@@ -1,12 +1,10 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
@@ -43,10 +41,7 @@ public class ReadingTypeTests {
 
     @Before
     public void before() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(ReadingType.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        readingType = (ReadingType) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
+        readingType = EspiMarshaller.<ReadingType>unmarshal(XML_INPUT).getValue();
     }
 
     @Test

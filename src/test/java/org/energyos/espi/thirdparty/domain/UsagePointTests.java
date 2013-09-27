@@ -1,12 +1,10 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayInputStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,10 +19,7 @@ public class UsagePointTests {
 
     @Before
     public void before() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(UsagePoint.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        usagePoint = (UsagePoint) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
+        usagePoint = EspiMarshaller.<UsagePoint>unmarshal(XML_INPUT).getValue();
     }
 
     @Test

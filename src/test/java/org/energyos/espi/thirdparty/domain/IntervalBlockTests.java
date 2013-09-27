@@ -1,9 +1,12 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
+import org.energyos.espi.thirdparty.utils.EspiMarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayInputStream;
@@ -23,11 +26,10 @@ public class IntervalBlockTests {
     private IntervalBlock intervalBlock;
 
     @Before
-    public void before() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance(IntervalBlock.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-
-        intervalBlock = (IntervalBlock) unmarshaller.unmarshal(new ByteArrayInputStream(XML_INPUT.getBytes()));
+    public void before() throws Exception {
+        IntervalBlockAdapter intervalBlockAdapter = new IntervalBlockAdapter();
+        JAXBElement<IntervalBlock> intervalBlockJAXBElement = EspiMarshaller.unmarshal(XML_INPUT);
+        intervalBlock = intervalBlockAdapter.unmarshal(intervalBlockJAXBElement);
     }
 
     @Test

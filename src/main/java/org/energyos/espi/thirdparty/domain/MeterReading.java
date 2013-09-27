@@ -24,10 +24,13 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +56,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeterReading")
 @XmlRootElement(name="MeterReading")
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class MeterReading
     extends IdentifiedObject
 {

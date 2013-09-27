@@ -24,7 +24,11 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
+
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +61,7 @@ import java.util.List;
     "interval",
     "intervalReading"
 })
+@XmlJavaTypeAdapter(IntervalBlockAdapter.class)
 public class IntervalBlock
     extends IdentifiedObject
 {

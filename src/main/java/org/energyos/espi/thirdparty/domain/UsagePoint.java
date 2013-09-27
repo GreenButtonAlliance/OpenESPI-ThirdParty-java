@@ -24,6 +24,8 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -61,6 +63,7 @@ import java.util.List;
         "serviceCategory",
         "status"
 })
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class UsagePoint
         extends IdentifiedObject
 {
