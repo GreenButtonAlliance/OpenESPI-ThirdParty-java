@@ -98,4 +98,11 @@ public class RetailCustomersSteps {
     public void I_should_see_Electric_Power_Usage_Summary() throws Throwable {
         assertTrue(driver.getPageSource().contains("Usage Summary"));
     }
+
+    @Then("^I should see Interval Readings$")
+    public void I_should_see_Interval_Readings() throws Throwable {
+        assertTrue(driver.getPageSource().contains("974"));
+        assertTrue(driver.getPageSource().contains("900"));
+        assertTrue(driver.getPageSource().contains("965"));
+    }
 }
