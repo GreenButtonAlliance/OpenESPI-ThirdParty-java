@@ -3,7 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="restTemplate" name="restTemplate" class="${rest.template}" autowire-candidate="true"/>
     <bean id="mockTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 
     <alias name="${template}" alias="repositoryTemplate"/>
