@@ -10,7 +10,7 @@ public class AuthenticationSteps {
 
     @Then("^I should see Retail Customer home page$")
     public void I_should_see_Retail_Customer_home_page() throws Throwable {
-        assertTrue(driver.getCurrentUrl().endsWith("/ThirdParty/"));
+        assertTrue(driver.getCurrentUrl().endsWith("/ThirdParty/RetailCustomer/1/home"));
         assertTrue(driver.getPageSource().contains("Logout"));
     }
 }

@@ -16,19 +16,23 @@
 
 package org.energyos.espi.thirdparty.integration;
 
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.service.RetailCustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -40,9 +44,17 @@ public class HomePageTests {
     @Autowired
     protected WebApplicationContext wac;
 
+    @Autowired
+    protected RetailCustomerService retailCustomerService;
+    private TestingAuthenticationToken authentication;
+    private RetailCustomer customer;
+
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        customer = mock(RetailCustomer.class);
+        when(customer.getId()).thenReturn(1L);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
@@ -52,9 +64,15 @@ public class HomePageTests {
     }
 
     @Test
-    public void index_displaysHomeView() throws Exception {
+    public void index_whenNotLoggedIn_displaysHomeView() throws Exception {
         mockMvc.perform(get("/"))
                 .andExpect(view().name("home"));
+    }
+
+    @Test
+    public void index_whenLoggedIn_redirectsToRetailCustomerHome() throws Exception {
+        mockMvc.perform(get("/").principal(authentication))
+                .andExpect(redirectedUrl("/RetailCustomer/" + customer.getId() + "/home"));
     }
 
     @Test
@@ -64,8 +82,14 @@ public class HomePageTests {
     }
 
     @Test
-    public void home_displaysHomeView() throws Exception {
+    public void home_whenNotLoggedIn_displaysHomeView() throws Exception {
         mockMvc.perform(get("/home"))
                 .andExpect(view().name("home"));
+    }
+
+    @Test
+    public void home_whenLoggedIn_redirectsToRetailCustomerHome() throws Exception {
+        mockMvc.perform(get("/home").principal(authentication))
+                .andExpect(redirectedUrl("/RetailCustomer/" + customer.getId() + "/home"));
     }
 }

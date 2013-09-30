@@ -16,14 +16,19 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -32,14 +37,34 @@ public class HomeControllerTests {
 
     @Autowired
     protected HomeController controller;
+    private RetailCustomer customer;
+    private Authentication principal;
 
-    @Test
-    public void index_displaysHomeView() throws Exception {
-        assertEquals("home", controller.index());
+    @Before
+    public void setup() {
+        customer = new RetailCustomer();
+        customer.setId(99L);
+        principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(customer);
     }
 
     @Test
-    public void home_displaysHomeView() throws Exception {
-        assertEquals("home", controller.home());
+    public void index_whenNotLoggedIn_displaysHomeView() throws Exception {
+        assertEquals("home", controller.index(null));
+    }
+
+    @Test
+    public void index_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
+        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(principal));
+    }
+
+    @Test
+    public void home_whenNotLoggedIn_displaysHomeView() throws Exception {
+        assertEquals("home", controller.home(null));
+    }
+
+    @Test
+    public void home_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
+        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(principal));
     }
 }
