@@ -401,7 +401,7 @@
                 <version>2.6</version>
                 <configuration>
                     <includes>
-                        <include>**/*Feature.java</include>
+                        <include>**/CucumberRunner.java</include>
                     </includes>
                 </configuration>
                 <executions>
