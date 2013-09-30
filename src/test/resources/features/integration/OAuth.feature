@@ -1,3 +1,4 @@
+@oauth
 Feature: OAuth
   As Retail Customer, I should be able to see Data Custodian list
 

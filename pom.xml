@@ -31,8 +31,20 @@
             </activation>
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                <template>mockTemplate</template>
+                <template>oauthTemplate</template>
                 <profile>dev</profile>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>ci</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+                <template>mockTemplate</template>
+                <profile>ci</profile>
             </properties>
         </profile>
 

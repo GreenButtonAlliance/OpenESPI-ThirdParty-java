@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn clean integration-test
+mvn -Dcucumber.options="--tags ~@oauth" clean verify -P ci
