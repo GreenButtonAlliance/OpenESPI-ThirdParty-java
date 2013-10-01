@@ -4,6 +4,10 @@ import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -44,6 +48,12 @@ public class AuthorizationTests {
     }
 
     @Test
+    public void persistence() {
+        assertAnnotationPresent(Authorization.class, Entity.class);
+        assertAnnotationPresent(Authorization.class, Table.class);
+    }
+
+    @Test
     public void accessToken() {
         assertAnnotationPresent(Authorization.class, "accessToken", NotEmpty.class);
     }
@@ -60,6 +70,8 @@ public class AuthorizationTests {
 
     @Test
     public void retailCustomer() {
+        assertAnnotationPresent(Authorization.class, "retailCustomer", ManyToOne.class);
+        assertAnnotationPresent(Authorization.class, "retailCustomer", JoinColumn.class);
         assertAnnotationPresent(Authorization.class, "retailCustomer", NotNull.class);
     }
 }

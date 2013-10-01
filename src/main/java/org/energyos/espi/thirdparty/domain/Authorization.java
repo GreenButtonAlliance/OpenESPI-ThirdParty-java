@@ -26,11 +26,9 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -70,6 +68,8 @@ import javax.xml.bind.annotation.XmlType;
     "status",
     "thirdParty"
 })
+@Entity
+@Table(name = "authorizations")
 public class Authorization
     extends IdentifiedObject
 {
@@ -78,14 +78,18 @@ public class Authorization
     @XmlSchemaType(name = "anyURI")
     @NotEmpty
     protected String authorizationServer;
+    @Transient
     protected DateTimeInterval authorizedPeriod;
+    @Transient
     protected DateTimeInterval publishedPeriod;
     @XmlSchemaType(name = "anyURI")
     protected String resource;
     protected String status;
     @NotEmpty
     protected String thirdParty;
+    @ManyToOne @JoinColumn(name = "retail_customer_id")
     @NotNull
+    @XmlTransient
     protected RetailCustomer retailCustomer;
 
     /**
