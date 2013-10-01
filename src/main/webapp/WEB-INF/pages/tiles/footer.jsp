@@ -33,6 +33,7 @@
         <p class="pull-left">&copy; EnergyOS 2013</p>
         <ul class="inline pull-right">
             <li><a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
+            <li><a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
         </ul>
     </div>
 </footer>

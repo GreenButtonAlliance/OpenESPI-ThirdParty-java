@@ -12,3 +12,7 @@ Feature: Home Page
   Scenario: Visitor views the Terms of Service
     When I visit the Terms of Service page
     Then I should see the Terms of Service
+
+  Scenario: Visitor views the Usage Policy
+    When I visit the Usage Policy page
+    Then I should see the Usage Policy

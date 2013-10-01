@@ -50,4 +50,9 @@ public class HomeController {
     public String termsOfService() {
         return "/TermsOfService";
     }
+
+    @RequestMapping(value = "/UsagePolicy", method = RequestMethod.GET)
+    public String usagePolicy() {
+        return "/UsagePolicy";
+    }
 }

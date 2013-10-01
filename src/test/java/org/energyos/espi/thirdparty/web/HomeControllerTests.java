@@ -72,4 +72,9 @@ public class HomeControllerTests {
     public void termsOfService_displaysTermsOfServiceView() {
         assertEquals("/TermsOfService", controller.termsOfService());
     }
+
+    @Test
+    public void usagePolicy_displaysUsagePolicyView() {
+        assertEquals("/UsagePolicy", controller.usagePolicy());
+    }
 }

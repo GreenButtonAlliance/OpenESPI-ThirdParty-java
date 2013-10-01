@@ -98,4 +98,10 @@ public class HomePageTests {
         mockMvc.perform(get("/TermsOfService"))
             .andExpect(view().name("/TermsOfService"));
     }
+
+    @Test
+    public void usagePolicy_displaysUsagePolicyView() throws Exception {
+        mockMvc.perform(get("/UsagePolicy"))
+                .andExpect(view().name("/UsagePolicy"));
+    }
 }

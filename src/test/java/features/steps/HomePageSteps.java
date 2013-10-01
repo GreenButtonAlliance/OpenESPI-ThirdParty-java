@@ -55,4 +55,16 @@ public class HomePageSteps {
         assertTrue(driver.getCurrentUrl().endsWith("/TermsOfService"));
         assertEquals("Terms of Service", driver.findElement(By.cssSelector(".row h2")).getText());
     }
+
+    @When("^I visit the Usage Policy page$")
+    public void I_visit_the_Usage_Policy_page() throws Throwable {
+        driver.get(StepUtils.THIRD_PARTY_BASE_URL);
+        driver.findElement(By.linkText("Usage Policy")).click();
+    }
+
+    @Then("^I should see the Usage Policy$")
+    public void I_should_see_the_Usage_Policy() throws Throwable {
+        assertTrue(driver.getCurrentUrl().endsWith("/UsagePolicy"));
+        assertEquals("Usage Policy", driver.findElement(By.cssSelector(".row h2")).getText());
+    }
 }
