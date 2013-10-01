@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.utils.factories;
 
+import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 
@@ -22,5 +23,16 @@ public class EspiFactory {
         dataCustodian.setUrl("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
 
         return dataCustodian;
+    }
+
+    public static Authorization newAuthorization(RetailCustomer retailCustomer) {
+        Authorization authorization = new Authorization();
+
+        authorization.setAccessToken("accessToken" + System.currentTimeMillis());
+        authorization.setAuthorizationServer("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
+        authorization.setThirdParty("thirdParty" + System.currentTimeMillis());
+        authorization.setRetailCustomer(retailCustomer);
+
+        return authorization;
     }
 }

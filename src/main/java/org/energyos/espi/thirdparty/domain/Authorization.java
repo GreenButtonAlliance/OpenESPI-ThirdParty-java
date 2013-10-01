@@ -24,6 +24,9 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlSchemaType;
@@ -70,16 +73,20 @@ import javax.xml.bind.annotation.XmlType;
 public class Authorization
     extends IdentifiedObject
 {
-
+    @NotEmpty
     protected String accessToken;
     @XmlSchemaType(name = "anyURI")
+    @NotEmpty
     protected String authorizationServer;
     protected DateTimeInterval authorizedPeriod;
     protected DateTimeInterval publishedPeriod;
     @XmlSchemaType(name = "anyURI")
     protected String resource;
     protected String status;
+    @NotEmpty
     protected String thirdParty;
+    @NotNull
+    protected RetailCustomer retailCustomer;
 
     /**
      * Gets the value of the accessToken property.
@@ -249,4 +256,11 @@ public class Authorization
         this.thirdParty = value;
     }
 
+    public RetailCustomer getRetailCustomer() {
+        return retailCustomer;
+    }
+
+    public void setRetailCustomer(RetailCustomer retailCustomer) {
+        this.retailCustomer = retailCustomer;
+    }
 }
