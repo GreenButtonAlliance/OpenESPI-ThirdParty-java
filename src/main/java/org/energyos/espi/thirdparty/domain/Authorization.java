@@ -70,9 +70,15 @@ import javax.xml.bind.annotation.*;
 })
 @Entity
 @Table(name = "authorizations")
+@NamedQueries(value = {
+        @NamedQuery(name = Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID,
+                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId")
+})
 public class Authorization
     extends IdentifiedObject
 {
+    public static final String QUERY_FIND_BY_RETAIL_CUSTOMER_ID = "Authorization.findAllByRetailCustomerId";
+
     @NotEmpty
     protected String accessToken;
     @XmlSchemaType(name = "anyURI")
