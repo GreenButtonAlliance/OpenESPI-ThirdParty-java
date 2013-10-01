@@ -21,6 +21,13 @@ public class AuthorizationRepositoryImpl implements AuthorizationRepository {
 
     @Override
     public List findAllByRetailCustomerId(Long retailCustomerId) {
-      return em.createNamedQuery(Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID).setParameter("retailCustomerId", retailCustomerId).getResultList();
+      return em.createNamedQuery(Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID)
+              .setParameter("retailCustomerId", retailCustomerId).getResultList();
+    }
+
+    @Override
+    public Authorization findByState(String state) {
+      return (Authorization)em.createNamedQuery(Authorization.QUERY_FIND_BY_STATE)
+              .setParameter("state", state).getSingleResult();
     }
 }

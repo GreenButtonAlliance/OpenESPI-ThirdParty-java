@@ -17,8 +17,10 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.Authorization;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.repository.AuthorizationRepository;
+import org.energyos.espi.thirdparty.repository.DataCustodianRepository;
 import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Test;
@@ -28,8 +30,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
@@ -41,25 +42,44 @@ public class AuthorizationRepositoryImplTests {
     @Autowired
     RetailCustomerRepository retailCustomerRepository;
 
+    @Autowired
+    DataCustodianRepository dataCustodianRepository;
+
     @Test
     @Transactional
     public void findAllByRetailCustomerId() {
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
-        repository.persist(EspiFactory.newAuthorization(retailCustomer));
+        Authorization authorization = newAuthorization(retailCustomer);
+        repository.persist(authorization);
 
         assertTrue(repository.findAllByRetailCustomerId(retailCustomer.getId()).size() == 1);
     }
 
     @Test
     @Transactional
+    public void findByState() {
+        Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
+
+        repository.persist(authorization);
+
+        assertEquals(authorization, repository.findByState(authorization.getState()));
+    }
+
+    @Test
+    @Transactional
     public void persist() {
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
-        Authorization authorization = EspiFactory.newAuthorization(retailCustomer);
+        Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
 
         repository.persist(authorization);
 
         assertNotNull(authorization.getId());
     }
+
+    private Authorization newAuthorization(RetailCustomer retailCustomer) {
+        retailCustomerRepository.persist(retailCustomer);
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        dataCustodianRepository.persist(dataCustodian);
+        return EspiFactory.newAuthorization(retailCustomer, dataCustodian);
+    }
+
 }
