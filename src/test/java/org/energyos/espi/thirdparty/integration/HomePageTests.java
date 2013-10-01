@@ -92,4 +92,10 @@ public class HomePageTests {
         mockMvc.perform(get("/home").principal(authentication))
                 .andExpect(redirectedUrl("/RetailCustomer/" + customer.getId() + "/home"));
     }
+
+    @Test
+    public void termsOfService_displaysTermsOfServiceView() throws Exception {
+        mockMvc.perform(get("/TermsOfService"))
+            .andExpect(view().name("/TermsOfService"));
+    }
 }

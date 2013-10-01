@@ -67,4 +67,9 @@ public class HomeControllerTests {
     public void home_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
         assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(principal));
     }
+
+    @Test
+    public void termsOfService_displaysTermsOfServiceView() {
+        assertEquals("/TermsOfService", controller.termsOfService());
+    }
 }

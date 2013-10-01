@@ -8,3 +8,7 @@ Feature: Home Page
 
     When I visit the home page
     Then I should see a welcome message
+
+  Scenario: Visitor views the Terms of Service
+    When I visit the Terms of Service page
+    Then I should see the Terms of Service

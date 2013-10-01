@@ -28,6 +28,12 @@
 <script src="<c:url value='/resources/js/bootstrap-carousel.js'/>"></script>
 <script src="<c:url value='/resources/js/bootstrap-typeahead.js'/>"></script>
 
-<footer>
-    <p>&copy; EnergyOS 2013</p>
+<footer id="footer">
+    <div class="container">
+        <p class="pull-left">&copy; EnergyOS 2013</p>
+        <ul class="inline pull-right">
+            <li><a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
+        </ul>
+    </div>
 </footer>
+

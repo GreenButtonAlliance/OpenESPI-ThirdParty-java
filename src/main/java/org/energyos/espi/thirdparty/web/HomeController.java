@@ -45,4 +45,9 @@ public class HomeController {
     private RetailCustomer currentCustomer(Principal principal) {
         return (RetailCustomer) ((Authentication) principal).getPrincipal();
     }
+
+    @RequestMapping(value = "/TermsOfService", method = RequestMethod.GET)
+    public String termsOfService() {
+        return "/TermsOfService";
+    }
 }
