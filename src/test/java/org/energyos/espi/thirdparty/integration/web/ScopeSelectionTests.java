@@ -114,10 +114,10 @@ public class ScopeSelectionTests {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         service.persist(dataCustodian);
 
-        String redirectURL = String.format("%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
-                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
-                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
-                Configuration.SCOPES[0], "state");
+        String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, Configuration.THIRD_PARTY_CLIENT_ID.toString(),
+                 "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code",
+                "read+write", "7LQFMd");
 
         mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization)
                 .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getId().toString()))

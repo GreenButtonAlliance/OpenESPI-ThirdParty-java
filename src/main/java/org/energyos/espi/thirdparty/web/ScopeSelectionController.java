@@ -54,10 +54,9 @@ public class ScopeSelectionController {
     public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") Long dataCustodianId) throws JAXBException {
         DataCustodian dataCustodian = dataCustodianService.findById(dataCustodianId);
 
-        return String.format("redirect:%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
-                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
-                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
-                scope, "state");
+        return "redirect:" + dataCustodian.getUrl() + "/oauth/authorize?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+                "&redirect_uri=http://localhost:8080/ThirdParty/espi/1_1/resource/Authorization&response_type=code&scope=read+write&state=7LQFMd";
+
     }
 
     public void setDataCustodianService(DataCustodianService dataCustodianService) {
