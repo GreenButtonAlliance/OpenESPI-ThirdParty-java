@@ -98,7 +98,12 @@ public class Authorization
     @XmlTransient
     protected RetailCustomer retailCustomer;
     @NotEmpty
+    @XmlTransient
     private String state;
+    @ManyToOne @JoinColumn(name = "data_custodian_id")
+    @NotNull
+    @XmlTransient
+    private DataCustodian dataCustodian;
 
     /**
      * Gets the value of the accessToken property.
@@ -282,5 +287,13 @@ public class Authorization
 
     public String getState() {
         return state;
+    }
+
+    public DataCustodian getDataCustodian() {
+        return dataCustodian;
+    }
+
+    public void setDataCustodian(DataCustodian dataCustodian) {
+        this.dataCustodian = dataCustodian;
     }
 }

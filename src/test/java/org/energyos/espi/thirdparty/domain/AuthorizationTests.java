@@ -24,7 +24,8 @@ public class AuthorizationTests {
     public void isValid() throws Exception {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer());
+        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer(),
+                EspiFactory.newDataCustodian());
 
         Set<ConstraintViolation<Authorization>> violations = validator.validate(authorization);
 
@@ -78,5 +79,12 @@ public class AuthorizationTests {
     @Test
     public void state() {
         assertAnnotationPresent(Authorization.class, "state", NotEmpty.class);
+    }
+
+    @Test
+    public void dataCustodian() {
+        assertAnnotationPresent(Authorization.class, "dataCustodian", ManyToOne.class);
+        assertAnnotationPresent(Authorization.class, "dataCustodian", JoinColumn.class);
+        assertAnnotationPresent(Authorization.class, "dataCustodian", NotNull.class);
     }
 }

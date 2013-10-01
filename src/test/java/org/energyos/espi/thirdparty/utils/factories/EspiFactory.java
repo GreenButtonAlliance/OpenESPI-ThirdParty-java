@@ -25,7 +25,7 @@ public class EspiFactory {
         return dataCustodian;
     }
 
-    public static Authorization newAuthorization(RetailCustomer retailCustomer) {
+    public static Authorization newAuthorization(RetailCustomer retailCustomer, DataCustodian dataCustodian) {
         Authorization authorization = new Authorization();
 
         authorization.setAccessToken("accessToken" + System.currentTimeMillis());
@@ -33,6 +33,7 @@ public class EspiFactory {
         authorization.setThirdParty("thirdParty" + System.currentTimeMillis());
         authorization.setState("state" + System.currentTimeMillis());
         authorization.setRetailCustomer(retailCustomer);
+        authorization.setDataCustodian(dataCustodian);
 
         return authorization;
     }
