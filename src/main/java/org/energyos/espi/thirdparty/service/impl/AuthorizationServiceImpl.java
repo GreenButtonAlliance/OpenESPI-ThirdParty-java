@@ -26,6 +26,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         repository.persist(authorization);
     }
 
+    @Override
+    public Authorization findByState(String state) {
+        return repository.findByState(state);
+    }
+
     public void setRepository(AuthorizationRepository repository) {
         this.repository = repository;
     }

@@ -8,4 +8,6 @@ public interface AuthorizationService {
     List<Authorization> findAllByRetailCustomerId(Long retailCustomerId);
 
     void persist(Authorization authorization);
+
+    Authorization findByState(String state);
 }

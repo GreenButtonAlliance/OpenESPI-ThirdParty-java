@@ -33,11 +33,22 @@ public class AuthorizationServiceImplTests {
     }
 
     @Test
+    public void findByState() {
+        String state = "state";
+
+        service.findByState(state);
+
+        verify(repository).findByState(state);
+    }
+
+    @Test
     public void persist() {
-        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer());
+        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer(),
+                EspiFactory.newDataCustodian());
 
         service.persist(authorization);
 
         verify(repository).persist(authorization);
     }
+
 }
