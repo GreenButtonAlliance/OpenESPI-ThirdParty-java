@@ -74,4 +74,9 @@ public class AuthorizationTests {
         assertAnnotationPresent(Authorization.class, "retailCustomer", JoinColumn.class);
         assertAnnotationPresent(Authorization.class, "retailCustomer", NotNull.class);
     }
+
+    @Test
+    public void state() {
+        assertAnnotationPresent(Authorization.class, "state", NotEmpty.class);
+    }
 }

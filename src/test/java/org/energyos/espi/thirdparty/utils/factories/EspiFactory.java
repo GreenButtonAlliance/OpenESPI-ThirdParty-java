@@ -31,6 +31,7 @@ public class EspiFactory {
         authorization.setAccessToken("accessToken" + System.currentTimeMillis());
         authorization.setAuthorizationServer("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
         authorization.setThirdParty("thirdParty" + System.currentTimeMillis());
+        authorization.setState("state" + System.currentTimeMillis());
         authorization.setRetailCustomer(retailCustomer);
 
         return authorization;

@@ -97,6 +97,8 @@ public class Authorization
     @NotNull
     @XmlTransient
     protected RetailCustomer retailCustomer;
+    @NotEmpty
+    private String state;
 
     /**
      * Gets the value of the accessToken property.
@@ -272,5 +274,13 @@ public class Authorization
 
     public void setRetailCustomer(RetailCustomer retailCustomer) {
         this.retailCustomer = retailCustomer;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
     }
 }
