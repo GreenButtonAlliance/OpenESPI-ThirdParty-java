@@ -8,6 +8,11 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 public class TestUtils {
+    public static void assertAnnotationPresent(Class clazz, Class annotationClass) {
+        if(getClassAnnotation(clazz, annotationClass) == null)
+            throw new AssertionFailedError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz.getCanonicalName()));
+    }
+
     public static void assertAnnotationPresent(Class clazz, String fieldName, Class annotationClass) {
         if(getAnnotation(clazz, fieldName, annotationClass) == null)
             throw new AssertionFailedError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
@@ -49,6 +54,19 @@ public class TestUtils {
         Annotation foundAnnotation = null;
 
         for (Annotation annotation : field.getAnnotations()) {
+            if (annotation.annotationType().equals(annotationClass)) {
+                foundAnnotation = annotation;
+                break;
+            }
+        }
+
+        return foundAnnotation;
+    }
+
+    private static Annotation getClassAnnotation(Class clazz, Class annotationClass) {
+        Annotation foundAnnotation = null;
+
+        for (Annotation annotation : clazz.getAnnotations()) {
             if (annotation.annotationType().equals(annotationClass)) {
                 foundAnnotation = annotation;
                 break;
