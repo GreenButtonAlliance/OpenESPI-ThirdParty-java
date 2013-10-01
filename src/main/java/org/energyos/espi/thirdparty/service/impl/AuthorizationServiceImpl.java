@@ -21,6 +21,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return repository.findAllByRetailCustomerId(retailCustomerId);
     }
 
+    @Override
+    public void persist(Authorization authorization) {
+        repository.persist(authorization);
+    }
+
     public void setRepository(AuthorizationRepository repository) {
         this.repository = repository;
     }

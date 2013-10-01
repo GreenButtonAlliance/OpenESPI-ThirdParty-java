@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface AuthorizationService {
     List<Authorization> findAllByRetailCustomerId(Long retailCustomerId);
+
+    void persist(Authorization authorization);
 }

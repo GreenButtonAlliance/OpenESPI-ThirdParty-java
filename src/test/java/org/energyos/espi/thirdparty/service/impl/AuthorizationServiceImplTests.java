@@ -1,7 +1,10 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.repository.AuthorizationRepository;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
@@ -9,15 +12,32 @@ import static org.mockito.Mockito.verify;
 
 public class AuthorizationServiceImplTests {
 
+
+    private AuthorizationServiceImpl service;
+    private AuthorizationRepository repository;
+
+    @Before
+    public void before() {
+        service = new AuthorizationServiceImpl();
+        repository = mock(AuthorizationRepository.class);
+        service.setRepository(repository);
+    }
+
     @Test
     public void findAllByRetailCustomer() {
-        AuthorizationServiceImpl service = new AuthorizationServiceImpl();
         RetailCustomer retailCustomer = new RetailCustomer();
-        AuthorizationRepository repository = mock(AuthorizationRepository.class);
-        service.setRepository(repository);
 
         service.findAllByRetailCustomerId(retailCustomer.getId());
 
         verify(repository).findAllByRetailCustomerId(retailCustomer.getId());
+    }
+
+    @Test
+    public void persist() {
+        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer());
+
+        service.persist(authorization);
+
+        verify(repository).persist(authorization);
     }
 }
