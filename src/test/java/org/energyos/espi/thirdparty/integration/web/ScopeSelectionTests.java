@@ -89,8 +89,8 @@ public class ScopeSelectionTests {
                 .param("Data_custodian", "1")
                 .param("Data_custodian_URL", redirectURL))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,
-                        "FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13",
-                        "FB=4,5,12,15,16 IntervalDuration=monthly BlockDuration=monthly HistoryLength=13",
+                        Configuration.SCOPES[0],
+                        Configuration.SCOPES[1],
                         Configuration.THIRD_PARTY_CLIENT_ID)));
     }
 
