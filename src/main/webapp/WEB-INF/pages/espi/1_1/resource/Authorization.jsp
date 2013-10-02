@@ -29,6 +29,22 @@
         <div class="span12">
             <h2>Authorizations</h2>
 
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="authorization" items="${authorizationList}">
+                    <tr>
+                        <td>
+                            <c:out value="${authorization.dataCustodian.description}"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 
