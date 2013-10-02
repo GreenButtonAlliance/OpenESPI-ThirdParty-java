@@ -2,6 +2,7 @@ package org.energyos.espi.thirdparty.utils;
 
 import junit.framework.AssertionFailedError;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
 import java.lang.annotation.Annotation;
@@ -18,10 +19,16 @@ public class TestUtils {
             throw new AssertionFailedError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
     }
 
-    public static void assertSizeValidation(Class clazz, String fieldName, int min, int max) {
-        assertAnnotationPresent(clazz, fieldName, Size.class);
+    public static void assertColumnAnnotation(Class clazz, String fieldName, String columnName) {
+        Annotation annotation = assertAndGetAnnotation(clazz, fieldName, Column.class);
 
-        Annotation annotation = getAnnotation(clazz, fieldName, Size.class);
+        String name = ((Column) annotation).name();
+        if (!name.equals(columnName))
+            throw new AssertionFailedError(String.format("Column name in @Column annotation not match expected '%s'", name));
+    }
+
+    public static void assertSizeValidation(Class clazz, String fieldName, int min, int max) {
+        Annotation annotation = assertAndGetAnnotation(clazz, fieldName, Size.class);
 
         int minValue = ((javax.validation.constraints.Size) annotation).min();
         if (min != minValue)
@@ -33,13 +40,16 @@ public class TestUtils {
     }
 
     public static void assertXmlElement(Class clazz, String fieldName, Class type) {
-        assertAnnotationPresent(clazz, fieldName, XmlElement.class);
-
-        Annotation annotation = getAnnotation(clazz, fieldName, XmlElement.class);
+        Annotation annotation = assertAndGetAnnotation(clazz, fieldName, XmlElement.class);
 
         Class annotationType = ((XmlElement)annotation).type();
         if (type != annotationType)
             throw new AssertionFailedError(String.format("@XmlElement annotation type does not match expected '%s'", type));
+    }
+
+    private static Annotation assertAndGetAnnotation(Class clazz, String fieldName, Class annotationClass) {
+        assertAnnotationPresent(clazz, fieldName, annotationClass);
+        return getAnnotation(clazz, fieldName, annotationClass);
     }
 
     private static Annotation getAnnotation(Class clazz, String fieldName, Class annotationClass) {
