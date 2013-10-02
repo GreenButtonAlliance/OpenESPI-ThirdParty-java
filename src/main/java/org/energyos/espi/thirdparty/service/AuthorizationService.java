@@ -10,4 +10,6 @@ public interface AuthorizationService {
     void persist(Authorization authorization);
 
     Authorization findByState(String state);
+
+    void merge(Authorization authorization);
 }

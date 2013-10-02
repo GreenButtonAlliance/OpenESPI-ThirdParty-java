@@ -7,6 +7,8 @@ import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -51,4 +53,17 @@ public class AuthorizationServiceImplTests {
         verify(repository).persist(authorization);
     }
 
+    @Test
+    public void merge() {
+        Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer(),
+                EspiFactory.newDataCustodian());
+
+        service.persist(authorization);
+
+        authorization.setAccessToken(UUID.randomUUID().toString());
+
+        service.merge(authorization);
+
+        verify(repository).merge(authorization);
+    }
 }

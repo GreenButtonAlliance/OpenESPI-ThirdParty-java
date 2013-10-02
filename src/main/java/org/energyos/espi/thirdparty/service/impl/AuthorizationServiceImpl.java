@@ -27,6 +27,11 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
+    public void merge(Authorization authorization) {
+        repository.merge(authorization);
+    }
+
+    @Override
     public Authorization findByState(String state) {
         return repository.findByState(state);
     }
