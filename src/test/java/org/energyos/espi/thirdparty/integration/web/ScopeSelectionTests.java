@@ -18,14 +18,18 @@ package org.energyos.espi.thirdparty.integration.web;
 
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.thirdparty.service.RetailCustomerService;
+import org.energyos.espi.thirdparty.service.StateService;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -44,6 +48,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class ScopeSelectionTests {
 
     private MockMvc mockMvc;
+    protected TestingAuthenticationToken authentication;
 
     @Autowired
     protected WebApplicationContext wac;
@@ -51,9 +56,18 @@ public class ScopeSelectionTests {
     @Autowired
     protected DataCustodianService service;
 
+    @Autowired
+    protected RetailCustomerService retailCustomerService;
+
+    @Autowired
+    protected StateService stateService;
+
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        RetailCustomer customer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(customer);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
@@ -104,7 +118,7 @@ public class ScopeSelectionTests {
         service.persist(dataCustodian);
         String scope = Configuration.SCOPES[0];
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization)
+        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
                 .param("scope", scope).param("DataCustodianID", dataCustodian.getId().toString()))
                 .andExpect(status().is(302));
     }
@@ -117,9 +131,9 @@ public class ScopeSelectionTests {
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
                 dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, Configuration.THIRD_PARTY_CLIENT_ID.toString(),
                  "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code",
-                "read+write", "7LQFMd");
+                Configuration.SCOPES[0], stateService.newState());
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization)
+        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
                 .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getId().toString()))
                 .andExpect(redirectedUrl(redirectURL));
     }

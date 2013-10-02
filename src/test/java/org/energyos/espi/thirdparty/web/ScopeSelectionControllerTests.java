@@ -16,33 +16,42 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import cucumber.api.java.Before;
+import org.energyos.espi.thirdparty.BaseTest;
+import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.thirdparty.service.StateService;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-public class ScopeSelectionControllerTests {
+public class ScopeSelectionControllerTests extends BaseTest {
 
     private ScopeSelectionController controller;
-    private DataCustodianService dataCustodianService;
+    @Mock private DataCustodianService dataCustodianService;
+    @Mock private AuthorizationService authorizationService;
+    @Mock private StateService stateService;
 
     @Before
     public void before() {
         controller = new ScopeSelectionController();
         controller.setDataCustodianService(dataCustodianService);
-        dataCustodianService = mock(DataCustodianService.class);
+        controller.setAuthorizationService(authorizationService);
+        controller.setStateService(stateService);
     }
 
     @Test
@@ -76,11 +85,32 @@ public class ScopeSelectionControllerTests {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
 
-        String expectedRedirectURL = String.format("redirect:%s?response_type=%s&client_id=%s&redirect_uri=%s&scope=%s&state=%s",
-                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, "code",
-                Configuration.THIRD_PARTY_CLIENT_ID.toString(), Routes.ThirdPartyOAuthCodeCallbackURL,
-                Configuration.SCOPES[0], "state");
+        String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint,
+                Configuration.THIRD_PARTY_CLIENT_ID,
+                Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL,
+                "code",
+                Configuration.SCOPES[0]);
 
-        assertEquals(expectedRedirectURL, controller.scopeAuthorization(Configuration.SCOPES[0], 1L));
+        Authentication principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+
+        assertTrue(controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal).startsWith(expectedRedirectURL));
+    }
+
+    @Test
+    public void post_scopeAuthorization_createsAuthorization() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+
+        AuthorizationService authorizationService = mock(AuthorizationService.class);
+        controller.setAuthorizationService(authorizationService);
+
+        Authentication principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+
+        controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal);
+
+        verify(authorizationService).persist(any(Authorization.class));
     }
 }
