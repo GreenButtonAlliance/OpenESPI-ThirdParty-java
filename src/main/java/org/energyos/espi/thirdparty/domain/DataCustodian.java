@@ -49,4 +49,8 @@ public class DataCustodian {
         this.url = url;
     }
 
+    public String getScopeSelectionURL() {
+        return getUrl() + Routes.DataCustodianScopeSelectionScreen;
+    }
+
 }

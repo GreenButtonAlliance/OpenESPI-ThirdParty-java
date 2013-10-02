@@ -36,6 +36,6 @@ public class DataCustodianRepositoryImplTest {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         repository.persist(dataCustodian);
 
-        assertEquals(3, repository.findAll().size());
+        assertEquals(2, repository.findAll().size());
     }
 }

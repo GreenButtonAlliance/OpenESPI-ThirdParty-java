@@ -4,11 +4,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="mockTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
+    <bean id="clientRestTemplate" name="clientRestTemplate" class="org.energyos.espi.thirdparty.web.ClientRestTemplate" autowire-candidate="true"/>
 
     <alias name="${template}" alias="repositoryTemplate"/>
 
     <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="${datacustodian.base.url}/api/feed"/>
+    </bean>
+
+    <bean id="THIRD_PARTY_URL" class="java.lang.String">
+        <constructor-arg value="${thirdparty.base.url}"/>
     </bean>
 
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">

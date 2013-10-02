@@ -41,7 +41,7 @@
             <h2>Data Custodian List</h2>
 
 
-            <form method="POST" action="<c:url value='/RetailCustomer/${principal.id}/ScopeSelection'/>">
+            <form method="POST" action="<c:url value='/espi/1_1/RetailCustomer/${principal.id}/ScopeSelectionList'/>">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -53,7 +53,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    <input type="radio" name="Data_custodian" value="${dataCustodian.id}" data-data-custodian-url="${dataCustodian.url}" class="data-custodian" />
+                                    <input type="radio" name="Data_custodian" value="${dataCustodian.id}" data-data-custodian-url="${dataCustodian.scopeSelectionURL}" class="data-custodian" />
                                     <c:out value="${dataCustodian.description}"/>
                                 </label>
                             </td>
