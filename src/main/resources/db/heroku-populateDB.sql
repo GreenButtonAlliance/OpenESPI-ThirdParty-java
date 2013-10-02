@@ -1,5 +1,4 @@
-INSERT INTO data_custodians (id, description, url) VALUES (1, 'JCP&L (Heroku)', 'http://datacustodian-dev.herokuapp.com/DataCustodian');
-INSERT INTO data_custodians (id, description, url) VALUES (2, 'ConEdison (Heroku)', 'http://datacustodian-dev.herokuapp.com/DataCustodian');
+INSERT INTO data_custodians (id, description, url) VALUES (1, 'ConEdison (Heroku)', 'http://datacustodian-dev.herokuapp.com/DataCustodian');
 
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (1, 'alan',    'Alan',    'Turing',       'koala', 1, 'ROLE_USER,ROLE_CUSTOMER');
 INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (2, 'donald',  'Donald',  'Knuth',        'koala', 1, 'ROLE_USER,ROLE_CUSTOMER');
