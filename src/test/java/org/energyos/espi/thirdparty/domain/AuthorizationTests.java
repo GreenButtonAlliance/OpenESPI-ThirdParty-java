@@ -16,6 +16,7 @@ import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.thirdparty.utils.TestUtils.assertColumnAnnotation;
 import static org.junit.Assert.assertFalse;
 
 public class AuthorizationTests {
@@ -56,17 +57,18 @@ public class AuthorizationTests {
 
     @Test
     public void accessToken() {
-        assertAnnotationPresent(Authorization.class, "accessToken", NotEmpty.class);
+        assertColumnAnnotation(Authorization.class, "accessToken", "access_token");
     }
 
     @Test
     public void authorizationServer() {
-        assertAnnotationPresent(Authorization.class, "authorizationServer", NotEmpty.class);
+        assertColumnAnnotation(Authorization.class, "authorizationServer", "authorization_server");
     }
 
     @Test
     public void thirdParty() {
         assertAnnotationPresent(Authorization.class, "thirdParty", NotEmpty.class);
+        assertColumnAnnotation(Authorization.class, "thirdParty", "third_party");
     }
 
     @Test
@@ -79,6 +81,7 @@ public class AuthorizationTests {
     @Test
     public void state() {
         assertAnnotationPresent(Authorization.class, "state", NotEmpty.class);
+        assertColumnAnnotation(Authorization.class, "state", "state");
     }
 
     @Test

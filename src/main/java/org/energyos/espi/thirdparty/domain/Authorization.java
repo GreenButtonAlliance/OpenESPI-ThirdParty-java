@@ -82,27 +82,41 @@ public class Authorization
     public static final String QUERY_FIND_BY_RETAIL_CUSTOMER_ID = "Authorization.findAllByRetailCustomerId";
     public static final String QUERY_FIND_BY_STATE = "Authorization.findByState";
 
-    @NotEmpty
+    @Column(name = "access_token")
     protected String accessToken;
-    @XmlSchemaType(name = "anyURI")
+
+    @Column(name = "authorization_server")
     @NotEmpty
+    @XmlSchemaType(name = "anyURI")
     protected String authorizationServer;
+
     @Transient
     protected DateTimeInterval authorizedPeriod;
+
     @Transient
     protected DateTimeInterval publishedPeriod;
+
+    @Column(name = "resource")
     @XmlSchemaType(name = "anyURI")
     protected String resource;
+
+    @Column(name = "status")
     protected String status;
+
+    @Column(name = "third_party")
     @NotEmpty
     protected String thirdParty;
+
     @ManyToOne @JoinColumn(name = "retail_customer_id")
     @NotNull
     @XmlTransient
     protected RetailCustomer retailCustomer;
+
+    @Column(name = "state")
     @NotEmpty
     @XmlTransient
     private String state;
+
     @ManyToOne @JoinColumn(name = "data_custodian_id")
     @NotNull
     @XmlTransient
@@ -298,5 +312,9 @@ public class Authorization
 
     public void setDataCustodian(DataCustodian dataCustodian) {
         this.dataCustodian = dataCustodian;
+    }
+
+    public String generateState() {
+        return "" + System.currentTimeMillis();
     }
 }
