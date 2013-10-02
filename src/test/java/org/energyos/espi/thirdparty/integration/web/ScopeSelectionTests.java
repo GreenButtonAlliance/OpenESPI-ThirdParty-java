@@ -75,7 +75,7 @@ public class ScopeSelectionTests {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         service.persist(dataCustodian);
 
-        mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
+        mockMvc.perform(post("/espi/1_1/RetailCustomer/1/ScopeSelection")
                 .param("Data_custodian", dataCustodian.getId().toString())
                 .param("Data_custodian_URL", dataCustodian.getUrl()))
                .andExpect(status().is(302));
@@ -85,7 +85,7 @@ public class ScopeSelectionTests {
     public void post_scopeSelection_redirectsToDataCustodian() throws Exception {
         String redirectURL = "http://localhost:8080/DataCustodian/ScopeSelection";
 
-        mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
+        mockMvc.perform(post("/espi/1_1/RetailCustomer/1/ScopeSelection")
                 .param("Data_custodian", "1")
                 .param("Data_custodian_URL", redirectURL))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,

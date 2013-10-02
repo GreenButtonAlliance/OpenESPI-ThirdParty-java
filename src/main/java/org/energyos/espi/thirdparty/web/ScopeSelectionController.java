@@ -57,7 +57,7 @@ public class ScopeSelectionController extends BaseController {
         return "/RetailCustomer/ScopeSelection";
     }
 
-    @RequestMapping(value = "/RetailCustomer/{retailCustomerId}/ScopeSelection", method = RequestMethod.POST)
+    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreenWithRetailCustomerId, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
     }

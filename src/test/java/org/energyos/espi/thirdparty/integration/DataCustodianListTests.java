@@ -50,13 +50,13 @@ public class DataCustodianListTests {
 
     @Test
     public void index_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/DataCustodianList"))
+        mockMvc.perform(get("/espi/1_1/RetailCustomer/1/DataCustodianList"))
                .andExpect(status().isOk());
     }
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/1/DataCustodianList"))
+        mockMvc.perform(get("/espi/1_1/RetailCustomer/1/DataCustodianList"))
                 .andExpect(view().name("/RetailCustomer/DataCustodianList/index"));
     }
 }

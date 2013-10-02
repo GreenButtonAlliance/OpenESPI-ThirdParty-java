@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.xml.bind.JAXBException;
 
 @Controller
-@RequestMapping("/RetailCustomer")
 public class DataCustodianListController {
 
     @Autowired
     private DataCustodianService dataCustodianService;
 
-    @RequestMapping(value = "{retailCustomerId}/DataCustodianList", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ThirdPartyDataCustodianList, method = RequestMethod.GET)
     public String index(@PathVariable String retailCustomerId, ModelMap model) throws JAXBException {
         model.put("dataCustodianList", dataCustodianService.findAll());
         return "/RetailCustomer/DataCustodianList/index";

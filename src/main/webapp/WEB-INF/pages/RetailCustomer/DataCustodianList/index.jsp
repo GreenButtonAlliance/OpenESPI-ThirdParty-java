@@ -41,7 +41,7 @@
             <h2>Data Custodian List</h2>
 
 
-            <form method="POST" action="<c:url value='/RetailCustomer/${principal.id}/ScopeSelection'/>">
+            <form method="POST" action="<c:url value='/espi/1_1/RetailCustomer/${principal.id}/ScopeSelection'/>">
                 <table class="table table-striped">
                     <thead>
                     <tr>
