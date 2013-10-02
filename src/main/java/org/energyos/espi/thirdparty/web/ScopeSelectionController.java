@@ -76,7 +76,7 @@ public class ScopeSelectionController extends BaseController {
 
         authorizationService.persist(authorization);
 
-        return "redirect:" + dataCustodian.getUrl() + "/oauth/authorize?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+        return "redirect:" + dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
                 "&redirect_uri=" + Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
