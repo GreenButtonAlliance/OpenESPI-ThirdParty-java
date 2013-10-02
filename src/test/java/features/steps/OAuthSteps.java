@@ -66,7 +66,7 @@ public class OAuthSteps extends BaseSteps {
     @Then("^I should see Scope selection screen$")
     public void I_should_see_Scope_selection_screen() throws Throwable {
         assertContains("Select Scope");
-        assertContains("FB=4,5,15 IntervalDuration=3600 BlockDuration=monthly HistoryLength=13");
+        assertContains("FB_4_5_15_IntervalDuration_3600_BlockDuration_monthly_HistoryLength_13");
     }
 
     @When("^I select Scopes$")
