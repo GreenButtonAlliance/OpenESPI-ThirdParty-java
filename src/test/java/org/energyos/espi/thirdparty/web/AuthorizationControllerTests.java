@@ -16,10 +16,9 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
@@ -33,14 +32,19 @@ import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.*;
 
 public class AuthorizationControllerTests {
+    private final String CODE = "code";
 
     private AuthorizationController controller;
     private RestTemplate restTemplate;
     private Authentication principal;
     private AuthorizationService service;
+    private RetailCustomer retailCustomer;
+    private DataCustodian dataCustodian;
+    private Authorization authorization;
 
     @Before
     public void before() {
@@ -52,29 +56,32 @@ public class AuthorizationControllerTests {
         restTemplate = mock(RestTemplate.class);
         controller.setTemplate(restTemplate);
 
-        RetailCustomer retailCustomer = new RetailCustomer();
+        retailCustomer = EspiFactory.newRetailCustomer();
         principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(retailCustomer);
+
+        dataCustodian = EspiFactory.newDataCustodian();
+        authorization = EspiFactory.newAuthorization(retailCustomer, dataCustodian);
+        when(service.findByState(authorization.getState())).thenReturn(authorization);
+        when(restTemplate.getForObject(anyString(), eq(AccessToken.class))).thenReturn(new AccessToken());
     }
 
     @Test
     public void authorization_fetchesToken() throws Exception {
-        String url = String.format("http://localhost:8080/DataCustodian%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                Routes.AuthorizationServerTokenEndpoint, "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code");
+        String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
+                dataCustodian.getUrl(), Routes.AuthorizationServerTokenEndpoint,
+                Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL, CODE);
 
-        controller.authorization("code", new ModelMap(), principal);
+        controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);
 
-        verify(restTemplate).getForObject(eq(url), eq(String.class));
+        verify(restTemplate).getForObject(eq(url), eq(AccessToken.class));
     }
 
     @Test
-    public void authorization_savesAuthorization() throws Exception {
-        String url = String.format("http://localhost:8080/DataCustodian%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                Routes.AuthorizationServerTokenEndpoint, "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code");
+    public void authorization_updatesAuthorization() throws Exception {
+        controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);
 
-        controller.authorization("code", new ModelMap(), principal);
-
-        verify(service).persist(any(Authorization.class));
+        verify(service).merge(any(Authorization.class));
     }
 
     @Test
@@ -84,7 +91,7 @@ public class AuthorizationControllerTests {
         when(service.findAllByRetailCustomerId(anyLong())).thenReturn(authorizations);
         ModelMap model = new ModelMap();
 
-        controller.authorization("code", model, principal);
+        controller.authorization(CODE, authorization.getState(), model, principal);
 
         assertEquals(authorizations, model.get("authorizationList"));
     }

@@ -16,9 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.Configuration;
-import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -41,19 +39,20 @@ public class AuthorizationController extends BaseController {
     private RestTemplate template;
 
     @RequestMapping(value = Routes.ThirdPartyOAuthCodeCallbackURL, method = RequestMethod.GET)
-    public String authorization(String code, ModelMap model, Principal principal) {
-        String url = String.format("http://localhost:8080/DataCustodian%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                Routes.AuthorizationServerTokenEndpoint, "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, code);
+    public String authorization(String code, String state, ModelMap model, Principal principal) {
+        Authorization authorization = service.findByState(state);
+        DataCustodian dataCustodian = authorization.getDataCustodian();
 
-        String token = template.getForObject(url, String.class);
+        String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code", dataCustodian.getUrl(),
+                Routes.AuthorizationServerTokenEndpoint, Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL, code);
 
-        Authorization authorization = new Authorization();
-        authorization.setAccessToken(token);
+        AccessToken token = template.getForObject(url, AccessToken.class);
+
+        authorization.setAccessToken(token.getAccessToken());
         authorization.setAuthorizationServer(Routes.AuthorizationServerAuthorizationEndpoint);
         authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
-        authorization.setRetailCustomer(currentCustomer(principal));
 
-        service.persist(authorization);
+        service.merge(authorization);
 
         model.put("authorizationList", service.findAllByRetailCustomerId(currentCustomer(principal).getId()));
 
