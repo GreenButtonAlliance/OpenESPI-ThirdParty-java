@@ -313,8 +313,4 @@ public class Authorization
     public void setDataCustodian(DataCustodian dataCustodian) {
         this.dataCustodian = dataCustodian;
     }
-
-    public String generateState() {
-        return "" + System.currentTimeMillis();
-    }
 }

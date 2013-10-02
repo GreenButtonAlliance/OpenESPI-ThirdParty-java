@@ -47,4 +47,6 @@
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.service.impl.StateServiceImpl" autowire-candidate="true"/>
 </beans>
