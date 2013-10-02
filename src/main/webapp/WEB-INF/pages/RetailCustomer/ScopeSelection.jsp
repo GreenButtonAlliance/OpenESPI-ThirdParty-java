@@ -51,7 +51,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    <input type="radio" name="scope" class="scope" />
+                                    <input type="radio" name="scope" class="scope" value="<c:out value='${scope}'/>" />
                                     <c:out value="${scope}"/>
                                 </label>
                             </td>
