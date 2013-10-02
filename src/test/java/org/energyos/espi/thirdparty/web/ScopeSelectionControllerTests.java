@@ -49,6 +49,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
     @Before
     public void before() {
         controller = new ScopeSelectionController();
+        controller.setThirdPartyURL(Configuration.THIRD_PARTY_BASE_URL);
         controller.setDataCustodianService(dataCustodianService);
         controller.setAuthorizationService(authorizationService);
         controller.setStateService(stateService);

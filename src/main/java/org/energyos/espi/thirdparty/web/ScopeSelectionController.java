@@ -50,6 +50,10 @@ public class ScopeSelectionController extends BaseController {
     @Qualifier("stateService")
     private StateService stateService;
 
+    @Autowired
+    @Qualifier("THIRD_PARTY_URL")
+    private String thirdPartyURL;
+
     @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
         model.put("scopeList", Arrays.asList(scopes));
@@ -77,7 +81,7 @@ public class ScopeSelectionController extends BaseController {
         authorizationService.persist(authorization);
 
         return "redirect:" + dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
-                "&redirect_uri=" + Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL +
+                "&redirect_uri=" + thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
     }
@@ -92,6 +96,10 @@ public class ScopeSelectionController extends BaseController {
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
+    }
+
+    public void setThirdPartyURL(String thirdPartyURL) {
+        this.thirdPartyURL = thirdPartyURL;
     }
 
     private String newScopeParams(String[] scopes) {

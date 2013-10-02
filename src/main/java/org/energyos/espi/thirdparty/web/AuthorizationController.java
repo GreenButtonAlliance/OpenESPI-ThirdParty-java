@@ -35,6 +35,10 @@ public class AuthorizationController extends BaseController {
     private AuthorizationService service;
 
     @Autowired
+    @Qualifier("THIRD_PARTY_URL")
+    private String thirdPartyURL;
+
+    @Autowired
     @Qualifier("clientRestTemplate")
     private RestTemplate template;
 
@@ -44,7 +48,7 @@ public class AuthorizationController extends BaseController {
         DataCustodian dataCustodian = authorization.getDataCustodian();
 
         String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code", dataCustodian.getUrl(),
-                Routes.AuthorizationServerTokenEndpoint, Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL, code);
+                Routes.AuthorizationServerTokenEndpoint, thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL, code);
 
         AccessToken token = template.getForObject(url, AccessToken.class);
 
@@ -61,6 +65,10 @@ public class AuthorizationController extends BaseController {
 
     public void setTemplate(RestTemplate template) {
         this.template = template;
+    }
+
+    public void setThirdPartyURL(String thirdPartyURL) {
+        this.thirdPartyURL = thirdPartyURL;
     }
 
     public void setService(AuthorizationService service) {

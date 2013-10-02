@@ -38,6 +38,10 @@
         <constructor-arg value="http://localhost:8080/DataCustodian/api/feed"/>
     </bean>
 
+    <bean id="THIRD_PARTY_URL" class="java.lang.String">
+        <constructor-arg value="http://localhost:8080/ThirdParty"/>
+    </bean>
+
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="packagesToScan">
             <list>

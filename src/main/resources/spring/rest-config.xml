@@ -12,6 +12,10 @@
         <constructor-arg value="${datacustodian.base.url}/api/feed"/>
     </bean>
 
+    <bean id="THIRD_PARTY_URL" class="java.lang.String">
+        <constructor-arg value="${thirdparty.base.url}"/>
+    </bean>
+
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
         <property name="packagesToScan">
             <list>

@@ -49,6 +49,7 @@ public class AuthorizationControllerTests {
     @Before
     public void before() {
         controller = new AuthorizationController();
+        controller.setThirdPartyURL(Configuration.THIRD_PARTY_BASE_URL);
 
         service = mock(AuthorizationService.class);
         controller.setService(service);
