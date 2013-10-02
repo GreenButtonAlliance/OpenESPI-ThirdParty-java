@@ -30,4 +30,9 @@ public class AuthorizationRepositoryImpl implements AuthorizationRepository {
       return (Authorization)em.createNamedQuery(Authorization.QUERY_FIND_BY_STATE)
               .setParameter("state", state).getSingleResult();
     }
+
+    @Override
+    public void merge(Authorization authorization) {
+        em.merge(authorization);
+    }
 }

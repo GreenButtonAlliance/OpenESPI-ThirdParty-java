@@ -30,6 +30,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -73,6 +75,22 @@ public class AuthorizationRepositoryImplTests {
         repository.persist(authorization);
 
         assertNotNull(authorization.getId());
+    }
+
+    @Test
+    @Transactional
+    public void merge() {
+        Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
+
+        repository.persist(authorization);
+
+        assertNotNull(authorization.getId());
+
+        Authorization authorization1 = repository.findByState(authorization.getState());
+
+        authorization1.setAccessToken(UUID.randomUUID().toString());
+
+        repository.merge(authorization1);
     }
 
     private Authorization newAuthorization(RetailCustomer retailCustomer) {
