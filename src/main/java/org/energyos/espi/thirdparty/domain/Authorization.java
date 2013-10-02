@@ -24,10 +24,11 @@
 
 package org.energyos.espi.thirdparty.domain;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.*;
 
 
 /**
@@ -67,19 +68,59 @@ import javax.xml.bind.annotation.XmlType;
     "status",
     "thirdParty"
 })
+@Entity
+@Table(name = "authorizations")
+@NamedQueries(value = {
+        @NamedQuery(name = Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID,
+                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId"),
+        @NamedQuery(name = Authorization.QUERY_FIND_BY_STATE,
+                query = "SELECT authorization FROM Authorization authorization WHERE authorization.state = :state")
+})
 public class Authorization
     extends IdentifiedObject
 {
+    public static final String QUERY_FIND_BY_RETAIL_CUSTOMER_ID = "Authorization.findAllByRetailCustomerId";
+    public static final String QUERY_FIND_BY_STATE = "Authorization.findByState";
 
+    @Column(name = "access_token")
     protected String accessToken;
+
+    @Column(name = "authorization_server")
+    @NotEmpty
     @XmlSchemaType(name = "anyURI")
     protected String authorizationServer;
+
+    @Transient
     protected DateTimeInterval authorizedPeriod;
+
+    @Transient
     protected DateTimeInterval publishedPeriod;
+
+    @Column(name = "resource")
     @XmlSchemaType(name = "anyURI")
     protected String resource;
+
+    @Column(name = "status")
     protected String status;
+
+    @Column(name = "third_party")
+    @NotEmpty
     protected String thirdParty;
+
+    @ManyToOne @JoinColumn(name = "retail_customer_id")
+    @NotNull
+    @XmlTransient
+    protected RetailCustomer retailCustomer;
+
+    @Column(name = "state")
+    @NotEmpty
+    @XmlTransient
+    private String state;
+
+    @ManyToOne @JoinColumn(name = "data_custodian_id")
+    @NotNull
+    @XmlTransient
+    private DataCustodian dataCustodian;
 
     /**
      * Gets the value of the accessToken property.
@@ -249,4 +290,27 @@ public class Authorization
         this.thirdParty = value;
     }
 
+    public RetailCustomer getRetailCustomer() {
+        return retailCustomer;
+    }
+
+    public void setRetailCustomer(RetailCustomer retailCustomer) {
+        this.retailCustomer = retailCustomer;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public DataCustodian getDataCustodian() {
+        return dataCustodian;
+    }
+
+    public void setDataCustodian(DataCustodian dataCustodian) {
+        this.dataCustodian = dataCustodian;
+    }
 }

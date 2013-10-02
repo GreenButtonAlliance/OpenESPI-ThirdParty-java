@@ -6,16 +6,13 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
 
-	<!--apply the oauth client context -->
 	<oauth:client id="oauth2ClientFilter" />
 
-	<!--define an oauth 2 resource for sparklr-->
-	<oauth:resource id="sparklr" type="authorization_code" client-id="tonr" client-secret="secret"
+	<oauth:resource id="dataCustodian" type="authorization_code" client-id="third_party" client-secret="secret"
 		access-token-uri="${accessTokenUri}" user-authorization-uri="${userAuthorizationUri}" scope="read,write" />
 
-	<!--define an oauth 2 resource for trusted client on sparklr -->
 	<oauth:resource id="trusted" type="client_credentials" client-id="my-client-with-registered-redirect"
 		access-token-uri="${accessTokenUri}" scope="trust" />
 
-    <oauth:rest-template id="oauthTemplate" resource="sparklr"/>
+    <oauth:rest-template id="oauthTemplate" resource="dataCustodian"/>
 </beans>

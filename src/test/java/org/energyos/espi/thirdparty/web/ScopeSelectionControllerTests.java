@@ -16,24 +16,50 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.thirdparty.BaseTest;
+import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
+import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.service.AuthorizationService;
+import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.thirdparty.service.StateService;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.*;
 
-public class ScopeSelectionControllerTests {
+public class ScopeSelectionControllerTests extends BaseTest {
+
+    private ScopeSelectionController controller;
+    @Mock private DataCustodianService dataCustodianService;
+    @Mock private AuthorizationService authorizationService;
+    @Mock private StateService stateService;
+
+    @Before
+    public void before() {
+        controller = new ScopeSelectionController();
+        controller.setThirdPartyURL(Configuration.THIRD_PARTY_BASE_URL);
+        controller.setDataCustodianService(dataCustodianService);
+        controller.setAuthorizationService(authorizationService);
+        controller.setStateService(stateService);
+    }
 
     @Test
     public void post_scopeSelection_redirects() throws Exception {
         String url = "DataCustodianURL";
 
-        ScopeSelectionController controller = new ScopeSelectionController();
-
-        String redirectURL = controller.scopeSelection("1", 1L, url);
+        String redirectURL = controller.scopeSelection(1L, url);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, Configuration.SCOPES[0], Configuration.SCOPES[1],
                 Configuration.THIRD_PARTY_CLIENT_ID), redirectURL);
@@ -48,12 +74,44 @@ public class ScopeSelectionControllerTests {
 
     @Test
     public void get_scopeSelection_setsScopeListModel() throws Exception {
-        ScopeSelectionController controller = new ScopeSelectionController();
-
         ModelMap model = new ModelMap();
 
         controller.scopeSelection(new String [] {"scope1", "scope2"}, model);
 
         assertTrue(((List<String>)model.get("scopeList")).size() > 0);
+    }
+
+    @Test
+    public void post_scopeAuthorization_redirects() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+
+        String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
+                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint,
+                Configuration.THIRD_PARTY_CLIENT_ID,
+                Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL,
+                "code",
+                Configuration.SCOPES[0]);
+
+        Authentication principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+
+        assertTrue(controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal).startsWith(expectedRedirectURL));
+    }
+
+    @Test
+    public void post_scopeAuthorization_createsAuthorization() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+
+        AuthorizationService authorizationService = mock(AuthorizationService.class);
+        controller.setAuthorizationService(authorizationService);
+
+        Authentication principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+
+        controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal);
+
+        verify(authorizationService).persist(any(Authorization.class));
     }
 }

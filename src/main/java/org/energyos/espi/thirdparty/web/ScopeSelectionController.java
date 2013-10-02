@@ -16,22 +16,43 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.service.AuthorizationService;
+import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.thirdparty.service.StateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.xml.bind.JAXBException;
+import java.security.Principal;
 import java.util.Arrays;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
-public class ScopeSelectionController {
+public class ScopeSelectionController extends BaseController {
+
+    @Autowired
+    private DataCustodianService dataCustodianService;
+
+    @Autowired
+    private AuthorizationService authorizationService;
+
+    @Autowired
+    @Qualifier("stateService")
+    private StateService stateService;
+
+    @Autowired
+    @Qualifier("THIRD_PARTY_URL")
+    private String thirdPartyURL;
 
     @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
@@ -40,9 +61,45 @@ public class ScopeSelectionController {
         return "/RetailCustomer/ScopeSelection";
     }
 
-    @RequestMapping(value = "/RetailCustomer/{retailCustomerId}/ScopeSelection", method = RequestMethod.POST)
-    public String scopeSelection(@PathVariable String retailCustomerId, @RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
+    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreenWithRetailCustomerId, method = RequestMethod.POST)
+    public String scopeSelection(@RequestParam("Data_custodian") Long dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
+    }
+
+    @RequestMapping(value = Routes.ThirdPartyScopeAuthorization, method = RequestMethod.POST)
+    public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") Long dataCustodianId, Principal principal) throws JAXBException {
+        DataCustodian dataCustodian = dataCustodianService.findById(dataCustodianId);
+
+        Authorization authorization = new Authorization();
+
+        authorization.setDataCustodian(dataCustodian);
+        authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
+        authorization.setAuthorizationServer(dataCustodian.getUrl());
+        authorization.setRetailCustomer(currentCustomer(principal));
+        authorization.setState(stateService.newState());
+
+        authorizationService.persist(authorization);
+
+        return "redirect:" + dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+                "&redirect_uri=" + thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL +
+                "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
+
+    }
+
+    public void setDataCustodianService(DataCustodianService dataCustodianService) {
+        this.dataCustodianService = dataCustodianService;
+    }
+
+    public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    public void setThirdPartyURL(String thirdPartyURL) {
+        this.thirdPartyURL = thirdPartyURL;
     }
 
     private String newScopeParams(String[] scopes) {

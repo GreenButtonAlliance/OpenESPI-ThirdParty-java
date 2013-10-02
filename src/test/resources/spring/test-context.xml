@@ -30,9 +30,16 @@
     </bean>
 
     <bean id="restTemplate" name="restTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
+    <bean id="clientRestTemplate" name="clientRestTemplate" class="org.energyos.espi.thirdparty.mocks.MockClientRestTemplate" autowire-candidate="true"/>
+
+    <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.mocks.MockStateServiceImpl" autowire-candidate="true"/>
 
     <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="http://localhost:8080/DataCustodian/api/feed"/>
+    </bean>
+
+    <bean id="THIRD_PARTY_URL" class="java.lang.String">
+        <constructor-arg value="http://localhost:8080/ThirdParty"/>
     </bean>
 
     <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
