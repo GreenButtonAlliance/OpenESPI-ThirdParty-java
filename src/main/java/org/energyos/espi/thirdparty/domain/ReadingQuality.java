@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "quality"
 })
 @XmlJavaTypeAdapter(ReadingQualityAdapter.class)
-public class ReadingQuality
+public class ReadingQuality extends IdentifiedObject
 {
 
     @XmlElement(required = true)

@@ -37,3 +37,4 @@ Feature: Retail Customers
     And I should see Reading Type
     And I should see Interval Blocks
     And I should see Interval Readings
+    And I should see Reading Qualities

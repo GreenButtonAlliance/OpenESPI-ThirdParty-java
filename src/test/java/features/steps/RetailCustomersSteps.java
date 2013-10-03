@@ -105,4 +105,9 @@ public class RetailCustomersSteps {
         assertTrue(driver.getPageSource().contains("900"));
         assertTrue(driver.getPageSource().contains("965"));
     }
+
+    @Then("^I should see Reading Qualities$")
+    public void I_should_see_Reading_Qualities() throws Throwable {
+        assertTrue(driver.getPageSource().contains("quality1"));
+    }
 }
