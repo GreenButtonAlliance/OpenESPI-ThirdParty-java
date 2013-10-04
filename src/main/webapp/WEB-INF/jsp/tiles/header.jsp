@@ -18,7 +18,7 @@
 
 <security:authentication var="principal" property="principal" />
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -33,10 +33,10 @@
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/usagepoints'/>">Usage Points</a></li>
                         <li><a href="<c:url value='/espi/1_1/RetailCustomer/${principal.id}/DataCustodianList'/>">Data Custodians</a></li>
-                        <li class="active"><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
+                        <li><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
-                        <li class="active"><a id="login" href="<c:url value='/login'/>">Login</a></li>
+                        <li><a id="login" href="<c:url value='/login'/>">Login</a></li>
                     </security:authorize>
                 </ul>
             </div>
