@@ -82,6 +82,9 @@ public class UsagePoint
     @XmlTransient
     private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
 
+    @XmlTransient
+    private List<ElectricPowerQualitySummary> electricPowerQualitySummaries = new ArrayList<>();
+
     public void addMeterReading(MeterReading meterReading)
     {
         meterReadings.add(meterReading);
@@ -184,5 +187,17 @@ public class UsagePoint
 
     public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
         electricPowerUsageSummaries.add(electricPowerUsageSummary);
+    }
+
+    public List<ElectricPowerQualitySummary> getElectricPowerQualitySummaries() {
+        return electricPowerQualitySummaries;
+    }
+
+    public void setElectricPowerQualitySummaries(List<ElectricPowerQualitySummary> electricPowerQualitySummaries) {
+        this.electricPowerQualitySummaries = electricPowerQualitySummaries;
+    }
+
+    public void addElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
+        electricPowerQualitySummaries.add(electricPowerQualitySummary);
     }
 }

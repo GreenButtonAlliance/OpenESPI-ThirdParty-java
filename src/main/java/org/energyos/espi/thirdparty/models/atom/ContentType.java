@@ -72,6 +72,7 @@ import java.util.Map;
         "readingType",
         "intervalBlocks",
         "electricPowerUsageSummary",
+        "electricPowerQualitySummary",
         "content"
 })
 public class ContentType {
@@ -111,22 +112,29 @@ public class ContentType {
     @XmlAnyAttribute
     private Map<QName, String> otherAttributes = new HashMap<QName, String>();
 
-
     @XmlElementRefs({
             @XmlElementRef(name = "ReadingType", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
     private ReadingType readingType;
+
     @XmlElementRefs({
             @XmlElementRef(name = "IntervalBlock", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
     private List<IntervalBlock> intervalBlocks;
+
     @XmlElementRefs({
             @XmlElementRef(name = "ElectricPowerUsageSummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
     private ElectricPowerUsageSummary electricPowerUsageSummary;
+
+    @XmlElementRefs({
+            @XmlElementRef(name = "ElectricPowerQualitySummary", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
+    })
+    @XmlAnyElement(lax = true)
+    private ElectricPowerQualitySummary electricPowerQualitySummary;
 
     public UsagePoint getUsagePoint() {
         return usagePoint;
@@ -307,5 +315,13 @@ public class ContentType {
 
     public void setElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
         this.electricPowerUsageSummary = electricPowerUsageSummary;
+    }
+
+    public ElectricPowerQualitySummary getElectricPowerQualitySummary() {
+        return electricPowerQualitySummary;
+    }
+
+    public void setElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
+        this.electricPowerQualitySummary = electricPowerQualitySummary;
     }
 }
