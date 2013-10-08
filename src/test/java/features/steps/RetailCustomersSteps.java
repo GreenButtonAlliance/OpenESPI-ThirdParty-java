@@ -23,8 +23,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.*;
 
 
 public class RetailCustomersSteps {
@@ -108,6 +108,8 @@ public class RetailCustomersSteps {
 
     @Then("^I should see Reading Qualities$")
     public void I_should_see_Reading_Qualities() throws Throwable {
-        assertTrue(driver.getPageSource().contains("quality1"));
+        WebElement element = driver.findElement(By.cssSelector(".reading-qualities"));
+
+        assertThat(element.getText(), containsString("8"));
     }
 }
