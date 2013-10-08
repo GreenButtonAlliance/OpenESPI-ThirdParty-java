@@ -31,6 +31,7 @@ Feature: Retail Customers
     And I look at my Usage Points page
     And I select Usage Point
     Then I should see Electric Power Usage Summary
+    Then I should see Electric Power Quality Summary
 
     When I select Meter Reading
     Then I should see Meter Reading

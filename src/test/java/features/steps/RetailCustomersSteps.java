@@ -112,4 +112,9 @@ public class RetailCustomersSteps {
 
         assertThat(element.getText(), containsString("8"));
     }
+
+    @Then("^I should see Electric Power Quality Summary$")
+    public void I_should_see_Electric_Power_Quality_Summary() throws Throwable {
+        assertTrue(driver.getPageSource().contains("Quality Summary"));
+    }
 }
