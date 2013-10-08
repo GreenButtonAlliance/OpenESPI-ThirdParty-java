@@ -176,7 +176,7 @@ public class ATOMMarshallerTests {
 
     @Test
     public void unmarshal_givenAtom_returnsFeed() throws IOException, JAXBException {
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
 
         FeedType feed = marshaller.unmarshal(sourceFile.getInputStream());
 

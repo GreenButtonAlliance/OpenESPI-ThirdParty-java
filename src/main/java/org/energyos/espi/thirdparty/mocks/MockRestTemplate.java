@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class MockRestTemplate extends RestTemplate {
 
     public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
-        ClassPathResource sourceFile = new ClassPathResource("/fixtures/15minLP_15Days.xml");
+        ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         String inputStreamString = null;
         try {
             inputStreamString = new Scanner(sourceFile.getInputStream(),"UTF-8").useDelimiter("\\A").next();
