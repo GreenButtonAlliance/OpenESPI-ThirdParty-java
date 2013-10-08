@@ -28,97 +28,91 @@ import java.util.List;
 @Component
 public class UsagePointBuilder {
 
-    public List<UsagePoint> newUsagePoints(FeedType feed) {
-        List<UsagePoint> usagePoints = new ArrayList<>();
-        EntryLookupTable lookup = new EntryLookupTable(feed.getEntries());
+    private EntryLookupTable lookup;
+    private List<UsagePoint> usagePoints;
 
-        associate(feed, lookup, usagePoints);
+    public List<UsagePoint> newUsagePoints(FeedType feed) {
+        usagePoints = new ArrayList<>();
+        lookup = new EntryLookupTable(feed.getEntries());
+
+        associate(feed);
 
         return usagePoints;
     }
 
-    private void associate(FeedType feed, EntryLookupTable lookup, List<UsagePoint> usagePoints) {
+    private void associate(FeedType feed) {
         for (EntryType entry : feed.getEntries()) {
             ContentType content = entry.getContent();
 
             if (content.getUsagePoint() != null) {
-                handleUsagePoint(entry, usagePoints);
-            } else if (content.getMeterReading() != null ) {
-                handleMeterReading(entry, lookup);
-            } else if (content.getReadingType() != null ) {
-                handleReadingType(entry);
+                handle(entry, content.getUsagePoint());
+            } else if (content.getMeterReading() != null) {
+                handle(entry, content.getMeterReading());
+            } else if (content.getReadingType() != null) {
+                handle(entry, content.getReadingType());
             } else if (content.getIntervalBlocks() != null) {
-                handleIntervalBlocks(entry, lookup);
+                for (IntervalBlock intervalBlock : content.getIntervalBlocks())
+                    handle(entry, intervalBlock);
             } else if (content.getElectricPowerUsageSummary() != null) {
-                handleElectricPowerUsageSummary(entry, lookup);
+                handle(entry, content.getElectricPowerUsageSummary());
             } else if (content.getElectricPowerQualitySummary() != null) {
-                handleElectricPowerQualitySummary(entry, lookup);
+                handle(entry, content.getElectricPowerQualitySummary());
             }
         }
     }
 
-    private void handleUsagePoint(EntryType entry, List<UsagePoint> usagePoints) {
-        UsagePoint usagePoint = entry.getContent().getUsagePoint();
-
-        usagePoint.setDescription(entry.getTitle());
-        usagePoint.setMRID(entry.getId().getValue());
+    private void handle(EntryType entry, UsagePoint usagePoint) {
+        updateEntity(usagePoint, entry);
 
         usagePoints.add(usagePoint);
     }
 
-    private void handleMeterReading(EntryType entry, EntryLookupTable lookup) {
-        MeterReading meterReading = entry.getContent().getMeterReading();
-
-        meterReading.setDescription(entry.getTitle());
-        meterReading.setMRID(entry.getId().getValue());
-
-        meterReading.setReadingType(findReadingType(entry, lookup));
+    private void handle(EntryType entry, MeterReading meterReading) {
+        updateEntity(meterReading, entry);
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
-        usagePointEntry.getContent().getUsagePoint().getMeterReadings().add(meterReading);
+        usagePointEntry.getContent().getUsagePoint().addMeterReading(meterReading);
+
+        meterReading.setReadingType(findReadingType(entry));
+        findReadingType(entry);
     }
 
-    private void handleReadingType(EntryType entry) {
-        ReadingType readingType = entry.getContent().getReadingType();
-
-        readingType.setDescription(entry.getTitle());
-        readingType.setMRID(entry.getId().getValue());
+    private void handle(EntryType entry, ReadingType readingType) {
+        updateEntity(readingType, entry);
     }
 
-    private void handleIntervalBlocks(EntryType entry, EntryLookupTable lookup) {
+    private void handle(EntryType entry, IntervalBlock intervalBlock) {
+        updateEntity(intervalBlock, entry);
+
         MeterReading meterReading = lookup.getUpEntry(entry).getContent().getMeterReading();
-
-        for (IntervalBlock intervalBlock : entry.getContent().getIntervalBlocks()) {
-            meterReading.addIntervalBlock(intervalBlock);
-        }
+        meterReading.addIntervalBlock(intervalBlock);
     }
 
-    private void handleElectricPowerUsageSummary(EntryType entry, EntryLookupTable lookup) {
-        ElectricPowerUsageSummary electricPowerUsageSummary = entry.getContent().getElectricPowerUsageSummary();
-
-        electricPowerUsageSummary.setDescription(entry.getTitle());
-        electricPowerUsageSummary.setMRID(entry.getId().getValue());
+    private void handle(EntryType entry, ElectricPowerUsageSummary electricPowerUsageSummary) {
+        updateEntity(electricPowerUsageSummary, entry);
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().addElectricPowerUsageSummary(electricPowerUsageSummary);
     }
 
-    private void handleElectricPowerQualitySummary(EntryType entry, EntryLookupTable lookup) {
-        ElectricPowerQualitySummary electricPowerQualitySummary = entry.getContent().getElectricPowerQualitySummary();
-
-        electricPowerQualitySummary.setDescription(entry.getTitle());
-        electricPowerQualitySummary.setMRID(entry.getId().getValue());
+    private void handle(EntryType entry, ElectricPowerQualitySummary electricPowerQualitySummary) {
+        updateEntity(electricPowerQualitySummary, entry);
 
         EntryType usagePointEntry = lookup.getUpEntry(entry);
         usagePointEntry.getContent().getUsagePoint().addElectricPowerQualitySummary(electricPowerQualitySummary);
     }
 
-    private ReadingType findReadingType(EntryType entry, EntryLookupTable lookup) {
+    private ReadingType findReadingType(EntryType entry) {
         for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
             if (relatedEntry != entry) {
                 return relatedEntry.getContent().getReadingType();
             }
         }
         return null;
+    }
+
+    private void updateEntity(IdentifiedObject entity, EntryType entry) {
+        entity.setMRID(entry.getId().getValue());
+        entity.setDescription(entry.getTitle());
     }
 }
