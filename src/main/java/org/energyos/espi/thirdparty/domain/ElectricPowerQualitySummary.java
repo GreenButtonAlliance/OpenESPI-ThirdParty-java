@@ -24,10 +24,13 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
 /**
@@ -81,6 +84,7 @@ import javax.xml.bind.annotation.XmlType;
     "supplyVoltageVariations",
     "tempOvervoltage"
 })
+@XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerQualitySummary
     extends IdentifiedObject
 {
