@@ -59,6 +59,16 @@
                 <profile>heroku</profile>
             </properties>
         </profile>
+
+        <profile>
+            <id>ec2</id>
+            <properties>
+                <datacustodian.base.url>http://54.200.90.158:8080/DataCustodian</datacustodian.base.url>
+                <thirdparty.base.url>http://54.200.90.158:8080/ThirdParty</thirdparty.base.url>
+                <template>oauthTemplate</template>
+                <profile>ec2</profile>
+            </properties>
+        </profile>
     </profiles>
 
     <properties>
