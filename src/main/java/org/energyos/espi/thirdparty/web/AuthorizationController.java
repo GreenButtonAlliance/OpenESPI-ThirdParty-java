@@ -20,10 +20,12 @@ import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
@@ -45,16 +47,20 @@ public class AuthorizationController extends BaseController {
     @RequestMapping(value = Routes.ThirdPartyOAuthCodeCallbackURL, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal) {
         Authorization authorization = service.findByState(state);
+        authorization.setAuthorizationServer(Routes.AuthorizationServerAuthorizationEndpoint);
+        authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
+
         DataCustodian dataCustodian = authorization.getDataCustodian();
 
         String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code", dataCustodian.getUrl(),
                 Routes.AuthorizationServerTokenEndpoint, thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL, code);
 
-        AccessToken token = template.getForObject(url, AccessToken.class);
-
-        authorization.setAccessToken(token.getAccessToken());
-        authorization.setAuthorizationServer(Routes.AuthorizationServerAuthorizationEndpoint);
-        authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
+        try {
+            AccessToken token = template.getForObject(url, AccessToken.class);
+            authorization.setAccessToken(token.getAccessToken());
+        } catch (HttpClientErrorException x) {
+            throw new UserDeniedAuthorizationException("Unable to retrieve OAuth token", x);
+        }
 
         service.merge(authorization);
 

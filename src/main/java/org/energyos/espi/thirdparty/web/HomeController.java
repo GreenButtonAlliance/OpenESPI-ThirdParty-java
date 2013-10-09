@@ -42,10 +42,6 @@ public class HomeController {
         return index(principal);
     }
 
-    private RetailCustomer currentCustomer(Principal principal) {
-        return (RetailCustomer) ((Authentication) principal).getPrincipal();
-    }
-
     @RequestMapping(value = "/TermsOfService", method = RequestMethod.GET)
     public String termsOfService() {
         return "/TermsOfService";
@@ -55,4 +51,9 @@ public class HomeController {
     public String usagePolicy() {
         return "/UsagePolicy";
     }
+
+    private RetailCustomer currentCustomer(Principal principal) {
+        return (RetailCustomer) ((Authentication) principal).getPrincipal();
+    }
+
 }

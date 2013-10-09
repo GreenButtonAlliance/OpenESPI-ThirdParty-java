@@ -64,7 +64,12 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
     }
 
     private String requestUsagePoints() {
+        try {
         return template.getForObject(apiFeedURL, String.class);
+        } catch(Exception x) {
+            System.out.println(x);
+            throw x;
+        }
     }
 
     private FeedType unmarshallFeedType(String  xml) throws JAXBException {

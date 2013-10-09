@@ -49,4 +49,14 @@
     </bean>
 
     <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.service.impl.StateServiceImpl" autowire-candidate="true"/>
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="excludedExceptions" value="org.springframework.security.oauth2.client.resource.UserRedirectRequiredException"/>
+        <property name="defaultErrorView" value="error"/>
+        <property name="exceptionMappings">
+            <props>
+                <prop key=".UserDeniedAuthorizationException">redirect:/home</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
