@@ -38,7 +38,7 @@ public class RetailCustomer implements UserDetails, Principal {
 
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
     public static final String QUERY_FIND_BY_USERNAME = "RetailCustomer.findByUsername";
-    public final static String ROLE_USER  = "ROLE_USER";
+    public final static String ROLE_CUSTOMER = "ROLE_CUSTOMER";
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
@@ -61,7 +61,7 @@ public class RetailCustomer implements UserDetails, Principal {
     private Boolean enabled = Boolean.TRUE;
 
     @NotEmpty
-    private String role = ROLE_USER;
+    private String role = ROLE_CUSTOMER;
 
     public Long getId() {
         return id;

@@ -14,34 +14,39 @@
   ~    limitations under the License.
   -->
 
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:security="http://www.springframework.org/schema/security"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <security:http use-expressions="true">
+    <http use-expressions="true">
+        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/home" access="permitAll" />
+        <intercept-url pattern="/TermsOfService" access="permitAll" />
+        <intercept-url pattern="/UsagePolicy" access="permitAll" />
+        <intercept-url pattern="/login*" access="permitAll"/>
 
-        <security:intercept-url pattern="/home" access="permitAll"/>
-        <security:intercept-url pattern="/css/**" access="permitAll"/>
-        <security:intercept-url pattern="/ico/**" access="permitAll"/>
-        <security:intercept-url pattern="/img/**" access="permitAll"/>
-        <security:intercept-url pattern="/js/**" access="permitAll"/>
+        <intercept-url pattern="/resources/**" access="permitAll"/>
 
-        <security:form-login login-page="/login" default-target-url="/"/>
-        <security:logout logout-success-url="/" delete-cookies="JSESSIONID"/>
-        <security:remember-me/>
-        <security:session-management invalid-session-url="/">
-            <security:concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login"/>
-        </security:session-management>
-        <security:anonymous />
-        <security:custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+        <intercept-url pattern="/**"  access="hasRole('ROLE_CUSTOMER')" />
+        <intercept-url pattern="/espi/1_1/RetailCustomer/**"  access="hasRole('ROLE_CUSTOMER')" />
 
-    </security:http>
+        <form-login login-page="/login" default-target-url="/"/>
+        <logout logout-success-url="/" delete-cookies="JSESSIONID"/>
+
+        <session-management invalid-session-url="/">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="false" expired-url="/login"/>
+        </session-management>
+
+        <anonymous />
+        <remember-me/>
+        <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+    </http>
 
     <authentication-manager xmlns="http://www.springframework.org/schema/security">
-        <security:authentication-provider user-service-ref="retailCustomerServiceImpl"/>
+        <authentication-provider user-service-ref="retailCustomerServiceImpl"/>
     </authentication-manager>
-
-</beans>
+</beans:beans>
