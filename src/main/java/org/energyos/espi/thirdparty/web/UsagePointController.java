@@ -20,6 +20,7 @@ import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,6 +32,7 @@ import javax.xml.bind.JAXBException;
 
 @Controller
 @RequestMapping("/usagepoints")
+@PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class UsagePointController {
 
     @Autowired

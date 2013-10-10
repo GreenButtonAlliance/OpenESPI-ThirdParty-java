@@ -2,6 +2,7 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.service.MeterReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import javax.xml.bind.JAXBException;
 
 @Controller
 @RequestMapping("/meterreadings")
+@PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class MeterReadingController {
     @Autowired
     private MeterReadingService meterReadingService;
