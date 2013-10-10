@@ -14,28 +14,3 @@ Feature: Retail Customers
 
     When I log in with invalid credentials
     Then I should see the login form
-
-  @mockedDataCustodian
-  Scenario: Retail Customer views Usage Points
-    Given I have a Retail Customer account
-
-    When I log in as Alan Turing
-    And I look at my Usage Points page
-    Then I should see Usage Point with title "Front Electric Meter"
-
-  @mockedDataCustodian
-  Scenario: Retail Customer views Usage Points with Meter Readings
-    Given I have a Retail Customer account
-
-    When I log in as Alan Turing
-    And I look at my Usage Points page
-    And I select Usage Point
-    Then I should see Electric Power Usage Summary
-    Then I should see Electric Power Quality Summary
-
-    When I select Meter Reading
-    Then I should see Meter Reading
-    And I should see Reading Type
-    And I should see Interval Blocks
-    And I should see Interval Readings
-    And I should see Reading Qualities
