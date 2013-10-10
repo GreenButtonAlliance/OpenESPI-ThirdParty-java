@@ -37,7 +37,7 @@ import java.security.Principal;
 import java.util.Arrays;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_USER')")
+@PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class ScopeSelectionController extends BaseController {
 
     @Autowired
