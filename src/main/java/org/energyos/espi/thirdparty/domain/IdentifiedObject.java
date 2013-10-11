@@ -29,6 +29,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.xml.bind.annotation.*;
+import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -54,33 +56,40 @@ import javax.xml.bind.annotation.*;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "IdentifiedObject", propOrder = {
-    "mrid",
-    "description"
-})
+@XmlType(name = "IdentifiedObject")
 @XmlSeeAlso({
-    MeterReading.class,
-    UsagePoint.class,
-    ElectricPowerUsageSummary.class,
-    TimeConfiguration.class,
-    ApplicationInformation.class,
-    Authorization.class,
-    Subscription.class,
-    ElectricPowerQualitySummary.class,
-    IntervalBlock.class,
-    ReadingType.class
+        MeterReading.class,
+        UsagePoint.class,
+        ElectricPowerUsageSummary.class,
+        TimeConfiguration.class,
+        ApplicationInformation.class,
+        Authorization.class,
+        Subscription.class,
+        ElectricPowerQualitySummary.class,
+        IntervalBlock.class,
+        ReadingType.class
 })
 @MappedSuperclass
 public class IdentifiedObject
-    extends Resource
+        extends Resource
 {
-    @XmlElement(name = "mRID")
+    @XmlTransient
     protected String mrid;
+
+    @XmlTransient
     protected String description;
+
+    @XmlTransient
+    protected String uuid;
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @XmlTransient
     protected Long id;
+
+    @XmlTransient
+    protected Date created = new Date();
+    @XmlTransient
+    protected Date updated = new Date();
 
     public Long getId() {
         return id;
@@ -99,7 +108,9 @@ public class IdentifiedObject
      *
      */
     public String getMRID() {
-        return mrid;
+        if (uuid == null)
+            return null;
+        return "urn:uuid:" + uuid;
     }
 
     /**
@@ -111,7 +122,7 @@ public class IdentifiedObject
      *
      */
     public void setMRID(String value) {
-        this.mrid = value;
+        this.uuid = value.replace("urn:uuid:", "").toUpperCase();
     }
 
     /**
@@ -138,4 +149,29 @@ public class IdentifiedObject
         this.description = value;
     }
 
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public void setUUID(UUID uuid) {
+        this.uuid = uuid.toString().toUpperCase();
+    }
+
+    public UUID getUUID() {
+        if (uuid != null)
+            return UUID.fromString(uuid);
+        return null;
+    }
 }
