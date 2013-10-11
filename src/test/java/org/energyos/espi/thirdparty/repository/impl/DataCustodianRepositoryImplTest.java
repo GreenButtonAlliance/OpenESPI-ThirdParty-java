@@ -22,9 +22,7 @@ public class DataCustodianRepositoryImplTest {
     @Test
     @Transactional
     public void findById() throws Exception {
-        DataCustodian dataCustodian = new DataCustodian();
-        dataCustodian.setDescription("Description");
-        dataCustodian.setUrl("URL");
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         repository.persist(dataCustodian);
 
         assertEquals(dataCustodian.getId(), repository.findById(dataCustodian.getId()).getId());

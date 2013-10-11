@@ -53,7 +53,7 @@
                         <tr>
                             <td>
                                 <label>
-                                    <input type="radio" name="Data_custodian" value="${dataCustodian.id}" data-data-custodian-url="${dataCustodian.scopeSelectionURL}" class="data-custodian" />
+                                    <input type="radio" name="Data_custodian" value="${dataCustodian.clientId}" data-data-custodian-url="${dataCustodian.scopeSelectionURL}" class="data-custodian" />
                                     <c:out value="${dataCustodian.description}"/>
                                 </label>
                             </td>

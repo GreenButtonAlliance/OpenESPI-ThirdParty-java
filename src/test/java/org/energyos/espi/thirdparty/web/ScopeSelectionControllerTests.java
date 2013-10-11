@@ -36,7 +36,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class ScopeSelectionControllerTests extends BaseTest {
@@ -59,7 +58,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
     public void post_scopeSelection_redirects() throws Exception {
         String url = "DataCustodianURL";
 
-        String redirectURL = controller.scopeSelection(1L, url);
+        String redirectURL = controller.scopeSelection(url);
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, Configuration.SCOPES[0], Configuration.SCOPES[1],
                 Configuration.THIRD_PARTY_CLIENT_ID), redirectURL);
@@ -84,7 +83,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
     @Test
     public void post_scopeAuthorization_redirects() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+        when(dataCustodianService.findByClientId(eq(dataCustodian.getClientId()))).thenReturn(dataCustodian);
 
         String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
                 dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint,
@@ -96,13 +95,13 @@ public class ScopeSelectionControllerTests extends BaseTest {
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        assertTrue(controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal).startsWith(expectedRedirectURL));
+        assertTrue(controller.scopeAuthorization(Configuration.SCOPES[0], dataCustodian.getClientId(), principal).startsWith(expectedRedirectURL));
     }
 
     @Test
     public void post_scopeAuthorization_createsAuthorization() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        when(dataCustodianService.findById(anyLong())).thenReturn(dataCustodian);
+        when(dataCustodianService.findByClientId(eq(dataCustodian.getClientId()))).thenReturn(dataCustodian);
 
         AuthorizationService authorizationService = mock(AuthorizationService.class);
         controller.setAuthorizationService(authorizationService);
@@ -110,7 +109,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        controller.scopeAuthorization(Configuration.SCOPES[0], 1L, principal);
+        controller.scopeAuthorization(Configuration.SCOPES[0], dataCustodian.getClientId(), principal);
 
         verify(authorizationService).persist(any(Authorization.class));
     }

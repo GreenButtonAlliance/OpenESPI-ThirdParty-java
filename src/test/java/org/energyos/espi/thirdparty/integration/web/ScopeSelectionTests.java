@@ -119,7 +119,7 @@ public class ScopeSelectionTests {
         String scope = Configuration.SCOPES[0];
 
         mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
-                .param("scope", scope).param("DataCustodianID", dataCustodian.getId().toString()))
+                .param("scope", scope).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(status().is(302));
     }
 
@@ -134,7 +134,7 @@ public class ScopeSelectionTests {
                 Configuration.SCOPES[0], stateService.newState());
 
         mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
-                .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getId().toString()))
+                .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(redirectedUrl(redirectURL));
     }
 }

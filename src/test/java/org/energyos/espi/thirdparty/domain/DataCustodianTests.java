@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
@@ -21,9 +22,7 @@ public class DataCustodianTests {
     public void isValid() throws Exception {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        DataCustodian dataCustodian = new DataCustodian();
-        dataCustodian.setDescription("Description");
-        dataCustodian.setUrl("url");
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
 
         Set<ConstraintViolation<DataCustodian>> violations = validator.validate(dataCustodian);
 

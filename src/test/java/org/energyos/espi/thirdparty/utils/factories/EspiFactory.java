@@ -21,6 +21,7 @@ public class EspiFactory {
         DataCustodian dataCustodian = new DataCustodian();
         dataCustodian.setDescription("Description" + System.currentTimeMillis());
         dataCustodian.setUrl("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
+        dataCustodian.setClientId("clientId" + System.currentTimeMillis());
 
         return dataCustodian;
     }
