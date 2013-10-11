@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.xml.bind.JAXBException;
 
 @Controller
-@RequestMapping("/usagepoints")
+@RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class UsagePointController {
 
@@ -46,7 +46,7 @@ public class UsagePointController {
         return usagePointService.findAllByRetailCustomer(customer);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String index() {
         return "/usagepoints/index";
     }

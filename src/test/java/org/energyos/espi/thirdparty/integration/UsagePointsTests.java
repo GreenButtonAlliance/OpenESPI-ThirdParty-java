@@ -39,6 +39,7 @@ public class UsagePointsTests {
 
     private MockMvc mockMvc;
     private static final String UUID = "urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2";
+    private static final int RETAIL_CUSTOMER_ID = 1;
 
     @Autowired
     protected WebApplicationContext wac;
@@ -50,34 +51,35 @@ public class UsagePointsTests {
 
     @Test
     public void index_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/usagepoints")).andExpect(status().isOk());
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(status().isOk());
     }
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        mockMvc.perform(get("/usagepoints")).andExpect(view().name("/usagepoints/index"));
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(view().name("/usagepoints/index"));
     }
 
     @Test
     public void index_setsUsagePointListModel() throws Exception {
-        mockMvc.perform(get("/usagepoints")).andExpect(model().attributeExists("usagePointList"));
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(model().attributeExists("usagePointList"));
     }
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+        String foo = "bar";
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/" + UUID + "/show"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/" + UUID + "/show"))
                 .andExpect(view().name("/usagepoints/show"));
     }
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/usagepoints/" + UUID + "/show"))
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/" + UUID + "/show"))
                 .andExpect(model().attributeExists("usagePoint"));
     }
 }

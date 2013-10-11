@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -14,6 +15,8 @@
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
   --%>
+
+<security:authentication var="principal" property="principal" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +43,7 @@
                 <c:forEach var="usagePoint" items="${usagePointList}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/usagepoints/${usagePoint.MRID}/show'/>">
+                            <a href="<c:url value='/RetailCustomer/${principal.id}/UsagePoint/${usagePoint.UUID}/show'/>">
                                 <c:out value="${usagePoint.description}"/>
                             </a>
                         </td>
