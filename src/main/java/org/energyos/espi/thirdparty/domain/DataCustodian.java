@@ -22,6 +22,10 @@ public class DataCustodian {
     @NotEmpty
     private String description;
 
+    @Column(name = "client_id")
+    @NotEmpty
+    private String clientId;
+
     @NotEmpty
     private String url;
 
@@ -43,6 +47,14 @@ public class DataCustodian {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public void setUrl(String url) {

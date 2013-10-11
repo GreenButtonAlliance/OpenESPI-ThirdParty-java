@@ -12,6 +12,7 @@ import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertAnnotationPresent;
+import static org.energyos.espi.thirdparty.utils.TestUtils.assertColumnAnnotation;
 import static org.junit.Assert.assertFalse;
 
 public class DataCustodianTests {
@@ -44,6 +45,12 @@ public class DataCustodianTests {
     public void id() {
         assertAnnotationPresent(DataCustodian.class, "id", Id.class);
         assertAnnotationPresent(DataCustodian.class, "id", GeneratedValue.class);
+    }
+
+    @Test
+    public void clientId() {
+        assertColumnAnnotation(DataCustodian.class, "clientId", "client_id");
+        assertAnnotationPresent(DataCustodian.class, "clientId", NotEmpty.class);
     }
 
     @Test
