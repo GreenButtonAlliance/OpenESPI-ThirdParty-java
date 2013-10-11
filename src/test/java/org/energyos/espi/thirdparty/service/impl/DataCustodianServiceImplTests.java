@@ -44,4 +44,11 @@ public class DataCustodianServiceImplTests {
 
         verify(repository).persist(dataCustodian);
     }
+
+    @Test
+    public void findByClientId() {
+        service.findByClientId("clientId");
+
+        verify(repository).findByClientId("clientId");
+    }
 }

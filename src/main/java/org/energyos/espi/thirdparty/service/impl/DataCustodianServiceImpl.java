@@ -33,4 +33,9 @@ public class DataCustodianServiceImpl implements DataCustodianService {
     public void persist(DataCustodian dataCustodian) {
         repository.persist(dataCustodian);
     }
+
+    @Override
+    public DataCustodian findByClientId(String clientId) {
+        return repository.findByClientId(clientId);
+    }
 }
