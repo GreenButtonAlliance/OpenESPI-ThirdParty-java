@@ -10,11 +10,14 @@ import javax.persistence.*;
         @NamedQuery(name = DataCustodian.QUERY_FIND_ALL,
                 query = "SELECT custodian FROM DataCustodian custodian"),
         @NamedQuery(name = DataCustodian.QUERY_FIND_BY_ID,
-            query = "SELECT custodian FROM DataCustodian custodian WHERE custodian.id = :id")
+            query = "SELECT custodian FROM DataCustodian custodian WHERE custodian.id = :id"),
+        @NamedQuery(name = DataCustodian.QUERY_FIND_BY_CLIENT_ID,
+            query = "SELECT custodian FROM DataCustodian custodian WHERE custodian.clientId = :clientId")
 })
 public class DataCustodian {
     public static final String QUERY_FIND_ALL = "DataCustodian.findAll";
     public static final String QUERY_FIND_BY_ID = "DataCustodian.findById";
+    public static final String QUERY_FIND_BY_CLIENT_ID = "DataCustodian.findByClientId";
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

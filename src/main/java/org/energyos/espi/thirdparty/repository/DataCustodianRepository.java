@@ -10,4 +10,6 @@ public interface DataCustodianRepository {
     List<DataCustodian> findAll();
 
     void persist(DataCustodian dataCustodian);
+
+    DataCustodian findByClientId(String clientId);
 }

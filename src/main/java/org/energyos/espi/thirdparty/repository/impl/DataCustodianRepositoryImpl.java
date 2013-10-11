@@ -29,4 +29,10 @@ public class DataCustodianRepositoryImpl implements DataCustodianRepository {
     public void persist(DataCustodian dataCustodian) {
        em.persist(dataCustodian);
     }
+
+    @Override
+    public DataCustodian findByClientId(String clientId) {
+        return (DataCustodian)em.createNamedQuery(DataCustodian.QUERY_FIND_BY_CLIENT_ID)
+                .setParameter("clientId", clientId).getSingleResult();
+    }
 }

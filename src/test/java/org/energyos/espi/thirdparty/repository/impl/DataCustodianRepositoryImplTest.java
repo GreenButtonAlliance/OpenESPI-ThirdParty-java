@@ -38,4 +38,13 @@ public class DataCustodianRepositoryImplTest {
 
         assertEquals(2, repository.findAll().size());
     }
+
+    @Test
+    @Transactional
+    public void findByClientId() throws Exception {
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        repository.persist(dataCustodian);
+
+        assertEquals(dataCustodian.getId(), repository.findByClientId(dataCustodian.getClientId()).getId());
+    }
 }
