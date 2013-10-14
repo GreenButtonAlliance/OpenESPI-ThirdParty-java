@@ -11,6 +11,10 @@ public class AccessToken {
     private Long expiresIn;
     @JsonProperty("scope")
     private String scope;
+    @JsonProperty("resource")
+    private String resource;
+    @JsonProperty("authorization")
+    private String authorization;
 
     public String getAccessToken() {
         return accessToken;
@@ -42,5 +46,21 @@ public class AccessToken {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getResource() {
+        return resource;
+    }
+
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
+    public String getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
     }
 }
