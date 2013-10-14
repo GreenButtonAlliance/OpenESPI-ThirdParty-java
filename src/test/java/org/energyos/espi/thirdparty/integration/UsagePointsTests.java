@@ -16,17 +16,21 @@
 
 package org.energyos.espi.thirdparty.integration;
 
+import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -41,27 +45,39 @@ public class UsagePointsTests {
     private static final String UUID = "7BC41774-7190-4864-841C-861AC76D46C2";
     private static final int RETAIL_CUSTOMER_ID = 1;
 
+    private TestingAuthenticationToken authentication;
+    private RetailCustomer customer;
+
     @Autowired
     protected WebApplicationContext wac;
 
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
+        customer = mock(RetailCustomer.class);
+        when(customer.getId()).thenReturn(1L);
+        authentication = new TestingAuthenticationToken(customer, null);
     }
 
     @Test
     public void index_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(status().isOk());
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")
+                .principal(authentication))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(view().name("/usagepoints/index"));
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")
+                .principal(authentication))
+                .andExpect(view().name("/usagepoints/index"));
     }
 
     @Test
     public void index_setsUsagePointListModel() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")).andExpect(model().attributeExists("usagePointList"));
+        mockMvc.perform(get("/RetailCustomer/" + RETAIL_CUSTOMER_ID + "/UsagePoint/show")
+                .principal(authentication))
+                .andExpect(model().attributeExists("usagePointList"));
     }
 
     @Test

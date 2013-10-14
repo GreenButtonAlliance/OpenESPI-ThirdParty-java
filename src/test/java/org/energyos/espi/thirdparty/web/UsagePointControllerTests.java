@@ -23,10 +23,10 @@ import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.JAXBException;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -46,7 +46,19 @@ public class UsagePointControllerTests {
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        assertEquals("/usagepoints/index", controller.index());
+        assertEquals("/usagepoints/index", controller.index(mock(ModelMap.class), mock(Authentication.class)));
+    }
+
+    @Test
+    public void index_findsUsagePointsForLoggedInCustomer() throws JAXBException {
+
+        RetailCustomer customer = new RetailCustomer();
+
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(customer);
+
+        controller.index(mock(ModelMap.class), authentication);
+        verify(service).findAllByRetailCustomer(customer);
     }
 
     @Test
@@ -62,13 +74,5 @@ public class UsagePointControllerTests {
 
         controller.show(uuid, mock(ModelMap.class));
         verify(service).findByUUID(UUID.fromString(uuid));
-    }
-
-    @Test
-    public void usagePoints_returnsUsagePointList() throws Exception {
-        List<UsagePoint> points = new ArrayList<UsagePoint>();
-        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
-
-        assertEquals(controller.usagePoints(), points);
     }
 }
