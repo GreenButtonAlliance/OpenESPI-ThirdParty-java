@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.xml.bind.JAXBException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
@@ -56,8 +57,8 @@ public class UsagePointController {
     }
 
     @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)
-    public String show(@PathVariable String usagePointId, ModelMap model) throws JAXBException {
-        model.put("usagePoint", usagePointService.findById(usagePointId));
+    public String show(@PathVariable String uuid, ModelMap model) throws JAXBException {
+        model.put("usagePoint", usagePointService.findByUUID(UUID.fromString(uuid)));
         return "/usagepoints/show";
     }
 }

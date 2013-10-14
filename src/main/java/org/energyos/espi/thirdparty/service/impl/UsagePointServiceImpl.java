@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UsagePointServiceImpl implements UsagePointService {
@@ -43,5 +44,10 @@ public class UsagePointServiceImpl implements UsagePointService {
     @Override
     public UsagePoint findById(String usagePointId) throws JAXBException {
         return repository.findById(usagePointId);
+    }
+
+    @Override
+    public UsagePoint findByUUID(UUID uuid) {
+        return null;
     }
 }

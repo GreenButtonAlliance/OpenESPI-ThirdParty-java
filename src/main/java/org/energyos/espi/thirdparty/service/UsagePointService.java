@@ -23,6 +23,7 @@ import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;
+import java.util.UUID;
 
 public interface UsagePointService {
     void setRepository(UsagePointRepository repository);
@@ -30,4 +31,6 @@ public interface UsagePointService {
     List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException;
 
     UsagePoint findById(String usagePointId) throws JAXBException;
+
+    UsagePoint findByUUID(UUID uuid);
 }
