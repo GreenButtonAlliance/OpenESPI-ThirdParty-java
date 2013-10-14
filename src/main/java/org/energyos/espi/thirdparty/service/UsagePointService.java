@@ -32,5 +32,5 @@ public interface UsagePointService {
 
     UsagePoint findById(String usagePointId) throws JAXBException;
 
-    UsagePoint findByUUID(UUID uuid);
+    UsagePoint findByUUID(UUID uuid) throws JAXBException;
 }

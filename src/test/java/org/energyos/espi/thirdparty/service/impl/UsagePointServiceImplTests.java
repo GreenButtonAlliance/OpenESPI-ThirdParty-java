@@ -11,6 +11,7 @@ import org.junit.Test;
 import javax.xml.bind.JAXBException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -46,5 +47,14 @@ public class UsagePointServiceImplTests {
         when(repository.findById(any(String.class))).thenReturn(usagePoint);
 
         assertEquals(usagePoint, service.findById("1"));
+    }
+
+    @Test
+    public void findByUUID_returnsUsagePoint() throws JAXBException {
+        UsagePoint usagePoint = Factory.newUsagePoint();
+
+        when(repository.findByUUID(any(UUID.class))).thenReturn(usagePoint);
+
+        assertEquals(usagePoint, service.findByUUID(usagePoint.getUUID()));
     }
 }

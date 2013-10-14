@@ -47,7 +47,7 @@ public class UsagePointServiceImpl implements UsagePointService {
     }
 
     @Override
-    public UsagePoint findByUUID(UUID uuid) {
-        return null;
+    public UsagePoint findByUUID(UUID uuid) throws JAXBException {
+        return repository.findByUUID(uuid);
     }
 }
