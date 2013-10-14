@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/energyos/OpenESPI-ThirdParty-java.png)](https://travis-ci.org/energyos/OpenESPI-ThirdParty-java)
+
 OpenESPI-ThirdParty
 ======================
 
