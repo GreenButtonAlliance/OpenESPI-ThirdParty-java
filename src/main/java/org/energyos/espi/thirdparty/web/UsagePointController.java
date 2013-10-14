@@ -17,47 +17,43 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.xml.bind.JAXBException;
+import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-public class UsagePointController {
+public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointService usagePointService;
 
-    @ModelAttribute
-    public java.util.List<UsagePoint> usagePoints() throws JAXBException {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(1L);
+    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    public String index(ModelMap model, Principal principal) throws JAXBException {
+        RetailCustomer currentCustomer = currentCustomer(principal);
+        model.put("usagePointList", usagePointService.findAllByRetailCustomer(currentCustomer));
 
-        return usagePointService.findAllByRetailCustomer(customer);
+        return "/usagepoints/index";
     }
 
-    @RequestMapping(value = "/show", method = RequestMethod.GET)
-    public String index() {
-        return "/usagepoints/index";
+    @RequestMapping(value = "{uuid}/show", method = RequestMethod.GET)
+    public String show(@PathVariable String uuid, ModelMap model) throws JAXBException {
+        model.put("usagePoint", usagePointService.findByUUID(UUID.fromString(uuid)));
+
+        return "/usagepoints/show";
     }
 
     public void setUsagePointService(UsagePointService usagePointService) {
         this.usagePointService = usagePointService;
-    }
-
-    @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)
-    public String show(@PathVariable String usagePointId, ModelMap model) throws JAXBException {
-        model.put("usagePoint", usagePointService.findById(usagePointId));
-        return "/usagepoints/show";
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class UsagePointRepositoryImpl implements UsagePointRepository {
@@ -63,9 +64,22 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         return null;
     }
 
+    @Override
+    public UsagePoint findByUUID(UUID uuid) throws JAXBException {
+        List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+
+        for (UsagePoint usagePoint : usagePoints) {
+            if (usagePoint.getUUID().equals(uuid)) {
+               return usagePoint;
+            }
+        }
+
+        return null;
+    }
+
     private String requestUsagePoints() {
         try {
-        return template.getForObject(apiFeedURL, String.class);
+            return template.getForObject(apiFeedURL, String.class);
         } catch(Exception x) {
             System.out.println(x);
             throw x;

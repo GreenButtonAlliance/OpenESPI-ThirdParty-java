@@ -20,14 +20,16 @@ import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.bind.JAXBException;
+import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
@@ -36,7 +38,7 @@ public class UsagePointControllerTests {
     private UsagePointService service;
 
     @Before
-    public void setupUp() {
+    public void setup() {
         controller = new UsagePointController();
         service = mock(UsagePointServiceImpl.class);
         controller.setUsagePointService(service);
@@ -44,19 +46,33 @@ public class UsagePointControllerTests {
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        assertEquals("/usagepoints/index", controller.index());
+        assertEquals("/usagepoints/index", controller.index(mock(ModelMap.class), mock(Authentication.class)));
+    }
+
+    @Test
+    public void index_findsUsagePointsForLoggedInCustomer() throws JAXBException {
+
+        RetailCustomer customer = new RetailCustomer();
+
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(customer);
+
+        controller.index(mock(ModelMap.class), authentication);
+        verify(service).findAllByRetailCustomer(customer);
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/usagepoints/show", controller.show("1", mock(ModelMap.class)));
+        assertEquals("/usagepoints/show", controller.show("7BC41774-7190-4864-841C-861AC76D46C2", mock(ModelMap.class)));
     }
 
     @Test
-    public void usagePoints_returnsUsagePointList() throws Exception {
-        List<UsagePoint> points = new ArrayList<UsagePoint>();
-        when(service.findAllByRetailCustomer(any(RetailCustomer.class))).thenReturn(points);
+    public void show_findsTheUsagePointByUUID() throws Exception {
+        UsagePoint usagePoint = Factory.newUsagePoint();
+        String uuid = "7BC41774-7190-4864-841C-861AC76D46C2";
+        when(service.findByUUID(UUID.fromString(uuid))).thenReturn(usagePoint);
 
-        assertEquals(controller.usagePoints(), points);
+        controller.show(uuid, mock(ModelMap.class));
+        verify(service).findByUUID(UUID.fromString(uuid));
     }
 }

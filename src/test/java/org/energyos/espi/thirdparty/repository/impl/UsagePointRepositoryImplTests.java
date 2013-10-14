@@ -99,4 +99,18 @@ public class UsagePointRepositoryImplTests {
 
         assertEquals(usagePoint, repository.findById("7BC41774-7190-4864-841C-861AC76D46C2"));
     }
+
+    @Test
+    public void findByUUID_returnsUsagePoint() throws JAXBException {
+        UsagePoint usagePoint = Factory.newUsagePoint();
+
+        List<UsagePoint> usagePoints = new ArrayList<>();
+        usagePoints.add(usagePoint);
+
+        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
+        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
+        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
+
+        assertEquals(usagePoint, repository.findByUUID(usagePoint.getUUID()));
+    }
 }
