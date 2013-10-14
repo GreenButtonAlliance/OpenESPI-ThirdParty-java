@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UsagePointControllerTests {
@@ -51,7 +51,7 @@ public class UsagePointControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/usagepoints/show", controller.show("1", mock(ModelMap.class)));
+        assertEquals("/usagepoints/show", controller.show("7BC41774-7190-4864-841C-861AC76D46C2", mock(ModelMap.class)));
     }
 
     @Test

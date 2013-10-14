@@ -56,7 +56,7 @@ public class UsagePointController {
         this.usagePointService = usagePointService;
     }
 
-    @RequestMapping(value = "{usagePointId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = "{uuid}/show", method = RequestMethod.GET)
     public String show(@PathVariable String uuid, ModelMap model) throws JAXBException {
         model.put("usagePoint", usagePointService.findByUUID(UUID.fromString(uuid)));
         return "/usagepoints/show";
