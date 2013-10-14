@@ -97,6 +97,6 @@ public class UsagePointRepositoryImplTests {
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
         when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
-        assertEquals(usagePoint, repository.findById("urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2"));
+        assertEquals(usagePoint, repository.findById("7BC41774-7190-4864-841C-861AC76D46C2"));
     }
 }

@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class UsagePointsTests {
 
     private MockMvc mockMvc;
-    private static final String UUID = "urn:uuid:7BC41774-7190-4864-841C-861AC76D46C2";
+    private static final String UUID = "7BC41774-7190-4864-841C-861AC76D46C2";
     private static final int RETAIL_CUSTOMER_ID = 1;
 
     @Autowired
