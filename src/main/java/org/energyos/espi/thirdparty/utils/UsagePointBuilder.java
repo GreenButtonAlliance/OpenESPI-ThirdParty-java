@@ -57,12 +57,20 @@ public class UsagePointBuilder {
                 handle(entry, content.getElectricPowerUsageSummary());
             } else if (content.getElectricPowerQualitySummary() != null) {
                 handle(entry, content.getElectricPowerQualitySummary());
+            } else if (content.getLocalTimeParameters() != null) {
+                handle(entry, content.getLocalTimeParameters());
             }
         }
     }
 
+    private void handle(EntryType entry, TimeConfiguration localTimeParameters) {
+        updateEntity(localTimeParameters, entry);
+    }
+
     private void handle(EntryType entry, UsagePoint usagePoint) {
         updateEntity(usagePoint, entry);
+
+        usagePoint.setLocalTimeParameters(findLocalTimeParameters(entry));
 
         usagePoints.add(usagePoint);
     }
@@ -74,7 +82,6 @@ public class UsagePointBuilder {
         usagePointEntry.getContent().getUsagePoint().addMeterReading(meterReading);
 
         meterReading.setReadingType(findReadingType(entry));
-        findReadingType(entry);
     }
 
     private void handle(EntryType entry, ReadingType readingType) {
@@ -106,6 +113,15 @@ public class UsagePointBuilder {
         for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
             if (relatedEntry != entry) {
                 return relatedEntry.getContent().getReadingType();
+            }
+        }
+        return null;
+    }
+
+    private TimeConfiguration findLocalTimeParameters(EntryType entry) {
+        for (EntryType relatedEntry : lookup.getRelatedEntries(entry)) {
+            if (relatedEntry != entry) {
+                return relatedEntry.getContent().getLocalTimeParameters();
             }
         }
         return null;
