@@ -388,6 +388,19 @@
             </resource>
         </resources>
 
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.sql</include>
+                    <include>**/*.feature</include>
+                </includes>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
