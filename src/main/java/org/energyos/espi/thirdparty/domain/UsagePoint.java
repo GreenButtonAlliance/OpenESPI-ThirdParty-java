@@ -85,6 +85,9 @@ public class UsagePoint
     @XmlTransient
     private List<ElectricPowerQualitySummary> electricPowerQualitySummaries = new ArrayList<>();
 
+    @XmlTransient
+    private TimeConfiguration localTimeParameters;
+
     public void addMeterReading(MeterReading meterReading)
     {
         meterReadings.add(meterReading);
@@ -199,5 +202,13 @@ public class UsagePoint
 
     public void addElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
         electricPowerQualitySummaries.add(electricPowerQualitySummary);
+    }
+
+    public TimeConfiguration getLocalTimeParameters() {
+        return localTimeParameters;
+    }
+
+    public void setLocalTimeParameters(TimeConfiguration localTimeParameters) {
+        this.localTimeParameters = localTimeParameters;
     }
 }
