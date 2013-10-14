@@ -24,6 +24,8 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.thirdparty.models.atom.adapters.TimeConfigurationAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -63,6 +65,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "dstStartRule",
     "tzOffset"
 })
+@XmlJavaTypeAdapter(TimeConfigurationAdapter.class)
 public class TimeConfiguration
     extends IdentifiedObject
 {
