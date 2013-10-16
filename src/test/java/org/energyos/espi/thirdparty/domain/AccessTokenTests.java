@@ -20,8 +20,8 @@ public class AccessTokenTests {
                     "\"token_type\":\"bearer\"," +
                     "\"expires_in\":43199," +
                     "\"scope\":\"read write\"," +
-                    "\"resource\":\"ResourceURI\"," +
-                    "\"authorization\":\"AuthorizationURI\"" +
+                    "\"resourceURI\":\"ResourceURI\"," +
+                    "\"authorizationURI\":\"AuthorizationURI\"" +
                 "}").getBytes()));
 
         MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();

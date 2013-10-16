@@ -118,7 +118,7 @@ public class ScopeSelectionTests {
         service.persist(dataCustodian);
         String scope = Configuration.SCOPES[0];
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
+        mockMvc.perform(post(Routes.ThirdPartyScopeSelectionScreen).principal(authentication)
                 .param("scope", scope).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(status().is(302));
     }
@@ -133,7 +133,7 @@ public class ScopeSelectionTests {
                  "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code",
                 Configuration.SCOPES[0], stateService.newState());
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeAuthorization).principal(authentication)
+        mockMvc.perform(post(Routes.ThirdPartyScopeSelectionScreen).principal(authentication)
                 .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(redirectedUrl(redirectURL));
     }

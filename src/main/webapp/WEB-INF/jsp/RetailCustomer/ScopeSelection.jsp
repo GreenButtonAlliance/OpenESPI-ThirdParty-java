@@ -39,7 +39,7 @@
         <div class="span12">
             <h2>Select Scope</h2>
 
-            <form method="POST" action="<c:url value='/RetailCustomer/ScopeAuthorization'/>">
+            <form method="POST" action="<c:url value='/espi/1_1/RetailCustomer/ScopeSelectionList'/>">
                 <table class="table table-striped">
                     <thead>
                     <tr>

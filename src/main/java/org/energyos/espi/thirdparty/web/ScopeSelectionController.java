@@ -66,7 +66,7 @@ public class ScopeSelectionController extends BaseController {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
     }
 
-    @RequestMapping(value = Routes.ThirdPartyScopeAuthorization, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.POST)
     public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") String dataCustodianId, Principal principal) throws JAXBException {
         DataCustodian dataCustodian = dataCustodianService.findByClientId(dataCustodianId);
 

@@ -11,9 +11,9 @@ public class AccessToken {
     private Long expiresIn;
     @JsonProperty("scope")
     private String scope;
-    @JsonProperty("resource")
+    @JsonProperty("resourceURI")
     private String resource;
-    @JsonProperty("authorization")
+    @JsonProperty("authorizationURI")
     private String authorization;
 
     public String getAccessToken() {
