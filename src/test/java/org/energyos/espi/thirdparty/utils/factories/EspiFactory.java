@@ -4,6 +4,8 @@ import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 
+import java.util.UUID;
+
 public class EspiFactory {
     private EspiFactory() {}
 
@@ -32,7 +34,7 @@ public class EspiFactory {
         authorization.setAccessToken("accessToken" + System.currentTimeMillis());
         authorization.setAuthorizationServer("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
         authorization.setThirdParty("thirdParty" + System.currentTimeMillis());
-        authorization.setState("state" + System.currentTimeMillis());
+        authorization.setState("state" + UUID.randomUUID());
         authorization.setRetailCustomer(retailCustomer);
         authorization.setDataCustodian(dataCustodian);
 
