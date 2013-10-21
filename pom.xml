@@ -134,12 +134,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>1.1.0.M1</version>
@@ -209,7 +203,11 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework</groupId>
-                    <artifactId>*</artifactId>
+                    <artifactId>spring-asm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -404,6 +402,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
@@ -412,6 +411,7 @@
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
                 <configuration>
                     <includes>
                         <include>**/*Tests.java</include>
