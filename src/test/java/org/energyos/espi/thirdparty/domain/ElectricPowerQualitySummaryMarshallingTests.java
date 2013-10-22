@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ElectricPowerQualitySummaryTests {
+public class ElectricPowerQualitySummaryMarshallingTests {
 
     static final String XML_INPUT =
         "<ElectricPowerQualitySummary xmlns=\"http://naesb.org/espi\">" +
