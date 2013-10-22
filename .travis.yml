@@ -7,12 +7,3 @@ notifications:
     recipients:
       - greenbutton-dev@googlegroups.com
     on_success: always
-
-deploy:
-  provider: heroku
-  buildpack: https://github.com/dracco/heroku-buildpack-java.git
-  api_key:
-    secure: jN62HU5XaR0JUjQ8q0H/9O+FlwwFRXk1zSmPnr+pvkOutPPdtX7f3kzmUmz30c0SSyDVyxQJUYXtOgNKpiMJSidwXjh8J7AmfCyoTfN/WDZvdM7P/XptqvO8MhS/gFt4JFoaUU8CMzvnn6py5i3e7bsu21D2FPOVhn5733TgSHU=
-  app: thirdparty-dev
-  on:
-    repo: energyos/OpenESPI-ThirdParty-java
