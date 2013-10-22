@@ -26,7 +26,7 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class TimeConfigurationTests {
+public class TimeConfigurationMarshallingTests {
 
     static final String XML_INPUT =
             "<LocalTimeParameters xmlns=\"http://naesb.org/espi\">\n" +

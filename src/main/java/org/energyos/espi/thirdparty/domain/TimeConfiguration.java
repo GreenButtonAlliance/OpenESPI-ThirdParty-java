@@ -26,10 +26,9 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.TimeConfigurationAdapter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -60,14 +59,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeConfiguration", propOrder = {
-    "dstEndRule",
-    "dstOffset",
-    "dstStartRule",
-    "tzOffset"
+        "dstEndRule",
+        "dstOffset",
+        "dstStartRule",
+        "tzOffset"
 })
 @XmlJavaTypeAdapter(TimeConfigurationAdapter.class)
+@XmlRootElement(name = "LocalTimeParameters")
+@Entity
+@Table(name = "time_configurations")
 public class TimeConfiguration
-    extends IdentifiedObject
+        extends IdentifiedObject
 {
 
     @XmlElement(required = true, type = String.class)
