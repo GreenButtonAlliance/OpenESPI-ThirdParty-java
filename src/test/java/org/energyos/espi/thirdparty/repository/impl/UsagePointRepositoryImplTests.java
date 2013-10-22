@@ -19,98 +19,69 @@ package org.energyos.espi.thirdparty.repository.impl;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+import org.energyos.espi.thirdparty.service.RetailCustomerService;
 import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
 import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@ContextConfiguration("/spring/test-context.xml")
 public class UsagePointRepositoryImplTests {
+    @Autowired
+    private UsagePointRepository repository;
+    @Autowired
+    private RetailCustomerService retailCustomerService;
 
-    public static final String EMPTY_FEED = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed></feed>";
-    public static final String FEED_WITH_USAGE_POINTS = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><entry><content><UsagePoint/></content></entry>entry><content><UsagePoint/></content></entry></feed>";
+    public RetailCustomer customer;
 
-    UsagePointRepositoryImpl repository;
-    private RetailCustomer customer;
-    private RestTemplate template;
-    private ATOMMarshaller marshaller;
-    private UsagePointBuilder builder;
+    public UsagePoint usagePoint;
 
     @Before
-    public void setup() {
-        repository = new UsagePointRepositoryImpl();
+    public void before() {
+        customer = EspiFactory.newRetailCustomer();
+        retailCustomerService.persist(customer);
+        usagePoint = new UsagePoint();
+        usagePoint.setRetailCustomer(customer);
 
-        customer = new RetailCustomer();
-        customer.setId(1L);
-
-        template = mock(RestTemplate.class);
-        repository.setTemplate(template);
-
-        marshaller = mock(ATOMMarshaller.class);
-        repository.setMarshaller(marshaller);
-
-        builder = mock(UsagePointBuilder.class);
-        repository.setBuilder(builder);
+        repository.persist(usagePoint);
     }
 
     @Test
-    public void findAllByRetailCustomer_givenXmlWithNoUsagePoints_returnsEmptyList() throws JAXBException {
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(EMPTY_FEED);
-        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(new ArrayList<UsagePoint>());
-
-        assertEquals(0, repository.findAllByRetailCustomerId(1L).size());
+    public void persist() throws JAXBException {
+        assertNotNull(usagePoint.getId());
     }
 
     @Test
-    public void findAllByRetailCustomer_givenXmlWithUsagePoints_returnsUsagePoints() throws JAXBException {
-        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
-        usagePoints.add(Factory.newUsagePoint());
-        usagePoints.add(Factory.newUsagePoint());
-
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
-        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
-
-        assertEquals(2, repository.findAllByRetailCustomerId(1L).size());
+    public void findAllByRetailCustomerId() {
+        assertEquals(usagePoint.getId(), repository.findAllByRetailCustomerId(customer.getId()).get(0).getId());
     }
 
     @Test
-    public void findById_returnsUsagePoint() throws JAXBException {
-        UsagePoint usagePoint = Factory.newUsagePoint();
-
-        List<UsagePoint> usagePoints = new ArrayList<UsagePoint>();
-        usagePoints.add(usagePoint);
-
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
-        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
-
-        assertEquals(usagePoint, repository.findById("7BC41774-7190-4864-841C-861AC76D46C2"));
-    }
-
-    @Test
-    public void findByUUID_returnsUsagePoint() throws JAXBException {
-        UsagePoint usagePoint = Factory.newUsagePoint();
-
-        List<UsagePoint> usagePoints = new ArrayList<>();
-        usagePoints.add(usagePoint);
-
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
-        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
-
-        assertEquals(usagePoint, repository.findByUUID(usagePoint.getUUID()));
+    public void findById() {
+        assertEquals(usagePoint.getId(), repository.findById(usagePoint.getId()).getId());
     }
 }

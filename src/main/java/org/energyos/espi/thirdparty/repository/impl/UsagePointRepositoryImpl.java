@@ -1,91 +1,41 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.energyos.espi.thirdparty.repository.UsagePointRepository;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestOperations;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.JAXBException;
-import java.io.ByteArrayInputStream;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
+@Transactional
 public class UsagePointRepositoryImpl implements UsagePointRepository {
-    private RestOperations template;
 
-    @Autowired
-    @Qualifier("API_FEED_URL")
-    private String apiFeedURL;
+    @PersistenceContext
+    protected EntityManager em;
 
-    @Autowired
-    ATOMMarshaller marshaller;
-
-    @Autowired
-    UsagePointBuilder builder;
-
-    public void setTemplate(RestTemplate template) {
-        this.template = template;
-    }
-
-    public void setApiFeedURL(String apiFeedURL) {
-        this.apiFeedURL = apiFeedURL;
-    }
-
-    public void setMarshaller(ATOMMarshaller marshaller) {
-        this.marshaller = marshaller;
-    }
-
-    public void setBuilder(UsagePointBuilder builder) {
-        this.builder = builder;
-    }
-
-   @Override
-    public List<UsagePoint> findAllByRetailCustomerId(Long id) throws JAXBException {
-       return builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+    @Override
+    public void persist(UsagePoint usagePoint) {
+        em.persist(usagePoint);
     }
 
     @Override
-    public UsagePoint findById(String usagePointId) throws JAXBException {
-        List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
-
-        for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getUUID().toString().toLowerCase().equals(usagePointId.toLowerCase())) {
-                return usagePoint;
-            }
-        }
-
-        return null;
+    public List<UsagePoint> findAllByRetailCustomerId(Long id) {
+        return (List<UsagePoint>) em.createNamedQuery(UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID)
+                .setParameter("retailCustomerId", id)
+                .getResultList();
     }
 
     @Override
-    public UsagePoint findByUUID(UUID uuid) throws JAXBException {
-        List<UsagePoint> usagePoints = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+    public UsagePoint findById(Long usagePointId) {
+        return (UsagePoint)em.createNamedQuery(UsagePoint.QUERY_FIND_BY_ID).setParameter("usagePointId", usagePointId).getSingleResult();
+    }
 
-        for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getUUID().equals(uuid)) {
-               return usagePoint;
-            }
-        }
-
+    @Override
+    public UsagePoint findByUUID(UUID uuid) {
         return null;
-    }
-
-    private String requestUsagePoints() {
-        try {
-            return template.getForObject(apiFeedURL, String.class);
-        } catch(Exception x) {
-            throw x;
-        }
-    }
-
-    private FeedType unmarshallFeedType(String  xml) throws JAXBException {
-        return marshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
     }
 }
