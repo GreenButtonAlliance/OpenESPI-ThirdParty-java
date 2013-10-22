@@ -25,11 +25,11 @@
 package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +53,42 @@ import java.util.List;
  *
  *
  */
+@XmlRootElement(name="MeterReading")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeterReading")
-@XmlRootElement(name="MeterReading")
+@Entity
+@Table(name = "meter_readings")
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class MeterReading
-    extends IdentifiedObject
+        extends IdentifiedObject
 {
-    private ReadingType readingType;
+    @OneToMany(mappedBy = "meterReading", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @XmlTransient
     private List<IntervalBlock> intervalBlocks = new ArrayList<>();
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "usage_point_id")
+    private UsagePoint usagePoint;
+
+    @XmlTransient
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "reading_type_id")
+    private ReadingType readingType;
+
+    public UsagePoint getUsagePoint() {
+        return usagePoint;
+    }
+
+    public void setUsagePoint(UsagePoint usagePoint) {
+        this.usagePoint = usagePoint;
+    }
+
+    public void addIntervalBlock(IntervalBlock intervalBlock) {
+        intervalBlock.setMeterReading(this);
+        intervalBlocks.add(intervalBlock);
+    }
 
     public ReadingType getReadingType() {
         return readingType;
@@ -75,7 +102,9 @@ public class MeterReading
         return intervalBlocks;
     }
 
-    public void addIntervalBlock(IntervalBlock intervalBlock) {
-        intervalBlocks.add(intervalBlock);
+    public void setIntervalBlocks(List<IntervalBlock> intervalBlocks) {
+        this.intervalBlocks = intervalBlocks;
     }
+
 }
+
