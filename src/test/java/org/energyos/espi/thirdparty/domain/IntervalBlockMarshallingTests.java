@@ -9,7 +9,7 @@ import javax.xml.bind.JAXBElement;
 
 import static org.junit.Assert.assertEquals;
 
-public class IntervalBlockTests {
+public class IntervalBlockMarshallingTests {
 
     static final String XML_INPUT =
             "<IntervalBlock xmlns=\"http://naesb.org/espi\">" +

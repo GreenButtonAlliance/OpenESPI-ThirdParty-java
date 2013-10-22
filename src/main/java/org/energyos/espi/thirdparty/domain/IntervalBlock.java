@@ -25,7 +25,10 @@
 package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.IntervalBlockAdapter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.*;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -55,23 +58,39 @@ import java.util.List;
  *
  *
  */
-@XmlRootElement(name = "IntervalBlock")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "IntervalBlock", propOrder = {
-    "interval",
-    "intervalReadings"
+        "interval",
+        "intervalReadings"
 })
+@Entity
+@Table(name = "interval_blocks")
+@NamedQueries(value = {
+        @NamedQuery(name = IntervalBlock.QUERY_ALL_BY_METER_READING_ID,
+                query = "SELECT block FROM IntervalBlock block WHERE block.meterReading.id = :meterReadingId")
+})
+@XmlRootElement(name = "IntervalBlock")
 @XmlJavaTypeAdapter(IntervalBlockAdapter.class)
 public class IntervalBlock
-    extends IdentifiedObject
+        extends IdentifiedObject
 {
+    public static final String QUERY_ALL_BY_METER_READING_ID = "IntervalBlock.findAllByMeterReadingId";
 
+    @Embedded
     protected DateTimeInterval interval;
+
+    @OneToMany(mappedBy = "intervalBlock", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @XmlElementRefs({
             @XmlElementRef(name = "IntervalReading", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
     protected List<IntervalReading> intervalReadings = new ArrayList<>();
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "meter_reading_id")
+    protected MeterReading meterReading;
 
     /**
      * Gets the value of the interval property.
@@ -98,18 +117,18 @@ public class IntervalBlock
     }
 
     /**
-     * Gets the value of the intervalReadings property.
+     * Gets the value of the intervalReading property.
      *
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the intervalReadings property.
+     * This is why there is not a <CODE>set</CODE> method for the intervalReading property.
      *
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getIntervalReadings().add(newItem);
+     *    getIntervalReading().add(newItem);
      * </pre>
      *
      *
@@ -122,4 +141,22 @@ public class IntervalBlock
     public List<IntervalReading> getIntervalReadings() {
         return this.intervalReadings;
     }
+
+    public void setIntervalReadings(List<IntervalReading> intervalReadings) {
+        this.intervalReadings = intervalReadings;
+    }
+
+    public MeterReading getMeterReading() {
+        return meterReading;
+    }
+
+    public void setMeterReading(MeterReading meterReading) {
+        this.meterReading = meterReading;
+    }
+
+    public void addIntervalReading(IntervalReading intervalReading) {
+        this.intervalReadings.add(intervalReading);
+        intervalReading.setIntervalBlock(this);
+    }
 }
+
