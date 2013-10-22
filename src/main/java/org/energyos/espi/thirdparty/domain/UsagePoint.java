@@ -25,7 +25,12 @@
 package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -43,7 +48,7 @@ import java.util.List;
  * <pre>
  * &lt;complexType name="UsagePoint">
  *   &lt;complexContent>
- *     &lt;extension base="{http://naesb.org/espi}IdentifiedObject">
+ *     &lt;extensiojava.lang.Stringn base="{http://naesb.org/espi}IdentifiedObject">
  *       &lt;sequence>
  *         &lt;element name="roleFlags" type="{http://naesb.org/espi}HexBinary16" minOccurs="0"/>
  *         &lt;element name="ServiceCategory" type="{http://naesb.org/espi}ServiceCategory" minOccurs="0"/>
@@ -59,42 +64,76 @@ import java.util.List;
 @XmlRootElement(name="UsagePoint")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "UsagePoint", propOrder = {
-        "roleFlags",
-        "serviceCategory",
-        "status"
+    "roleFlags",
+    "serviceCategory",
+    "status"
+})
+@Entity
+@Table(name = "usage_points", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
+@NamedQueries(value = {
+        @NamedQuery(name = UsagePoint.QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID,
+                query = "SELECT point FROM UsagePoint point WHERE point.retailCustomer.id = :retailCustomerId"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_BY_UUID,
+                query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_BY_ID,
+        query = "SELECT usagePoint FROM UsagePoint usagePoint WHERE usagePoint.id = :usagePointId")
 })
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class UsagePoint
-        extends IdentifiedObject
+    extends IdentifiedObject
 {
+    public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
+    public static final String QUERY_FIND_BY_ID = "UsagePoint.findByID";
+    public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
+
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
     protected byte[] roleFlags;
 
     @XmlElement(name = "ServiceCategory")
+    @NotNull
+    @ManyToOne
     protected ServiceCategory serviceCategory;
 
+    @XmlElement
     protected Short status;
 
     @XmlTransient
+    @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<MeterReading> meterReadings = new ArrayList<>();
 
     @XmlTransient
+    @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<ElectricPowerUsageSummary> electricPowerUsageSummaries = new ArrayList<>();
 
     @XmlTransient
+    @OneToMany(mappedBy = "usagePoint", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<ElectricPowerQualitySummary> electricPowerQualitySummaries = new ArrayList<>();
 
     @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "local_time_parameters_id")
     private TimeConfiguration localTimeParameters;
+
+    @XmlTransient
+    @ManyToOne @JoinColumn(name="retail_customer_id")
+    protected RetailCustomer retailCustomer;
+
+    @Override
+    @NotEmpty
+    public String getMRID() {
+        return super.getMRID();
+    }
 
     public void addMeterReading(MeterReading meterReading)
     {
+        meterReading.setUsagePoint(this);
         meterReadings.add(meterReading);
     }
 
-    @XmlTransient
-    protected RetailCustomer retailCustomer;
 
     /**
      * Gets the value of the roleFlags property.
@@ -189,6 +228,7 @@ public class UsagePoint
     }
 
     public void addElectricPowerUsageSummary(ElectricPowerUsageSummary electricPowerUsageSummary) {
+        electricPowerUsageSummary.setUsagePoint(this);
         electricPowerUsageSummaries.add(electricPowerUsageSummary);
     }
 
@@ -201,6 +241,7 @@ public class UsagePoint
     }
 
     public void addElectricPowerQualitySummary(ElectricPowerQualitySummary electricPowerQualitySummary) {
+        electricPowerQualitySummary.setUsagePoint(this);
         electricPowerQualitySummaries.add(electricPowerQualitySummary);
     }
 
