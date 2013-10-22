@@ -17,7 +17,7 @@ import static org.energyos.espi.thirdparty.utils.TestUtils.assertSizeValidation;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class RetailCustomerTests {
+public class RetailCustomerValidationTests {
 
     @Test
     public void isValid() throws Exception {
@@ -39,12 +39,6 @@ public class RetailCustomerTests {
         Set<ConstraintViolation<RetailCustomer>> violations = validator.validate(retailCustomer);
 
         assertFalse(violations.isEmpty());
-    }
-
-    @Test
-    public void id() {
-        assertAnnotationPresent(RetailCustomer.class, "id", Id.class);
-        assertAnnotationPresent(RetailCustomer.class, "id", GeneratedValue.class);
     }
 
     @Test
