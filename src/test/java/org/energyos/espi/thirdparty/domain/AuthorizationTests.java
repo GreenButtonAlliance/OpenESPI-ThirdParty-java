@@ -14,10 +14,10 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertColumnAnnotation;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AuthorizationTests {
 

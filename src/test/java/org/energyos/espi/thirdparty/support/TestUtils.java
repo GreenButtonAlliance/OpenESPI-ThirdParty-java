@@ -16,8 +16,6 @@
 
 package org.energyos.espi.thirdparty.support;
 
-import junit.framework.AssertionFailedError;
-
 import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -27,12 +25,12 @@ public class TestUtils {
 
     public static void assertAnnotationPresent(Class clazz, String fieldName, Class annotationClass) {
         if (getAnnotation(clazz, fieldName, annotationClass) == null)
-            throw new AssertionFailedError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
+            throw new AssertionError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
     }
 
     public static void assertAnnotationPresent(Class clazz, Class annotationClass) {
         if (getAnnotation(clazz, annotationClass) == null)
-            throw new AssertionFailedError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz));
+            throw new AssertionError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz));
     }
 
     public static void assertSizeValidation(Class clazz, String fieldName, int min, int max) {
@@ -42,11 +40,11 @@ public class TestUtils {
 
         int minValue = ((Size) annotation).min();
         if (min != minValue)
-            throw new AssertionFailedError(String.format("@Size annotation minimum does not match expected '%s'", min));
+            throw new AssertionError(String.format("@Size annotation minimum does not match expected '%s'", min));
 
         int maxValue = ((Size) annotation).max();
         if (max != maxValue)
-            throw new AssertionFailedError(String.format("@Size annotation maximum does not match expected '%s'", max));
+            throw new AssertionError(String.format("@Size annotation maximum does not match expected '%s'", max));
     }
 
     private static Annotation getAnnotation(Class clazz, String fieldName, Class annotationClass) {
@@ -55,7 +53,7 @@ public class TestUtils {
         try {
             field = clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
-            throw new AssertionFailedError(String.format("'%s' is missing field '%s'", clazz.getCanonicalName(), fieldName));
+            throw new AssertionError(String.format("'%s' is missing field '%s'", clazz.getCanonicalName(), fieldName));
         }
 
         Annotation[] annotations = field.getAnnotations();

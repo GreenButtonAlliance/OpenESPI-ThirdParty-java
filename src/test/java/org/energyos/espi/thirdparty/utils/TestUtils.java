@@ -1,7 +1,5 @@
 package org.energyos.espi.thirdparty.utils;
 
-import junit.framework.AssertionFailedError;
-
 import javax.persistence.Column;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,12 +9,12 @@ import java.lang.reflect.Field;
 public class TestUtils {
     public static void assertAnnotationPresent(Class clazz, Class annotationClass) {
         if(getClassAnnotation(clazz, annotationClass) == null)
-            throw new AssertionFailedError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz.getCanonicalName()));
+            throw new AssertionError(String.format("'%s' annotation is missing for class '%s'", annotationClass.getCanonicalName(), clazz.getCanonicalName()));
     }
 
     public static void assertAnnotationPresent(Class clazz, String fieldName, Class annotationClass) {
         if(getAnnotation(clazz, fieldName, annotationClass) == null)
-            throw new AssertionFailedError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
+            throw new AssertionError(String.format("'%s' annotation is missing for field '%s'", annotationClass.getCanonicalName(), fieldName));
     }
 
     public static void assertColumnAnnotation(Class clazz, String fieldName, String columnName) {
@@ -24,7 +22,7 @@ public class TestUtils {
 
         String name = ((Column) annotation).name();
         if (!name.equals(columnName))
-            throw new AssertionFailedError(String.format("Column name in @Column annotation not match expected '%s'", name));
+            throw new AssertionError(String.format("Column name in @Column annotation not match expected '%s'", name));
     }
 
     public static void assertSizeValidation(Class clazz, String fieldName, int min, int max) {
@@ -32,11 +30,11 @@ public class TestUtils {
 
         int minValue = ((javax.validation.constraints.Size) annotation).min();
         if (min != minValue)
-            throw new AssertionFailedError(String.format("@Size annotation minimum does not match expected '%s'", min));
+            throw new AssertionError(String.format("@Size annotation minimum does not match expected '%s'", min));
 
         int maxValue = ((javax.validation.constraints.Size) annotation).max();
         if (max != maxValue)
-            throw new AssertionFailedError(String.format("@Size annotation maximum does not match expected '%s'", max));
+            throw new AssertionError(String.format("@Size annotation maximum does not match expected '%s'", max));
     }
 
     public static void assertXmlElement(Class clazz, String fieldName, Class type) {
@@ -44,7 +42,7 @@ public class TestUtils {
 
         Class annotationType = ((XmlElement)annotation).type();
         if (type != annotationType)
-            throw new AssertionFailedError(String.format("@XmlElement annotation type does not match expected '%s'", type));
+            throw new AssertionError(String.format("@XmlElement annotation type does not match expected '%s'", type));
     }
 
     private static Annotation assertAndGetAnnotation(Class clazz, String fieldName, Class annotationClass) {
@@ -58,7 +56,7 @@ public class TestUtils {
         try {
             field = clazz.getDeclaredField(fieldName);
         } catch (NoSuchFieldException e) {
-            throw new AssertionFailedError(String.format("'%s' is missing field '%s'", clazz.getCanonicalName(), fieldName));
+            throw new AssertionError(String.format("'%s' is missing field '%s'", clazz.getCanonicalName(), fieldName));
         }
 
         Annotation foundAnnotation = null;

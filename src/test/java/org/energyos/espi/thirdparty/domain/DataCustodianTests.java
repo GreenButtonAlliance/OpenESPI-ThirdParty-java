@@ -11,10 +11,10 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertColumnAnnotation;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DataCustodianTests {
 
