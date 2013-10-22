@@ -8,7 +8,7 @@ import javax.xml.bind.JAXBException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ElectricPowerUsageSummaryTests {
+public class ElectricPowerUsageSummaryMarshallingTests {
     static final String XML_INPUT = "<ElectricPowerUsageSummary xmlns=\"http://naesb.org/espi\">" +
                 "<billLastPeriod>1</billLastPeriod>" +
                 "<billToDate>2</billToDate>" +

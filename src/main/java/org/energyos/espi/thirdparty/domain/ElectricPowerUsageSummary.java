@@ -26,10 +26,8 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 
@@ -91,6 +89,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
         "ratchetDemandPeriod",
         "statusTimeStamp"
 })
+@Entity
+@Table(name = "electric_power_usage_summaries")
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class ElectricPowerUsageSummary
         extends IdentifiedObject
@@ -102,17 +102,114 @@ public class ElectricPowerUsageSummary
     protected String currency;
     protected String qualityOfReading;
     protected long statusTimeStamp;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="duration", column = @Column(name="ratchetDemandPeriod_duration") ),
+            @AttributeOverride(name="start", column = @Column(name="ratchetDemandPeriod_start") ),
+    } )
+    @Embedded
     protected DateTimeInterval ratchetDemandPeriod;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="duration", column = @Column(name="billingPeriod_duration") ),
+            @AttributeOverride(name="start", column = @Column(name="billingPeriod_start") ),
+    } )
+    @Embedded
     protected DateTimeInterval billingPeriod;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="currentBillingPeriodOverAllConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="currentBillingPeriodOverAllConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="currentBillingPeriodOverAllConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="currentBillingPeriodOverAllConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement currentBillingPeriodOverAllConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="currentDayLastYearNetConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="currentDayLastYearNetConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="currentDayLastYearNetConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="currentDayLastYearNetConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement currentDayLastYearNetConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="currentDayNetConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="currentDayNetConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="currentDayNetConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="currentDayNetConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement currentDayNetConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="currentDayOverallConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="currentDayOverallConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="currentDayOverallConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="currentDayOverallConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement currentDayOverallConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="peakDemand_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="peakDemand_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="peakDemand_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="peakDemand_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement peakDemand;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="previousDayLastYearOverallConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="previousDayLastYearOverallConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="previousDayLastYearOverallConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="previousDayLastYearOverallConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement previousDayLastYearOverallConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="previousDayNetConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="previousDayNetConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="previousDayNetConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="previousDayNetConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement previousDayNetConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="previousDayOverallConsumption_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="previousDayOverallConsumption_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="previousDayOverallConsumption_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="previousDayOverallConsumption_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement previousDayOverallConsumption;
+
+    @AttributeOverrides( {
+            @AttributeOverride(name="powerOfTenMultiplier", column = @Column(name="ratchetDemand_powerOfTenMultiplier") ),
+            @AttributeOverride(name="timeStamp", column = @Column(name="ratchetDemand_timeStamp") ),
+            @AttributeOverride(name="uom", column = @Column(name="ratchetDemand_uom") ),
+            @AttributeOverride(name="value", column = @Column(name="ratchetDemand_value") ),
+    } )
+    @Embedded
     protected SummaryMeasurement ratchetDemand;
+
+    @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "usage_point_id")
+    private UsagePoint usagePoint;
+
+    public UsagePoint getUsagePoint() {
+        return usagePoint;
+    }
+
+    public void setUsagePoint(UsagePoint usagePoint) {
+        this.usagePoint = usagePoint;
+    }
 
     /**
      * Gets the value of the billingPeriod property.
