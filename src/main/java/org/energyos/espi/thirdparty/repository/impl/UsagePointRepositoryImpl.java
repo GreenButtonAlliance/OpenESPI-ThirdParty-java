@@ -81,7 +81,6 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
         try {
             return template.getForObject(apiFeedURL, String.class);
         } catch(Exception x) {
-            System.out.println(x);
             throw x;
         }
     }
