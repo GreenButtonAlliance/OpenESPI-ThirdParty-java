@@ -24,6 +24,7 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import javax.persistence.Column;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -57,7 +58,9 @@ import java.math.BigInteger;
 })
 public class RationalNumber {
 
+    @Column(name = "rational_numerator")
     protected BigInteger numerator;
+    @Column(name = "rational_denominator")
     protected BigInteger denominator;
 
     /**
