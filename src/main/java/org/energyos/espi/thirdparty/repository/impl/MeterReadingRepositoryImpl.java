@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class MeterReadingRepositoryImpl implements MeterReadingRepository {
@@ -45,15 +46,15 @@ public class MeterReadingRepositoryImpl implements MeterReadingRepository {
     }
 
     @Override
-    public MeterReading findById(String meterReadingId) throws JAXBException {
+    public MeterReading findByUUID(UUID uuid) throws JAXBException {
         List<UsagePoint> usagePointList = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
 
-        return findMeterReading(usagePointList, meterReadingId);
+        return findMeterReading(usagePointList, uuid);
     }
 
-    private MeterReading findMeterReading(List<UsagePoint> usagePointList, String meterReadingId) {
+    private MeterReading findMeterReading(List<UsagePoint> usagePointList, UUID uuid) {
         for (UsagePoint usagePoint : usagePointList) {
-            MeterReading meterReading = findMeterReadingInUsagePoint(usagePoint.getMeterReadings(), meterReadingId);
+            MeterReading meterReading = findMeterReadingInUsagePoint(usagePoint.getMeterReadings(), uuid);
             if (meterReading != null) {
                 return meterReading;
             }
@@ -61,9 +62,9 @@ public class MeterReadingRepositoryImpl implements MeterReadingRepository {
         return null;
     }
 
-    private MeterReading findMeterReadingInUsagePoint(List<MeterReading> meterReadings, String meterReadingId) {
+    private MeterReading findMeterReadingInUsagePoint(List<MeterReading> meterReadings, UUID uuid) {
         for (MeterReading meterReading : meterReadings) {
-            if (meterReading.getMRID().equals(meterReadingId)) {
+            if (meterReading.getUUID().equals(uuid)) {
                 return meterReading;
             }
         }

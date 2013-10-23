@@ -29,6 +29,7 @@ import javax.xml.bind.JAXBException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -69,6 +70,6 @@ public class MeterReadingRepositoryImplTests {
         when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
         when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
 
-        assertEquals(usagePoint.getMeterReadings().get(0), repository.findById("urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE"));
+        assertEquals(usagePoint.getMeterReadings().get(0), repository.findByUUID(UUID.fromString("E8B19EF0-6833-41CE-A28B-A5E7F9F193AE")));
     }
 }

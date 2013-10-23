@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.bind.JAXBException;
+import java.util.UUID;
 
 @Service
 public class MeterReadingServiceImpl implements MeterReadingService {
@@ -30,8 +31,8 @@ public class MeterReadingServiceImpl implements MeterReadingService {
     protected MeterReadingRepository repository;
 
     @Override
-    public MeterReading findById(String meterReadingId) throws JAXBException {
-        return repository.findById(meterReadingId);
+    public MeterReading findByUUID(UUID uuid) throws JAXBException {
+        return repository.findByUUID(uuid);
     }
 
     public void setRepository(MeterReadingRepository repository) {

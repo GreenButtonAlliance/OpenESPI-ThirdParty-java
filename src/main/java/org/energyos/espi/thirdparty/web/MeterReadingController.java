@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.xml.bind.JAXBException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/meterreadings")
@@ -20,7 +21,7 @@ public class MeterReadingController {
 
     @RequestMapping(value = "{meterReadingId}/show", method = RequestMethod.GET)
     public String show(@PathVariable String meterReadingId, ModelMap model) throws JAXBException {
-        model.put("meterReading", meterReadingService.findById(meterReadingId));
+        model.put("meterReading", meterReadingService.findByUUID(UUID.fromString(meterReadingId)));
         return "/meterreadings/show";
     }
 

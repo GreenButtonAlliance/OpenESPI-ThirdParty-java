@@ -24,8 +24,9 @@ import org.junit.Test;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
+import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class MeterReadingControllerTests {
@@ -42,16 +43,16 @@ public class MeterReadingControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/meterreadings/show", controller.show("1", mock(ModelMap.class)));
+        assertEquals("/meterreadings/show", controller.show(UUID.randomUUID().toString(), mock(ModelMap.class)));
     }
 
     @Test
     public void show_setsMeterReadingModel() throws JAXBException {
         MeterReading meterReading = Factory.newMeterReading();
         ModelMap model = new ModelMap();
-        when(service.findById(anyString())).thenReturn(meterReading);
+        when(service.findByUUID(any(UUID.class))).thenReturn(meterReading);
 
-        controller.show("1", model);
+        controller.show(UUID.randomUUID().toString(), model);
 
         assertEquals(meterReading, model.get("meterReading"));
     }

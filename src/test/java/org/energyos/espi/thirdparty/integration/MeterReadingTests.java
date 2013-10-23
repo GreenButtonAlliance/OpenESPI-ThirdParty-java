@@ -24,7 +24,7 @@ public class MeterReadingTests {
     protected WebApplicationContext wac;
 
 
-    private static final String UUID = "urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE";
+    private static final String UUID = "E8B19EF0-6833-41CE-A28B-A5E7F9F193AE";
 
     @Before
     public void setup() {
