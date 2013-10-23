@@ -29,4 +29,6 @@ public interface UsagePointRepository {
     UsagePoint findById(Long usagePointId);
 
     UsagePoint findByUUID(UUID uuid);
+
+    UsagePoint findByURI(String url);
 }

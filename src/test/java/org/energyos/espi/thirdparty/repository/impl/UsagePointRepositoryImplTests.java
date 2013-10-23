@@ -79,4 +79,9 @@ public class UsagePointRepositoryImplTests {
     public void findByUUID() {
         assertEquals(usagePoint.getId(), repository.findByUUID(usagePoint.getUUID()).getId());
     }
+
+    @Test
+    public void findByURI() {
+        assertEquals(usagePoint.getId(), repository.findByURI(usagePoint.getURI()).getId());
+    }
 }
