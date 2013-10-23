@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBElement;
 
 import static org.junit.Assert.assertEquals;
 
-public class IntervalReadingTests {
+public class IntervalReadingMarshallingTests {
 
     static final String XML_INPUT =
         "<IntervalReading xmlns=\"http://naesb.org/espi\">" +

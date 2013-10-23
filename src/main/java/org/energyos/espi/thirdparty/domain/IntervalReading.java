@@ -25,7 +25,10 @@
 package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.IntervalReadingAdapter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
+import javax.persistence.*;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -66,19 +69,30 @@ import java.util.List;
 })
 @XmlJavaTypeAdapter(IntervalReadingAdapter.class)
 @XmlRootElement(name = "IntervalReading")
+@Entity
+@Table(name = "interval_readings")
 public class IntervalReading
     extends IdentifiedObject
 {
 
     protected Long cost;
+
+    @OneToMany(mappedBy = "intervalReading", cascade = CascadeType.ALL)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @XmlElementRefs({
             @XmlElementRef(name = "ReadingQuality", namespace = "http://naesb.org/espi", type = JAXBElement.class, required = false),
     })
     @XmlAnyElement(lax = true)
     protected List<ReadingQuality> readingQualities = new ArrayList<>();
+
+    @Embedded
     protected DateTimeInterval timePeriod;
+
     protected Long value;
+
     @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "interval_block_id")
     private IntervalBlock intervalBlock;
 
     /**
