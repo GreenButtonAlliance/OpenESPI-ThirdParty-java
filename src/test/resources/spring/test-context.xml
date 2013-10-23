@@ -58,4 +58,6 @@
     <bean id="usagePointRESTRepositoryImpl" class="org.energyos.espi.thirdparty.repository.impl.UsagePointRESTRepositoryImpl">
         <property name="template" ref="mockTemplate"/>
     </bean>
+
+    <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/>
 </beans>
