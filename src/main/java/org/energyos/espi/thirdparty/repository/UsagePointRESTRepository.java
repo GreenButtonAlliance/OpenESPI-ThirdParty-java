@@ -14,20 +14,20 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.thirdparty.service;
+package org.energyos.espi.thirdparty.repository;
 
-
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;
 import java.util.UUID;
 
-public interface UsagePointService {
-    List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException;
+public interface UsagePointRESTRepository {
+    List<UsagePoint> findAllByRetailCustomerId(Long retailCustomerId) throws JAXBException;
 
-    UsagePoint findById(Long usagePointId) throws JAXBException;
+    UsagePoint findById(String usagePointId) throws JAXBException;
 
     UsagePoint findByUUID(UUID uuid) throws JAXBException;
+    UsagePoint findByURI(String uri) throws JAXBException;
+    String requestUsagePoints();
 }

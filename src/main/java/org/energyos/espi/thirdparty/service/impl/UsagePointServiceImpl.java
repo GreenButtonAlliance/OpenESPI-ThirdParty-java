@@ -18,6 +18,7 @@ package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +32,23 @@ import java.util.UUID;
 public class UsagePointServiceImpl implements UsagePointService {
 
     @Autowired
+    private UsagePointRESTRepository restRepository;
+    @Autowired
     private UsagePointRepository repository;
 
     public void setRepository(UsagePointRepository repository) {
         this.repository = repository;
     }
 
+    public void setRESTRepository(UsagePointRESTRepository restRepository) {
+        this.restRepository = restRepository;
+    }
+
     public List<UsagePoint> findAllByRetailCustomer(RetailCustomer retailCustomer) throws JAXBException {
         return repository.findAllByRetailCustomerId(retailCustomer.getId());
     }
 
-    @Override
-    public UsagePoint findById(String usagePointId) throws JAXBException {
+    public UsagePoint findById(Long usagePointId) throws JAXBException {
         return repository.findById(usagePointId);
     }
 

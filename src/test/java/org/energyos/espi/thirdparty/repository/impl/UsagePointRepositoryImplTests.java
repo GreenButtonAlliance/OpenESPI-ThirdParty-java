@@ -17,14 +17,11 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
 import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
-import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,26 +30,21 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.JAXBException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class UsagePointRepositoryImplTests {
+
     @Autowired
     private UsagePointRepository repository;
+
     @Autowired
     private RetailCustomerService retailCustomerService;
 
@@ -66,6 +58,8 @@ public class UsagePointRepositoryImplTests {
         retailCustomerService.persist(customer);
         usagePoint = new UsagePoint();
         usagePoint.setRetailCustomer(customer);
+        usagePoint.setMRID("123");
+        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
 
         repository.persist(usagePoint);
     }
