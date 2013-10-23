@@ -36,6 +36,8 @@ public class UsagePointRepositoryImpl implements UsagePointRepository {
 
     @Override
     public UsagePoint findByUUID(UUID uuid) {
-        return null;
+        return (UsagePoint)em.createNamedQuery(UsagePoint.QUERY_FIND_BY_UUID)
+                .setParameter("uuid", uuid)
+                .getSingleResult();
     }
 }

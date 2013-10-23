@@ -27,7 +27,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -69,10 +68,10 @@ public class UsagePointControllerTests {
     @Test
     public void show_findsTheUsagePointByUUID() throws Exception {
         UsagePoint usagePoint = Factory.newUsagePoint();
-        String uuid = "7BC41774-7190-4864-841C-861AC76D46C2";
-        when(service.findByUUID(UUID.fromString(uuid))).thenReturn(usagePoint);
+        String hashedId = "hashedId";
+        when(service.findByHashedId(hashedId)).thenReturn(usagePoint);
 
-        controller.show(uuid, mock(ModelMap.class));
-        verify(service).findByUUID(UUID.fromString(uuid));
+        controller.show(hashedId, mock(ModelMap.class));
+        verify(service).findByHashedId(hashedId);
     }
 }

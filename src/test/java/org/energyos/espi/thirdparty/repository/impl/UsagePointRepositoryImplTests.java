@@ -17,7 +17,6 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.ServiceCategory;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
@@ -56,10 +55,7 @@ public class UsagePointRepositoryImplTests {
     public void before() {
         customer = EspiFactory.newRetailCustomer();
         retailCustomerService.persist(customer);
-        usagePoint = new UsagePoint();
-        usagePoint.setRetailCustomer(customer);
-        usagePoint.setMRID("123");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        usagePoint = EspiFactory.newUsagePoint(customer);
 
         repository.persist(usagePoint);
     }
@@ -77,5 +73,10 @@ public class UsagePointRepositoryImplTests {
     @Test
     public void findById() {
         assertEquals(usagePoint.getId(), repository.findById(usagePoint.getId()).getId());
+    }
+
+    @Test
+    public void findByUUID() {
+        assertEquals(usagePoint.getId(), repository.findByUUID(usagePoint.getUUID()).getId());
     }
 }

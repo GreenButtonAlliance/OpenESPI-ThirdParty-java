@@ -56,4 +56,14 @@ public class UsagePointServiceImpl implements UsagePointService {
     public UsagePoint findByUUID(UUID uuid) throws JAXBException {
         return repository.findByUUID(uuid);
     }
+
+    @Override
+    public UsagePoint findByHashedId(String usagePointHashedId) {
+        return repository.findByUUID(UUID.fromString(usagePointHashedId));
+    }
+
+    @Override
+    public void persist(UsagePoint usagePoint) {
+        repository.persist(usagePoint);
+    }
 }

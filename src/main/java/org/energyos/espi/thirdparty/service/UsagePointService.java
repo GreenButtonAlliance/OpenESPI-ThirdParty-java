@@ -30,4 +30,8 @@ public interface UsagePointService {
     UsagePoint findById(Long usagePointId) throws JAXBException;
 
     UsagePoint findByUUID(UUID uuid) throws JAXBException;
+
+    UsagePoint findByHashedId(String usagePointHashedId);
+
+    void persist(UsagePoint usagePoint);
 }
