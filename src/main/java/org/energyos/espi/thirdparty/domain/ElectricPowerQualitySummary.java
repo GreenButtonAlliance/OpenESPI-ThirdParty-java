@@ -26,10 +26,7 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -103,6 +100,7 @@ public class ElectricPowerQualitySummary
     protected Long rapidVoltageChanges;
     protected Long shortInterruptions;
     @XmlElement(required = true)
+    @Embedded
     protected DateTimeInterval summaryInterval;
     protected Long supplyVoltageDips;
     protected Long supplyVoltageImbalance;
