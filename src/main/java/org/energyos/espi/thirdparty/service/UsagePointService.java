@@ -34,4 +34,6 @@ public interface UsagePointService {
     UsagePoint findByHashedId(String usagePointHashedId);
 
     void persist(UsagePoint usagePoint);
+
+    UsagePoint findByURI(String uri);
 }

@@ -66,4 +66,9 @@ public class UsagePointServiceImpl implements UsagePointService {
     public void persist(UsagePoint usagePoint) {
         repository.persist(usagePoint);
     }
+
+    @Override
+    public UsagePoint findByURI(String uri) {
+        return repository.findByURI(uri);
+    }
 }
