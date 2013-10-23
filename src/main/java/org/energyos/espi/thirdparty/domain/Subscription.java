@@ -24,9 +24,13 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import java.util.UUID;
 
 
 /**
@@ -49,9 +53,34 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Subscription")
+@Entity
+@Table(name = "subscriptions")
+@NamedQueries(value = {
+        @NamedQuery(name = Subscription.QUERY_FIND_ALL, query = "SELECT subscription FROM Subscription subscription")
+})
 public class Subscription
-    extends IdentifiedObject
-{
+        extends IdentifiedObject {
 
+    public final static String QUERY_FIND_ALL = "Subscription.findAll";
 
+    @ManyToOne
+    @JoinColumn(name = "retail_customer_id")
+    @NotNull
+    @XmlTransient
+    protected RetailCustomer retailCustomer;
+
+    public RetailCustomer getRetailCustomer() {
+        return retailCustomer;
+    }
+
+    public void setRetailCustomer(RetailCustomer retailCustomer) {
+        this.retailCustomer = retailCustomer;
+    }
+
+    @Override
+    @NotNull
+    public UUID getUUID() {
+        return super.getUUID();
+    }
 }
+
