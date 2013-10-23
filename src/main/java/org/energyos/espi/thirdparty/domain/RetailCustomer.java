@@ -150,4 +150,8 @@ public class RetailCustomer implements UserDetails, Principal {
     public String getName() {
         return getUsername();
     }
+
+    public String getHashedId() {
+        return "" + getId();
+    }
 }
