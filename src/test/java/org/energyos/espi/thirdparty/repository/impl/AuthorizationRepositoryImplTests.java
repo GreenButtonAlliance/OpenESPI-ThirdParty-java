@@ -99,5 +99,34 @@ public class AuthorizationRepositoryImplTests {
         dataCustodianRepository.persist(dataCustodian);
         return EspiFactory.newAuthorization(retailCustomer, dataCustodian);
     }
+    ///espi/1_1/resource/Subscription/{SubscriptionID}
+    ///espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}
+    ///espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}/MeterReading/{MeterReadingID}
+
+    @Test
+    public void findByUrl_returnsUsagePointAuthorization() {
+        String url = "/espi/1_1/resource/RetailCustomer/1/UsagePoint/1";
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomerRepository.persist(retailCustomer);
+        assertNotNull(retailCustomer.getId());
+        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
+        dataCustodianRepository.persist(dataCustodian);
+        assertNotNull(dataCustodian.getId());
+        Authorization authorization = EspiFactory.newAuthorization(retailCustomer, dataCustodian);
+        repository.persist(authorization);
+        assertNotNull(authorization.getId());
+
+        assertEquals(authorization, repository.findByURL(url));
+    }
+
+    @Test
+    public void findByUrl_returnsMeterReadingAuthorization() {
+
+    }
+
+    @Test
+    public void findByUrl_returnsSubscriptionAuthorization() {
+
+    }
 
 }

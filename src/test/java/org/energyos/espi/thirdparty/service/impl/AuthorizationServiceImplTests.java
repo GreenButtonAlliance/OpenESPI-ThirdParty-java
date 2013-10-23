@@ -2,15 +2,18 @@ package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.thirdparty.domain.Subscription;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.AuthorizationRepository;
+import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class AuthorizationServiceImplTests {
 
@@ -66,4 +69,20 @@ public class AuthorizationServiceImplTests {
 
         verify(repository).merge(authorization);
     }
+
+    @Test
+    public void findByUrl_findsUsagePointAuthorization() {
+        String uri = "/espi/1_1/resource/RetailCustomer/1/UsagePoint/1";
+        UsagePointRepository usagePointRepository = mock(UsagePointRepository.class);
+        service.setUsagePointRepository(usagePointRepository);
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
+        Subscription subscription = EspiFactory.newSubscription(EspiFactory.newRetailCustomer());
+        Authorization authorization = new Authorization();
+        subscription.setAuthorization(authorization);
+        usagePoint.setSubscription(subscription);
+        when(usagePointRepository.findByURI(uri)).thenReturn(usagePoint);
+
+        assertEquals(authorization, service.findByURI(uri));
+    }
+
 }

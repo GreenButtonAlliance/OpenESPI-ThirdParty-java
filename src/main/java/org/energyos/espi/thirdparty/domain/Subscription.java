@@ -69,6 +69,8 @@ public class Subscription
     @XmlTransient
     protected RetailCustomer retailCustomer;
 
+    private Authorization authorization;
+
     public RetailCustomer getRetailCustomer() {
         return retailCustomer;
     }
@@ -81,6 +83,14 @@ public class Subscription
     @NotNull
     public UUID getUUID() {
         return super.getUUID();
+    }
+
+    public Authorization getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(Authorization authorization) {
+        this.authorization = authorization;
     }
 }
 

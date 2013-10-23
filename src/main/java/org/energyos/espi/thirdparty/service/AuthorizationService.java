@@ -12,4 +12,6 @@ public interface AuthorizationService {
     Authorization findByState(String state);
 
     void merge(Authorization authorization);
+
+    Authorization findByURI(String uri);
 }

@@ -129,6 +129,8 @@ public class UsagePoint
     @NotEmpty
     private String uri;
 
+    private Subscription subscription;
+
     @Override
     @NotEmpty
     public String getMRID() {
@@ -266,5 +268,13 @@ public class UsagePoint
 
     public void setURI(String URI) {
         this.uri = URI;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 }
