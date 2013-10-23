@@ -2,6 +2,7 @@ package org.energyos.espi.thirdparty.utils.factories;
 
 import org.energyos.espi.thirdparty.domain.*;
 
+import java.lang.Object;
 import java.math.BigInteger;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -66,6 +67,7 @@ public class EspiFactory {
         usagePoint.setLocalTimeParameters(newLocalTimeParameters());
         usagePoint.setCreated(new GregorianCalendar(2012, 10, 15, 0, 0, 0).getTime());
         usagePoint.setUpdated(new GregorianCalendar(2012, 10, 17, 0, 0, 0).getTime());
+        usagePoint.setURI("/espi/1_1/resource/RetailCustomer/" + getRandomString() + "/UsagePoint/" + getRandomString());
 
         return usagePoint;
     }
@@ -275,11 +277,10 @@ public class EspiFactory {
         return subscription;
     }
 
-    public static Authorization newAuthorization(Subscription subscription) {
+    public static Authorization newAuthorization() {
         Authorization authorization = new Authorization();
         authorization.setUUID(UUID.randomUUID());
         authorization.setAccessToken(UUID.randomUUID().toString());
-        authorization.setResource("/Resource/" + UUID.randomUUID().toString());
         return authorization;
     }
 
@@ -304,5 +305,9 @@ public class EspiFactory {
         authorization.setDataCustodian(dataCustodian);
 
         return authorization;
+    }
+
+    public static Object getRandomString() {
+        return UUID.randomUUID().toString();
     }
 }

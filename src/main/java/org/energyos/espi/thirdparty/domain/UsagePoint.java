@@ -76,7 +76,9 @@ import java.util.List;
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_UUID,
                 query = "SELECT point FROM UsagePoint point WHERE point.uuid = :uuid"),
         @NamedQuery(name = UsagePoint.QUERY_FIND_BY_ID,
-        query = "SELECT usagePoint FROM UsagePoint usagePoint WHERE usagePoint.id = :usagePointId")
+                query = "SELECT usagePoint FROM UsagePoint usagePoint WHERE usagePoint.id = :usagePointId"),
+        @NamedQuery(name = UsagePoint.QUERY_FIND_BY_URI,
+                query = "SELECT point FROM UsagePoint point WHERE point.uri = :uri"),
 })
 @XmlJavaTypeAdapter(GenericAdapter.class)
 public class UsagePoint
@@ -85,6 +87,7 @@ public class UsagePoint
     public static final String QUERY_FIND_ALL_BY_RETAIL_CUSTOMER_ID = "UsagePoint.findUsagePointsByRetailCustomer";
     public static final String QUERY_FIND_BY_ID = "UsagePoint.findByID";
     public static final String QUERY_FIND_BY_UUID = "UsagePoint.findByUUID";
+    public static final String QUERY_FIND_BY_URI = "UsagePoint.findByURI";
 
     @XmlElement(type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
@@ -121,6 +124,10 @@ public class UsagePoint
     @XmlTransient
     @ManyToOne @JoinColumn(name="retail_customer_id")
     protected RetailCustomer retailCustomer;
+
+    @XmlTransient
+    @NotEmpty
+    private String uri;
 
     @Override
     @NotEmpty
@@ -251,5 +258,13 @@ public class UsagePoint
 
     public void setLocalTimeParameters(TimeConfiguration localTimeParameters) {
         this.localTimeParameters = localTimeParameters;
+    }
+
+    public String getURI() {
+        return uri;
+    }
+
+    public void setURI(String URI) {
+        this.uri = URI;
     }
 }

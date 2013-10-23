@@ -1,13 +1,14 @@
 package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.XMLTest;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertFalse;
@@ -19,9 +20,7 @@ public class UsagePointValidationTests extends XMLTest {
     public void isValid() throws Exception {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        UsagePoint usagePoint = new UsagePoint();
-        usagePoint.setMRID("urn:uuid:E8E75691-7F9D-49F3-8BE2-3A74EBF6BFC0");
-        usagePoint.setServiceCategory(new ServiceCategory(ServiceCategory.ELECTRICITY_SERVICE));
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
 
         Set<ConstraintViolation<UsagePoint>> violations = validator.validate(usagePoint);
 
@@ -42,5 +41,10 @@ public class UsagePointValidationTests extends XMLTest {
     @Test
     public void serviceCategory() {
         assertAnnotationPresent(UsagePoint.class, "serviceCategory", NotNull.class);
+    }
+
+    @Test
+    public void uri() {
+        assertAnnotationPresent(UsagePoint.class, "uri", NotEmpty.class);
     }
 }
