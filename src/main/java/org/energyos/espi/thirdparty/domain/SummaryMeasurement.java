@@ -24,6 +24,7 @@
 
 package org.energyos.espi.thirdparty.domain;
 
+import javax.persistence.Embeddable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -55,19 +56,29 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SummaryMeasurement", propOrder = {
-    "powerOfTenMultiplier",
-    "timeStamp",
-    "uom",
-    "value"
+        "powerOfTenMultiplier",
+        "timeStamp",
+        "uom",
+        "value"
 })
+@Embeddable
 public class SummaryMeasurement
-    extends java.lang.Object
 {
 
     protected String powerOfTenMultiplier;
     protected Long timeStamp;
     protected String uom;
     protected Long value;
+
+    public SummaryMeasurement() {
+    }
+
+    public SummaryMeasurement(String powerOfTenMultiplier, Long timeStamp, String uom, Long value) {
+        this.powerOfTenMultiplier = powerOfTenMultiplier;
+        this.timeStamp = timeStamp;
+        this.uom = uom;
+        this.value = value;
+    }
 
     /**
      * Gets the value of the powerOfTenMultiplier property.
