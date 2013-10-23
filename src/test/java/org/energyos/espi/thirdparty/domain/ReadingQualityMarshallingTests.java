@@ -25,7 +25,7 @@ import javax.xml.bind.JAXBElement;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReadingQualityTests {
+public class ReadingQualityMarshallingTests {
 
     static final String XML_INPUT =
             "<ReadingQuality xmlns=\"http://naesb.org/espi\">" +

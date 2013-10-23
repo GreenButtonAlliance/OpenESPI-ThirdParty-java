@@ -26,6 +26,10 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.ReadingQualityAdapter;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -56,12 +60,17 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "quality"
 })
 @XmlJavaTypeAdapter(ReadingQualityAdapter.class)
+@Entity
+@Table(name = "reading_qualities")
 public class ReadingQuality extends IdentifiedObject
 {
 
     @XmlElement(required = true)
     protected String quality;
+
     @XmlTransient
+    @ManyToOne
+    @JoinColumn(name = "interval_reading_id")
     private IntervalReading intervalReading;
 
     /**
