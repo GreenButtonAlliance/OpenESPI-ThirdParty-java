@@ -9,7 +9,7 @@ import java.math.BigInteger;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReadingTypeTests {
+public class ReadingTypeMarshallingTests {
     static final String XML_INPUT = "<ReadingType xmlns=\"http://naesb.org/espi\">" +
             "<accumulationBehaviour>Behaviour</accumulationBehaviour>" +
             "<commodity>Commodity</commodity>" +

@@ -26,6 +26,9 @@ package org.energyos.espi.thirdparty.domain;
 
 import org.energyos.espi.thirdparty.models.atom.adapters.GenericAdapter;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -94,6 +97,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "argument"
 })
 @XmlJavaTypeAdapter(GenericAdapter.class)
+@Entity
+@Table(name = "reading_types")
 public class ReadingType
     extends IdentifiedObject
 {
@@ -111,10 +116,14 @@ public class ReadingType
     protected String consumptionTier;
     protected String cpp;
     protected String currency;
+
+    @Embedded
     protected ReadingInterharmonic interharmonic;
     protected String measuringPeriod;
     protected String tou;
     protected String aggregate;
+
+    @Embedded
     protected RationalNumber argument;
 
     /**
