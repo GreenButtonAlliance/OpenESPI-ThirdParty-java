@@ -2,7 +2,9 @@ package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
+import org.energyos.espi.thirdparty.repository.ResourceRepository;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -25,5 +27,19 @@ public class ResourceServiceImplTests {
         service.get(authorization, url);
 
         verify(repository).get(authorization, url);
+    }
+
+    @Test
+    public void update_updatesResource() throws JAXBException {
+        ResourceRepository repository = mock(ResourceRepository.class);
+
+        ResourceServiceImpl service = new ResourceServiceImpl();
+        service.setResourceRepository(repository);
+
+        UsagePoint resource = new UsagePoint();
+
+        service.update(resource);
+
+        verify(repository).update(resource);
     }
 }
