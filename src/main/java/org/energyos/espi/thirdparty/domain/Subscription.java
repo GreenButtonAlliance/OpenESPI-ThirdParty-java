@@ -69,6 +69,7 @@ public class Subscription
     @XmlTransient
     protected RetailCustomer retailCustomer;
 
+    @OneToOne
     private Authorization authorization;
 
     public RetailCustomer getRetailCustomer() {
