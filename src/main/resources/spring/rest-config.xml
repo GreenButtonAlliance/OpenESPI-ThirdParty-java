@@ -26,7 +26,7 @@
     </bean>
 
     <bean id="usagePointRepositoryImpl" class="org.energyos.espi.thirdparty.repository.impl.UsagePointRepositoryImpl">
-        <property name="template" ref="${template}"/>
     </bean>
 
+    <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/>
 </beans>
