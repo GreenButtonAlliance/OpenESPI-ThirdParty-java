@@ -63,11 +63,6 @@ import java.util.List;
  */
 @XmlRootElement(name="UsagePoint")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "UsagePoint", propOrder = {
-    "roleFlags",
-    "serviceCategory",
-    "status"
-})
 @Entity
 @Table(name = "usage_points", uniqueConstraints = {@UniqueConstraint(columnNames={"uuid"})})
 @NamedQueries(value = {
@@ -129,6 +124,7 @@ public class UsagePoint
     @NotEmpty
     private String uri;
 
+    @OneToOne
     private Subscription subscription;
 
     @Override
