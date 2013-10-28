@@ -21,5 +21,5 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @Cucumber.Options(features = "classpath:features/", tags = {"~@mockedDataCustodian", "~@oauth"})
-public class CucumberRunner {
+public class CucumberFeatures {
 }

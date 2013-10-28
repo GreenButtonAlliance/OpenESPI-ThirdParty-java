@@ -427,7 +427,8 @@
                 <version>2.6</version>
                 <configuration>
                     <includes>
-                        <include>**/CucumberRunner.java</include>
+                        <include>**/*Features.java</include>
+                        <include>**/*Feature.java</include>
                     </includes>
                 </configuration>
                 <executions>
