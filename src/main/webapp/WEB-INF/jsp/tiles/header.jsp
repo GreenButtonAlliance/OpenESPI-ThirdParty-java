@@ -32,7 +32,7 @@
                 <ul class="nav">
                     <security:authorize access="isAuthenticated()">
                         <li><a href="<c:url value='/RetailCustomer/${principal.id}/UsagePoint/show'/>">Usage Points</a></li>
-                        <li><a href="<c:url value='/RetailCustomer/DataCustodianList'/>">Data Custodians</a></li>
+                        <li><a href="<c:url value='/RetailCustomer/${principal.id}/DataCustodianList'/>">Data Custodians</a></li>
                         <li><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
