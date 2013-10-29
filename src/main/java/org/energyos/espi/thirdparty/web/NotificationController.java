@@ -32,10 +32,11 @@ public class NotificationController extends BaseController {
     private UpdateService updateService;
 
     @RequestMapping(value = Routes.ThirdPartyNotification, method = RequestMethod.POST)
-    public void notification(BatchList batchList) throws JAXBException {
-        for(String resourceURI : batchList.getResourceURIs()) {
+    public String notification(BatchList batchList) throws JAXBException {
+        for(String resourceURI : batchList.getResources()) {
             updateService.update(resourceURI);
         }
+        return "redirect:http://www.google.com";
     }
 
     public void setUpdateService(UpdateService updateService) {

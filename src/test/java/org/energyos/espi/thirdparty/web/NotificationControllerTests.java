@@ -32,8 +32,8 @@ public class NotificationControllerTests {
         controller.setUpdateService(updateService);
 
         BatchList batchList = new BatchList();
-        batchList.getResourceURIs().add("resourceURI1");
-        batchList.getResourceURIs().add("resourceURI2");
+        batchList.getResources().add("resourceURI1");
+        batchList.getResources().add("resourceURI2");
 
         controller.notification(batchList);
 
