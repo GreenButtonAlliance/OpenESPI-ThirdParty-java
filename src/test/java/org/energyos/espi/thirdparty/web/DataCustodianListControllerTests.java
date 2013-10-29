@@ -44,7 +44,7 @@ public class DataCustodianListControllerTests {
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        assertEquals("/RetailCustomer/DataCustodianList/index", controller.index("1", new ModelMap()));
+        assertEquals("/RetailCustomer/DataCustodianList/index", controller.index(new ModelMap()));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class DataCustodianListControllerTests {
         when(dataCustodianService.findAll()).thenReturn(dataCustodianList);
         ModelMap model = new ModelMap();
 
-        controller.index("1", model);
+        controller.index(model);
 
         assertSame(dataCustodianList, model.get("dataCustodianList"));
     }
