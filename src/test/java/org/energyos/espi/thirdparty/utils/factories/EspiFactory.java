@@ -310,4 +310,10 @@ public class EspiFactory {
     public static Object getRandomString() {
         return UUID.randomUUID().toString();
     }
+
+    public static BatchList newBatchList() {
+        BatchList batchList = new BatchList();
+        batchList.getResources().add("some resource uri");
+        return batchList;
+    }
 }
