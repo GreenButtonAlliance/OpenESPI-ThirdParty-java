@@ -17,27 +17,39 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.BatchList;
-import org.energyos.espi.thirdparty.service.UpdateService;
+import org.energyos.espi.thirdparty.service.BatchListService;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class NotificationControllerTests {
 
+    @Mock
+    private BatchListService batchListService;
+
+    public NotificationController controller;
+
+    @Before
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
+        controller = new NotificationController();
+        controller.setBatchListService(batchListService);
+        controller.setMarshaller(mock(Jaxb2Marshaller.class));
+    }
+
     @Test
-    public void notification_updatesResources() throws Exception {
-        NotificationController controller = new NotificationController();
-        UpdateService updateService = mock(UpdateService.class);
-        controller.setUpdateService(updateService);
-
-        BatchList batchList = new BatchList();
-        batchList.getResources().add("resourceURI1");
-        batchList.getResources().add("resourceURI2");
-
-        controller.notification(batchList);
-
-        verify(updateService).update("resourceURI1");
-        verify(updateService).update("resourceURI2");
+    public void notification() throws IOException {
+        controller.notification(mock(HttpServletResponse.class), mock(InputStream.class));
+        verify(batchListService).persist(any(BatchList.class));
     }
 }
