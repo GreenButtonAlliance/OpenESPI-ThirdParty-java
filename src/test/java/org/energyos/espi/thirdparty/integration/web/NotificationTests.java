@@ -21,12 +21,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -36,11 +36,13 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Profile("test")
+@Transactional
 public class NotificationTests {
-
     private MockMvc mockMvc;
+
     protected TestingAuthenticationToken authentication;
+
+    public static final String BATCH_LIST_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><espi:BatchList xmlns:espi=\"http://naesb.org/espi\"><espi:resources>RetailCustomer/1/UsagePoint/6</espi:resources></espi:BatchList>";
 
     @Autowired
     protected WebApplicationContext wac;
@@ -51,8 +53,11 @@ public class NotificationTests {
     }
 
     @Test
-    public void notification_returnsOkStatus() throws Exception {
-        mockMvc.perform(post(Routes.ThirdPartyNotification))
-               .andExpect(status().isOk());
+    public void notification_respondsOk() throws Exception {
+        mockMvc.perform(
+                post(Routes.ThirdPartyNotification).content(BATCH_LIST_XML)
+        ).andExpect(
+                status().isOk()
+        );
     }
 }

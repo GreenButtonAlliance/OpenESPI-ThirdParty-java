@@ -36,6 +36,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class AuthorizationRepositoryImplTests {
 
     @Autowired
@@ -48,7 +49,6 @@ public class AuthorizationRepositoryImplTests {
     DataCustodianRepository dataCustodianRepository;
 
     @Test
-    @Transactional
     public void findAllByRetailCustomerId() {
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
         Authorization authorization = newAuthorization(retailCustomer);
@@ -58,7 +58,6 @@ public class AuthorizationRepositoryImplTests {
     }
 
     @Test
-    @Transactional
     public void findByState() {
         Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
 
@@ -68,7 +67,6 @@ public class AuthorizationRepositoryImplTests {
     }
 
     @Test
-    @Transactional
     public void persist() {
         Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
 
@@ -78,7 +76,6 @@ public class AuthorizationRepositoryImplTests {
     }
 
     @Test
-    @Transactional
     public void merge() {
         Authorization authorization = newAuthorization(EspiFactory.newRetailCustomer());
 

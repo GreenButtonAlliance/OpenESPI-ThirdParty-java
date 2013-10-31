@@ -14,13 +14,13 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
+@Transactional
 public class DataCustodianRepositoryImplTest {
 
     @Autowired
     DataCustodianRepository repository;
 
     @Test
-    @Transactional
     public void findById() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         repository.persist(dataCustodian);
@@ -29,16 +29,14 @@ public class DataCustodianRepositoryImplTest {
     }
 
     @Test
-    @Transactional
     public void findAll() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         repository.persist(dataCustodian);
 
-        assertEquals(5, repository.findAll().size());
+        assertEquals(2, repository.findAll().size());
     }
 
     @Test
-    @Transactional
     public void findByClientId() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         repository.persist(dataCustodian);
