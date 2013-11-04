@@ -20,6 +20,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class StepUtils {
 
     public final static String DATA_CUSTODIAN_BASE_URL = "http://localhost:8080/DataCustodian";
@@ -27,8 +35,9 @@ public class StepUtils {
     public final static String USERNAME = "alan";
     public final static String PASSWORD = "koala";
 
+    private static WebDriver driver = WebDriverSingleton.getInstance();
+
     public static void login(String username, String password) {
-        WebDriver driver = WebDriverSingleton.getInstance();
         driver.get(THIRD_PARTY_BASE_URL + "/j_spring_security_logout");
         driver.get(THIRD_PARTY_BASE_URL + "/");
         WebElement loginLink = driver.findElement(By.id("login"));
@@ -41,5 +50,24 @@ public class StepUtils {
         passwordInput.sendKeys(password);
         WebElement login = driver.findElement(By.name("submit"));
         login.click();
+    }
+
+    static void openPage() throws URISyntaxException, IOException {
+        Desktop.getDesktop().browse(new URI(driver.getCurrentUrl()));
+    }
+
+    static void saveAndOpenPage() throws IOException, URISyntaxException {
+        File file = new File("/tmp/cucumber.html");
+
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        FileWriter fw = new FileWriter(file.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write(driver.getPageSource());
+        bw.close();
+
+        Desktop.getDesktop().browse(new URI("file:///tmp/cucumber.html"));
     }
 }
