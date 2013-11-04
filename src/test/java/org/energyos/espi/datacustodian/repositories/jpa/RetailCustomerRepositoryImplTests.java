@@ -28,6 +28,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -37,6 +38,16 @@ public class RetailCustomerRepositoryImplTests {
 
     @Autowired
     private RetailCustomerRepository repository;
+
+    @Test
+    public void findAll_returnsAllRetailCustomers() throws Exception {
+        assertTrue(repository.findAll().size() > 0);
+    }
+
+    @Test
+    public void findById_returnsRetailCustomer() throws Exception {
+        assertNotNull(repository.findById(1L));
+    }
 
     @Test
     public void findByUsername() throws Exception {
