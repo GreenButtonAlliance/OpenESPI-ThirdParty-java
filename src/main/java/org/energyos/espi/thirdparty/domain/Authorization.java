@@ -523,4 +523,9 @@ public class Authorization
     public String getSubscriptionURI() {
         return subscriptionURI;
     }
+
+    public String getSubscriptionId() {
+        String[] pieces = subscriptionURI.split("/");
+        return pieces[pieces.length-1];
+    }
 }

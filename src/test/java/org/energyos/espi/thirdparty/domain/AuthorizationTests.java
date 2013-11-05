@@ -16,6 +16,8 @@ import java.util.Set;
 
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertAnnotationPresent;
 import static org.energyos.espi.thirdparty.utils.TestUtils.assertColumnAnnotation;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -89,5 +91,14 @@ public class AuthorizationTests {
         assertAnnotationPresent(Authorization.class, "dataCustodian", ManyToOne.class);
         assertAnnotationPresent(Authorization.class, "dataCustodian", JoinColumn.class);
         assertAnnotationPresent(Authorization.class, "dataCustodian", NotNull.class);
+    }
+
+    @Test
+    public void subscriptionId() {
+        Authorization authorization = new Authorization();
+
+        authorization.setSubscriptionURI("http://localhost:8080/DataCustodian/espi/1_1/resource/Subscription/16228736-8e29-4807-a2a7-283be5cc253e");
+
+        assertThat(authorization.getSubscriptionId(), is("16228736-8e29-4807-a2a7-283be5cc253e"));
     }
 }
