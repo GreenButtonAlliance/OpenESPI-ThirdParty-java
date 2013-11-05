@@ -27,10 +27,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class StepUtils {
 
-    public final static String DATA_CUSTODIAN_BASE_URL = "http://localhost:8080/DataCustodian";
     public final static String THIRD_PARTY_BASE_URL = "http://localhost:8080/ThirdParty";
     public final static String USERNAME = "alan";
     public final static String PASSWORD = "koala";
@@ -69,5 +73,68 @@ public class StepUtils {
         bw.close();
 
         Desktop.getDesktop().browse(new URI("file:///tmp/cucumber.html"));
+    }
+
+    public static String newUsername() {
+        return "User" + System.currentTimeMillis();
+    }
+
+    public static String newLastName() {
+        return "Doe" + System.currentTimeMillis();
+    }
+
+    public static String newFirstName() {
+        return "John" + System.currentTimeMillis();
+    }
+
+    public static void registerUser(String username, String firstName, String lastName, String password) {
+        StepUtils.login("grace", StepUtils.PASSWORD);
+
+        clickLinkByText("Customer List");
+        clickLinkByPartialText("Add new customer");
+
+        assertTrue(driver.getPageSource().contains("New Retail Customer"));
+
+        WebElement form = driver.findElement(By.name("new_customer"));
+
+        WebElement usernameField = form.findElement(By.name("username"));
+        usernameField.sendKeys(username);
+
+        WebElement firstNameField = form.findElement(By.name("firstName"));
+        firstNameField.sendKeys(firstName);
+
+        WebElement lastNameField = form.findElement(By.name("lastName"));
+        lastNameField.sendKeys(lastName);
+
+        WebElement passwordField = form.findElement(By.name("password"));
+        passwordField.sendKeys(password);
+
+        WebElement create = form.findElement(By.name("create"));
+        create.click();
+
+        assertTrue(driver.getPageSource().contains("Retail Customers"));
+
+        WebElement retailCustomerLink = driver.findElement(By.linkText(username));
+        String href = retailCustomerLink.getAttribute("href");
+        Pattern pattern = Pattern.compile("retailcustomers/(\\d+)");
+        Matcher matcher = pattern.matcher(href);
+        matcher.find();
+        String hashedId = matcher.group(1);
+        assertNotNull(hashedId);
+        CucumberSession.setUserHashedId(hashedId);
+    }
+
+    public static void clickLinkByPartialText(String linkText) {
+        WebElement link = driver.findElement(By.partialLinkText(linkText));
+        link.click();
+    }
+
+    public static void clickLinkByText(String linkText) {
+        WebElement link = driver.findElement(By.linkText(linkText));
+        link.click();
+    }
+
+    public static void navigateTo(String url) {
+        driver.get(THIRD_PARTY_BASE_URL + url);
     }
 }
