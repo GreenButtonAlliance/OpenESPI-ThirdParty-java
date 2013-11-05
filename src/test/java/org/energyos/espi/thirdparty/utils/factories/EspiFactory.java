@@ -278,10 +278,7 @@ public class EspiFactory {
     }
 
     public static Authorization newAuthorization() {
-        Authorization authorization = new Authorization();
-        authorization.setUUID(UUID.randomUUID());
-        authorization.setAccessToken(UUID.randomUUID().toString());
-        return authorization;
+        return newAuthorization(newRetailCustomer(), newDataCustodian());
     }
 
 
@@ -299,6 +296,7 @@ public class EspiFactory {
 
         authorization.setAccessToken("accessToken" + System.currentTimeMillis());
         authorization.setAuthorizationServer("http://DataCustodian" + System.currentTimeMillis() + ".example.com");
+        authorization.setSubscriptionURI(Routes.getDataCustodianRESTSubscriptionGetURL(UUID.randomUUID().toString()));
         authorization.setThirdParty("thirdParty" + System.currentTimeMillis());
         authorization.setState("state" + UUID.randomUUID());
         authorization.setRetailCustomer(retailCustomer);
