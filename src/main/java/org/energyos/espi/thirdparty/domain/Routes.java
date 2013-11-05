@@ -13,6 +13,7 @@ public class Routes {
 
     public static final String DataCustodianScopeSelectionScreen = "/RetailCustomer/ScopeSelectionList";
     public static final String DataCustodianRESTUsagePointGetURL = "/espi/1_1/resource/RetailCustomer/{RetailCustomerID}/UsagePoint/{UsagePointID}";
+    public static final String DataCustodianRESTSubscriptionGetURL = "/espi/1_1/resource/Subscription/{subscriptionHashedId}";
 
     public static String getDataCustodianRESTUsagePointGetURL(String retailCustomerId, String usagePointId) {
         return DataCustodianRESTUsagePointGetURL.replace("{RetailCustomerID}", retailCustomerId).replace("{UsagePointID}", usagePointId);
@@ -20,5 +21,9 @@ public class Routes {
 
     public static String AuthorizationsURL(String retailCustomerID) {
         return ThirdPartyAuthorizationURL.replace("{retailCustomerID}", retailCustomerID);
+    }
+
+    public static String getDataCustodianRESTSubscriptionGetURL(String subscriptionHashedId) {
+        return DataCustodianRESTSubscriptionGetURL.replace("{subscriptionHashedId}", subscriptionHashedId);
     }
 }

@@ -17,7 +17,8 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.service.UsagePointService;
+import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,9 +26,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.xml.bind.JAXBException;
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
@@ -35,24 +38,32 @@ import java.security.Principal;
 public class UsagePointController extends BaseController {
 
     @Autowired
-    private UsagePointService usagePointService;
+    private UsagePointRESTRepository usagePointRESTRepository;
 
     @RequestMapping(value = "/show", method = RequestMethod.GET)
     public String index(ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
-        model.put("usagePointList", usagePointService.findAllByRetailCustomer(currentCustomer));
+        try {
+            List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
+            model.put("usagePointList", usagePointList);
 
-        return "/usagepoints/index";
+            return "/usagepoints/index";
+        } catch(IndexOutOfBoundsException x) {
+            return "redirect:/RetailCustomer/" + currentCustomer.getHashedId() + "/DataCustodianList";
+        } catch(HttpClientErrorException x) {
+            return "redirect:/RetailCustomer/" + currentCustomer.getHashedId() + "/DataCustodianList";
+        }
     }
 
     @RequestMapping(value = "{UsagePointHashedId}/show", method = RequestMethod.GET)
-    public String show(@PathVariable("UsagePointHashedId") String usagePointHashedId, ModelMap model) throws JAXBException {
-        model.put("usagePoint", usagePointService.findByHashedId(usagePointHashedId));
+    public String show(@PathVariable("UsagePointHashedId") String usagePointHashedId, ModelMap model, Principal principal) throws JAXBException {
+        RetailCustomer currentCustomer = currentCustomer(principal);
+        model.put("usagePoint", usagePointRESTRepository.findByHashedId(currentCustomer.getId(), usagePointHashedId));
 
         return "/usagepoints/show";
     }
 
-    public void setUsagePointService(UsagePointService usagePointService) {
-        this.usagePointService = usagePointService;
+    public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
+        this.usagePointRESTRepository = usagePointRESTRepository;
     }
 }

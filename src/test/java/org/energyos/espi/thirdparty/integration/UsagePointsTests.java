@@ -16,11 +16,13 @@
 
 package org.energyos.espi.thirdparty.integration;
 
+import junit.framework.Assert;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.thirdparty.utils.factories.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,8 +35,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -45,20 +45,18 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @Profile("test")
 public class UsagePointsTests {
 
-    private MockMvc mockMvc;
-
-    private TestingAuthenticationToken authentication;
-    private RetailCustomer customer;
-
     @Autowired
     private WebApplicationContext wac;
     @Autowired
     private RetailCustomerService retailCustomerService;
     @Autowired
     private UsagePointService usagePointService;
+    @Autowired
+    private EspiPersistenceFactory espiPersistenceFactory;
 
+    private MockMvc mockMvc;
+    private TestingAuthenticationToken authentication;
     public RetailCustomer retailCustomer;
-
     public UsagePoint usagePoint;
 
     @Before
@@ -67,11 +65,11 @@ public class UsagePointsTests {
         retailCustomerService.persist(retailCustomer);
         usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.persist(usagePoint);
+        Assert.assertNotNull(usagePoint.getId());
 
         this.mockMvc = webAppContextSetup(this.wac).build();
-        customer = mock(RetailCustomer.class);
-        when(customer.getId()).thenReturn(1L);
-        authentication = new TestingAuthenticationToken(customer, null);
+        authentication = new TestingAuthenticationToken(retailCustomer, null);
+        espiPersistenceFactory.createAuthorization(retailCustomer);
     }
 
     @Test
@@ -97,19 +95,22 @@ public class UsagePointsTests {
 
     @Test
     public void show_returnsOkStatus() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show"))
+        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show")
+                .principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show"))
+        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show")
+                .principal(authentication))
                 .andExpect(view().name("/usagepoints/show"));
     }
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show"))
+        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/7bc41774-7190-4864-841c-861ac76d46c2/show")
+                .principal(authentication))
                 .andExpect(model().attributeExists("usagePoint"));
     }
 }

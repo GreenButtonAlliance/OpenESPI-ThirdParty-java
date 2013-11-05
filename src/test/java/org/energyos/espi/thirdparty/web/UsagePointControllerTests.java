@@ -18,8 +18,10 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.energyos.espi.thirdparty.service.UsagePointService;
 import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -35,34 +38,37 @@ public class UsagePointControllerTests {
 
     private UsagePointController controller;
     private UsagePointService service;
+    private UsagePointRESTRepository usagePointRESTRepository;
+    private Authentication authentication;
+    private RetailCustomer retailCustomer;
 
     @Before
     public void setup() {
         controller = new UsagePointController();
         service = mock(UsagePointServiceImpl.class);
-        controller.setUsagePointService(service);
+        usagePointRESTRepository = mock(UsagePointRESTRepository.class);
+        controller.setUsagePointRESTRepository(usagePointRESTRepository);
+        authentication = mock(Authentication.class);
+        retailCustomer = EspiFactory.newRetailCustomer();
+        when(authentication.getPrincipal()).thenReturn(retailCustomer);
     }
 
     @Test
     public void index_displaysIndexView() throws Exception {
-        assertEquals("/usagepoints/index", controller.index(mock(ModelMap.class), mock(Authentication.class)));
+        when(usagePointRESTRepository.findAllByRetailCustomerId(anyLong())).thenReturn(new ArrayList<UsagePoint>());
+        assertEquals("/usagepoints/index", controller.index(mock(ModelMap.class), authentication));
     }
 
     @Test
     public void index_findsUsagePointsForLoggedInCustomer() throws JAXBException {
-
-        RetailCustomer customer = new RetailCustomer();
-
-        Authentication authentication = mock(Authentication.class);
-        when(authentication.getPrincipal()).thenReturn(customer);
-
         controller.index(mock(ModelMap.class), authentication);
-        verify(service).findAllByRetailCustomer(customer);
+        verify(usagePointRESTRepository).findAllByRetailCustomerId(retailCustomer.getId());
     }
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/usagepoints/show", controller.show("7BC41774-7190-4864-841C-861AC76D46C2", mock(ModelMap.class)));
+        when(usagePointRESTRepository.findByHashedId(anyLong(), anyString())).thenReturn(EspiFactory.newUsagePoint());
+        assertEquals("/usagepoints/show", controller.show("7bc41774-7190-4864-841c-861ac76d46c2", mock(ModelMap.class), authentication));
     }
 
     @Test
@@ -71,7 +77,7 @@ public class UsagePointControllerTests {
         String hashedId = "hashedId";
         when(service.findByHashedId(hashedId)).thenReturn(usagePoint);
 
-        controller.show(hashedId, mock(ModelMap.class));
-        verify(service).findByHashedId(hashedId);
+        controller.show(hashedId, mock(ModelMap.class), authentication);
+        verify(usagePointRESTRepository).findByHashedId(retailCustomer.getId(), hashedId);
     }
 }
