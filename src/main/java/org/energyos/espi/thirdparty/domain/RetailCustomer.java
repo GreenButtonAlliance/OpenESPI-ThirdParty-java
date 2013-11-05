@@ -39,6 +39,7 @@ public class RetailCustomer implements UserDetails, Principal {
     public final static String QUERY_FIND_ALL = "RetailCustomer.findAll";
     public static final String QUERY_FIND_BY_USERNAME = "RetailCustomer.findByUsername";
     public final static String ROLE_CUSTOMER = "ROLE_CUSTOMER";
+    public final static String ROLE_CUSTODIAN  = "ROLE_CUSTODIAN";
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
