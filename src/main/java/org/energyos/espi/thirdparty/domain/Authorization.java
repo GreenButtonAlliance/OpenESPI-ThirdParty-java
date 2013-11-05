@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.*;
 @Table(name = "authorizations")
 @NamedQueries(value = {
         @NamedQuery(name = Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID,
-                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId"),
+                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId AND authorization.subscriptionURI IS NOT NULL"),
         @NamedQuery(name = Authorization.QUERY_FIND_BY_STATE,
                 query = "SELECT authorization FROM Authorization authorization WHERE authorization.state = :state")
 })
