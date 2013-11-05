@@ -20,6 +20,7 @@ import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -66,7 +67,13 @@ public class AuthorizationController extends BaseController {
 
         model.put("authorizationList", service.findAllByRetailCustomerId(currentCustomer(principal).getId()));
 
-        return null;
+        return "/RetailCustomer/AuthorizationList/index";
+    }
+
+    @RequestMapping(value = Routes.ThirdPartyAuthorizationURL, method = RequestMethod.GET)
+    public String index(ModelMap model, Authentication principal) {
+        model.put("authorizationList", service.findAllByRetailCustomerId(currentCustomer(principal).getId()));
+        return "/RetailCustomer/AuthorizationList/index";
     }
 
     public void setTemplate(RestTemplate template) {

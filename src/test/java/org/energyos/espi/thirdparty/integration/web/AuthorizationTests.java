@@ -85,7 +85,7 @@ public class AuthorizationTests {
     }
 
     @Test
-    public void authorization_returnsRedirectStatus() throws Exception {
+    public void authorization_returnsOKStatus() throws Exception {
         mockMvc.perform(get(Routes.ThirdPartyOAuthCodeCallbackURL).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))
                 .andExpect(status().isOk());
@@ -96,5 +96,17 @@ public class AuthorizationTests {
         mockMvc.perform(get(Routes.ThirdPartyOAuthCodeCallbackURL).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))
                 .andExpect(model().attributeExists("authorizationList"));
+    }
+
+    @Test
+    public void index_setsAuthorizationListModel() throws Exception {
+        mockMvc.perform(get(Routes.AuthorizationsURL("1")).principal(authentication))
+                .andExpect(model().attributeExists("authorizationList"));
+    }
+
+    @Test
+    public void index_returnsOKStatus() throws Exception {
+        mockMvc.perform(get(Routes.AuthorizationsURL("1")).principal(authentication))
+                .andExpect(status().isOk());
     }
 }

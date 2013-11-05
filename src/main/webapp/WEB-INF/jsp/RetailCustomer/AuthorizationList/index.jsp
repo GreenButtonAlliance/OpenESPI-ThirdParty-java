@@ -29,18 +29,18 @@
         <div class="span12">
             <h2>Authorizations</h2>
 
-            <table class="table table-striped">
+            <table class="table table-striped" id="authorizations">
                 <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Access Token</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="authorization" items="${authorizationList}">
                     <tr>
-                        <td>
-                            <c:out value="${authorization.dataCustodian.description}"/>
-                        </td>
+                        <td class="data_custodian"><c:out value="${authorization.dataCustodian.description}"/></td>
+                        <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>

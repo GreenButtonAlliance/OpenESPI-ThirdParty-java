@@ -87,7 +87,7 @@ public class AuthorizationControllerTests {
 
     @Test
     public void authorization_returnsAuthorizationList() throws Exception {
-        List<Authorization> authorizations = new ArrayList<Authorization>();
+        List<Authorization> authorizations = new ArrayList<>();
         authorizations.add(new Authorization());
         when(service.findAllByRetailCustomerId(anyLong())).thenReturn(authorizations);
         ModelMap model = new ModelMap();
@@ -95,5 +95,22 @@ public class AuthorizationControllerTests {
         controller.authorization(CODE, authorization.getState(), model, principal);
 
         assertEquals(authorizations, model.get("authorizationList"));
+    }
+
+    @Test
+    public void index_returnsAuthorizationList() {
+        List<Authorization> authorizations = new ArrayList<>();
+        authorizations.add(new Authorization());
+        when(service.findAllByRetailCustomerId(anyLong())).thenReturn(authorizations);
+        ModelMap model = new ModelMap();
+
+        controller.index(model, principal);
+
+        assertEquals(authorizations, model.get("authorizationList"));
+    }
+
+    @Test
+    public void index_displaysIndexView() throws Exception {
+        assertEquals("/RetailCustomer/AuthorizationList/index", controller.index(new ModelMap(), principal));
     }
 }
