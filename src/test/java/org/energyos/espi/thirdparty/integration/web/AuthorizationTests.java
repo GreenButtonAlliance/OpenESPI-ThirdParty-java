@@ -100,13 +100,13 @@ public class AuthorizationTests {
 
     @Test
     public void index_setsAuthorizationListModel() throws Exception {
-        mockMvc.perform(get(Routes.AuthorizationsURL("1")).principal(authentication))
+        mockMvc.perform(get(Routes.newAuthorizations("1")).principal(authentication))
                 .andExpect(model().attributeExists("authorizationList"));
     }
 
     @Test
     public void index_returnsOKStatus() throws Exception {
-        mockMvc.perform(get(Routes.AuthorizationsURL("1")).principal(authentication))
+        mockMvc.perform(get(Routes.newAuthorizations("1")).principal(authentication))
                 .andExpect(status().isOk());
     }
 }

@@ -19,8 +19,8 @@ public class Routes {
         return DataCustodianRESTUsagePointGetURL.replace("{RetailCustomerID}", retailCustomerId).replace("{UsagePointID}", usagePointId);
     }
 
-    public static String AuthorizationsURL(String retailCustomerID) {
-        return ThirdPartyAuthorizationURL.replace("{retailCustomerID}", retailCustomerID);
+    public static String newAuthorizations(String retailCustomerId) {
+        return ThirdPartyAuthorizationURL.replace("{retailCustomerID}", retailCustomerId);
     }
 
     public static String getDataCustodianRESTSubscriptionGetURL(String subscriptionHashedId) {
