@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-public class RetailCustomerController {
+public class CustomerHomeController {
 
     @RequestMapping(value = "/RetailCustomer/{retailCustomerId}/home", method = RequestMethod.GET)
     public String home() {

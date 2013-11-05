@@ -28,15 +28,17 @@
         <intercept-url pattern="/TermsOfService" access="permitAll" />
         <intercept-url pattern="/UsagePolicy" access="permitAll" />
         <intercept-url pattern="/login*" access="permitAll"/>
+        <intercept-url pattern="/default" access="permitAll" />
 
         <intercept-url pattern="/espi/1_1/Notification"  access="permitAll" />
 
         <intercept-url pattern="/resources/**" access="permitAll"/>
 
-        <intercept-url pattern="/**"  access="hasRole('ROLE_CUSTOMER')" />
         <intercept-url pattern="/espi/1_1/RetailCustomer/**"  access="hasRole('ROLE_CUSTOMER')" />
+        <intercept-url pattern="/custodian/**"  access="hasRole('ROLE_CUSTODIAN')" />
+        <intercept-url pattern="/**"  access="hasRole('ROLE_CUSTOMER')" />
 
-        <form-login login-page="/login" default-target-url="/"/>
+        <form-login login-page="/login" default-target-url="/default"/>
         <logout logout-success-url="/" delete-cookies="JSESSIONID"/>
 
         <session-management invalid-session-url="/">

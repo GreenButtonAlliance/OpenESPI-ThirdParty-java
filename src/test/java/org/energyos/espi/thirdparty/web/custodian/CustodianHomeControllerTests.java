@@ -14,24 +14,18 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.thirdparty.web;
+package org.energyos.espi.thirdparty.web.custodian;
 
+import org.energyos.espi.thirdparty.web.CustodianHomeController;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@ContextConfiguration("/spring/test-context.xml")
-public class RetailCustomerControllerTests {
+public class CustodianHomeControllerTests {
 
     @Test
-    public void home_displaysHomeView() throws Exception {
-        RetailCustomerController controller = new RetailCustomerController();
-        assertEquals("/RetailCustomer/home", controller.home());
+    public void index_displaysCustodianHomeView() throws Exception {
+        CustodianHomeController controller = new CustodianHomeController();
+        assertEquals("/custodian/home", controller.index());
     }
 }
