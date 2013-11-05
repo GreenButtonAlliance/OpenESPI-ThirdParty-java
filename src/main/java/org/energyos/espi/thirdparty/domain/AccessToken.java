@@ -12,9 +12,9 @@ public class AccessToken {
     @JsonProperty("scope")
     private String scope;
     @JsonProperty("resourceURI")
-    private String resource;
+    private String resourceURI;
     @JsonProperty("authorizationURI")
-    private String authorization;
+    private String authorizationURI;
 
     public String getAccessToken() {
         return accessToken;
@@ -48,19 +48,19 @@ public class AccessToken {
         this.scope = scope;
     }
 
-    public String getResource() {
-        return resource;
+    public String getResourceURI() {
+        return resourceURI;
     }
 
-    public void setResource(String resource) {
-        this.resource = resource;
+    public void setResourceURI(String resourceURI) {
+        this.resourceURI = resourceURI;
     }
 
-    public String getAuthorization() {
-        return authorization;
+    public String getAuthorizationURI() {
+        return authorizationURI;
     }
 
-    public void setAuthorization(String authorization) {
-        this.authorization = authorization;
+    public void setAuthorizationURI(String authorizationURI) {
+        this.authorizationURI = authorizationURI;
     }
 }

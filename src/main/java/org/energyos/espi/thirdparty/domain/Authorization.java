@@ -122,6 +122,7 @@ public class Authorization
     @NotNull
     @XmlTransient
     private DataCustodian dataCustodian;
+    private String subscriptionURI;
 
     /**
      * Gets the value of the authorizedPeriod property.
@@ -513,5 +514,13 @@ public class Authorization
 
     public void setDataCustodian(DataCustodian dataCustodian) {
         this.dataCustodian = dataCustodian;
+    }
+
+    public void setSubscriptionURI(String subscriptionURI) {
+        this.subscriptionURI = subscriptionURI;
+    }
+
+    public String getSubscriptionURI() {
+        return subscriptionURI;
     }
 }
