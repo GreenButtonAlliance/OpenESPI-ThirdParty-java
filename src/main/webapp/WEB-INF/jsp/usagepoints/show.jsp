@@ -22,7 +22,7 @@
 
 <body>
 
-<jsp:include page="../tiles/header.jsp"/>
+<jsp:include page="../tiles/customer/header.jsp"/>
 
 <div class="container">
     <div class="row">
@@ -41,7 +41,7 @@
                 <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/meterreadings/${meterReading.MRID}/show'/>">
+                            <a href="<c:url value='/meterreadings/${meterReading.UUID}/show'/>">
                                 <c:out value="${meterReading.description}"/>
                             </a>
                         </td>

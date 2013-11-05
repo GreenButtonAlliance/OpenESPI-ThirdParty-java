@@ -59,6 +59,7 @@ public class AuthorizationController extends BaseController {
         try {
             AccessToken token = template.getForObject(url, AccessToken.class);
             authorization.setAccessToken(token.getAccessToken());
+            authorization.setSubscriptionURI(token.getResourceURI());
         } catch (HttpClientErrorException x) {
             throw new UserDeniedAuthorizationException("Unable to retrieve OAuth token", x);
         }

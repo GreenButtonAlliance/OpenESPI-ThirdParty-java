@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.*;
 @Table(name = "authorizations")
 @NamedQueries(value = {
         @NamedQuery(name = Authorization.QUERY_FIND_BY_RETAIL_CUSTOMER_ID,
-                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId"),
+                query = "SELECT authorization FROM Authorization authorization WHERE authorization.retailCustomer.id = :retailCustomerId AND authorization.subscriptionURI IS NOT NULL"),
         @NamedQuery(name = Authorization.QUERY_FIND_BY_STATE,
                 query = "SELECT authorization FROM Authorization authorization WHERE authorization.state = :state")
 })
@@ -122,6 +122,7 @@ public class Authorization
     @NotNull
     @XmlTransient
     private DataCustodian dataCustodian;
+    private String subscriptionURI;
 
     /**
      * Gets the value of the authorizedPeriod property.
@@ -513,5 +514,13 @@ public class Authorization
 
     public void setDataCustodian(DataCustodian dataCustodian) {
         this.dataCustodian = dataCustodian;
+    }
+
+    public void setSubscriptionURI(String subscriptionURI) {
+        this.subscriptionURI = subscriptionURI;
+    }
+
+    public String getSubscriptionURI() {
+        return subscriptionURI;
     }
 }

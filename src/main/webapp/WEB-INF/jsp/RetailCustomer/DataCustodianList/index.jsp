@@ -32,7 +32,7 @@
     });
 </script>
 
-<jsp:include page="../../tiles/header.jsp"/>
+<jsp:include page="../../tiles/customer/header.jsp"/>
 <security:authentication var="principal" property="principal" />
 
 <div class="container">

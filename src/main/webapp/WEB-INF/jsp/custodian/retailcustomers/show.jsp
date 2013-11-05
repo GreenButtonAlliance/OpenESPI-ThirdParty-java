@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -18,31 +19,25 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/custodian/header.jsp"/>
 
 <div class="container">
+
     <div class="row">
         <div class="span12">
 
-            <c:forEach var="batchList" items="${batchLists}">
-                <h2><c:out value="Batch List ID: ${batchList.id}"/></h2>
-                <ul>
-                <c:forEach var="uri" items="${batchList.resources}">
-                    <li><c:out value="Resource URI: ${uri}"/></li>
-                </c:forEach>
-                </ul>
-            </c:forEach>
+            <h2><c:out value="${retailCustomer.firstName}"/> <c:out value="${retailCustomer.lastName}"/></h2>
 
         </div>
     </div>
 
     <hr>
 
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/tiles/footer.jsp"/>
 
 </div>
 

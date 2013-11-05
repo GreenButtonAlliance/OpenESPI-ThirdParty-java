@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%--
   ~ Copyright 2013 EnergyOS.org
   ~
@@ -16,8 +15,6 @@
   ~    limitations under the License.
   --%>
 
-<security:authentication var="principal" property="principal" />
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,30 +22,40 @@
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../tiles/custodian/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Points</h2>
+            <h2>Retail Customers</h2>
+
+            <c:if test="${not empty message}">
+            <div class="alert">${message}</div>
+            </c:if>
+
+            <a href="<c:url value='/custodian/retailcustomers/form'/>" class="btn btn-large"><i class="icon-plus"></i>&nbsp;Add new customer</a>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Service Category</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="usagePoint" items="${usagePointList}">
+                <c:forEach var="customer" items="${customers}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/RetailCustomer/${principal.id}/UsagePoint/${usagePoint.UUID}/show'/>">
-                                <c:out value="${usagePoint.description}"/>
+                            <a href="<c:url value='/custodian/retailcustomers/${customer.id}/show'/>">
+                                <c:out value="${customer.username}"/>
                             </a>
                         </td>
                         <td>
-                            <c:out value="${usagePoint.serviceCategory}"/>
+                            <c:out value="${customer.firstName}"/>
+                        </td>
+                        <td>
+                            <c:out value="${customer.lastName}"/>
                         </td>
                     </tr>
                 </c:forEach>
