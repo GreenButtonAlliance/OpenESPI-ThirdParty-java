@@ -49,6 +49,8 @@
         <anonymous />
         <remember-me/>
         <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+
+        <access-denied-handler error-page="/WEB-INF/jsp/403.jsp"/>
     </http>
 
     <authentication-manager xmlns="http://www.springframework.org/schema/security">

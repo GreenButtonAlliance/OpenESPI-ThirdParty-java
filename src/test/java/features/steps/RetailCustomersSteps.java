@@ -23,6 +23,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static features.steps.StepUtils.navigateTo;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
@@ -116,5 +117,15 @@ public class RetailCustomersSteps {
     @Then("^I should see Electric Power Quality Summary$")
     public void I_should_see_Electric_Power_Quality_Summary() throws Throwable {
         assertTrue(driver.getPageSource().contains("Quality Summary"));
+    }
+
+    @When("^I attempt to view custodian/home$")
+    public void I_attempt_to_view_custodian_home() throws Throwable {
+        navigateTo("/custodian/home");
+    }
+
+    @Then("^I should see an unauthorized screen$")
+    public void I_should_see_an_unauthorized_screen() throws Throwable {
+        assertThat(driver.getPageSource(), containsString("You don't have permission to view this page"));
     }
 }

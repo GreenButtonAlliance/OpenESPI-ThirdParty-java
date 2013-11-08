@@ -14,3 +14,11 @@ Feature: Retail Customers
 
     When I log in with invalid credentials
     Then I should see the login form
+
+  Scenario: Logged in Retail Customer access unauthorized page
+    Given I have a Retail Customer account
+    And I log in as Alan Turing
+
+    When I attempt to view custodian/home
+
+    Then I should see an unauthorized screen

@@ -16,7 +16,6 @@
 
 package org.energyos.espi.thirdparty.web.tools;
 
-import org.energyos.espi.thirdparty.domain.BatchList;
 import org.energyos.espi.thirdparty.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
