@@ -1,7 +1,8 @@
 package org.energyos.espi.thirdparty.domain;
 
 public class Configuration {
-    public static final String THIRD_PARTY_BASE_URL = "http://localhost:8080/ThirdParty";
+	// TODO: this string needs to be set up from the appropriate config file variable.
+    public static final String THIRD_PARTY_BASE_URL = "http://services.greenbuttondata.org/ThirdParty";
     public static final String THIRD_PARTY_CLIENT_ID = "third_party";
     public static final String THIRD_PARTY_CLIENT_PASSWORD = "secret";
     public static final String[] SCOPES = new String [] {
