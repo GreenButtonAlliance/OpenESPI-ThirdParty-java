@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="<c:url value='/custodian/home'/>">Third Party</a>
+            <a class="brand" href="<c:url value='/home'/>"><img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;Third Party</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
