@@ -505,6 +505,8 @@
                 <version>2.0</version>
                 <configuration>
                     <path>/ThirdParty</path>
+                    <url>http://services.greenbuttondata.org/manager/text</url>
+                    <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
 
