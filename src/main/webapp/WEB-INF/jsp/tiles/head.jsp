@@ -32,6 +32,7 @@
     <![endif]-->
 
     <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
+    <script src="<c:url value='/resources/js/application.js'/>"></script>
 
     <link rel="apple-touch-icon-precomposed" sizes="144x144"
           href="<c:url value='/resources/ico/apple-touch-icon-144-precomposed.png'/>">
