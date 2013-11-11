@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.BatchList;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -39,7 +39,7 @@ public class NotificationController extends BaseController {
     @Autowired
     public Jaxb2Marshaller marshaller;
 
-    @RequestMapping(value = Routes.ThirdPartyNotification, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.THIRD_PARTY_NOTIFICATION, method = RequestMethod.POST)
     public void notification(HttpServletResponse response, InputStream inputStream) throws IOException {
         BatchList batchList = (BatchList)marshaller.unmarshal(new StreamSource(inputStream));
         batchListService.persist(batchList);

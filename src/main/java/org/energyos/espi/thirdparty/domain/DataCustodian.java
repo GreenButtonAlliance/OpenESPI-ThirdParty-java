@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.common.domain.Routes;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -65,7 +66,7 @@ public class DataCustodian {
     }
 
     public String getScopeSelectionURL() {
-        return getUrl() + Routes.DataCustodianScopeSelectionScreen;
+        return getUrl() + Routes.DATA_CUSTODIAN_SCOPE_SELECTION_SCREEN;
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
-import org.energyos.espi.thirdparty.domain.Routes;
+import org.energyos.espi.common.domain.Routes;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +55,7 @@ public class NotificationTests {
     @Test
     public void notification_respondsOk() throws Exception {
         mockMvc.perform(
-                post(Routes.ThirdPartyNotification).content(BATCH_LIST_XML)
+                post(Routes.THIRD_PARTY_NOTIFICATION).content(BATCH_LIST_XML)
         ).andExpect(
                 status().isOk()
         );

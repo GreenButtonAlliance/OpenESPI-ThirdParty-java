@@ -16,11 +16,11 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.BaseTest;
 import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.energyos.espi.thirdparty.service.StateService;
@@ -86,9 +86,9 @@ public class ScopeSelectionControllerTests extends BaseTest {
         when(dataCustodianService.findByClientId(eq(dataCustodian.getClientId()))).thenReturn(dataCustodian);
 
         String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
-                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint,
+                dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT,
                 Configuration.THIRD_PARTY_CLIENT_ID,
-                Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL,
+                Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK,
                 "code",
                 Configuration.SCOPES[0]);
 

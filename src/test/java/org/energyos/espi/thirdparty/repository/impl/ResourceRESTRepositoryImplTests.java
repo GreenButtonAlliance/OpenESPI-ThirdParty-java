@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -59,7 +59,7 @@ public class ResourceRESTRepositoryImplTests {
 
         authorization = new Authorization();
         authorization.setAccessToken("token");
-        uri = Routes.DataCustodianRESTUsagePointGetURL;
+        uri = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_GET;
     }
 
     @Test

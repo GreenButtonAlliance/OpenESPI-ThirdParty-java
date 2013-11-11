@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
@@ -86,27 +86,27 @@ public class AuthorizationTests {
 
     @Test
     public void authorization_returnsOKStatus() throws Exception {
-        mockMvc.perform(get(Routes.ThirdPartyOAuthCodeCallbackURL).principal(authentication)
+        mockMvc.perform(get(Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void authorization_setsAuthorizationListModel() throws Exception {
-        mockMvc.perform(get(Routes.ThirdPartyOAuthCodeCallbackURL).principal(authentication)
+        mockMvc.perform(get(Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))
                 .andExpect(model().attributeExists("authorizationList"));
     }
 
     @Test
     public void index_setsAuthorizationListModel() throws Exception {
-        mockMvc.perform(get(Routes.newAuthorizations("1")).principal(authentication))
+        mockMvc.perform(get(Routes.buildThirdPartyAuthorization("1")).principal(authentication))
                 .andExpect(model().attributeExists("authorizationList"));
     }
 
     @Test
     public void index_returnsOKStatus() throws Exception {
-        mockMvc.perform(get(Routes.newAuthorizations("1")).principal(authentication))
+        mockMvc.perform(get(Routes.buildThirdPartyAuthorization("1")).principal(authentication))
                 .andExpect(status().isOk());
     }
 }

@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
 import org.energyos.espi.thirdparty.repository.ResourceRepository;
@@ -22,7 +22,7 @@ public class ResourceServiceImplTests {
         service.setResourceRESTRepository(repository);
 
         Authorization authorization = new Authorization();
-        String url = Routes.DataCustodianRESTUsagePointGetURL;
+        String url = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_GET;
 
         service.get(authorization, url);
 

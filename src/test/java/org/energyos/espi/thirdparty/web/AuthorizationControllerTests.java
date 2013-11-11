@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.*;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
@@ -70,8 +71,8 @@ public class AuthorizationControllerTests {
     @Test
     public void authorization_fetchesToken() throws Exception {
         String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                dataCustodian.getUrl(), Routes.AuthorizationServerTokenEndpoint,
-                Configuration.THIRD_PARTY_BASE_URL + Routes.ThirdPartyOAuthCodeCallbackURL, CODE);
+                dataCustodian.getUrl(), Routes.AUTHORIZATION_SERVER_TOKEN_ENDPOINT,
+                Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, CODE);
 
         controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);
 

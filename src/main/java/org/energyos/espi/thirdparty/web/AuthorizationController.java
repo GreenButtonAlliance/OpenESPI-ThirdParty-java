@@ -16,7 +16,11 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.*;
+import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.thirdparty.domain.AccessToken;
+import org.energyos.espi.thirdparty.domain.Authorization;
+import org.energyos.espi.thirdparty.domain.Configuration;
+import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,16 +49,16 @@ public class AuthorizationController extends BaseController {
     @Qualifier("clientRestTemplate")
     private RestTemplate template;
 
-    @RequestMapping(value = Routes.ThirdPartyOAuthCodeCallbackURL, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal) {
         Authorization authorization = service.findByState(state);
-        authorization.setAuthorizationServer(Routes.AuthorizationServerAuthorizationEndpoint);
+        authorization.setAuthorizationServer(Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT);
         authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
 
         DataCustodian dataCustodian = authorization.getDataCustodian();
 
         String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code", dataCustodian.getUrl(),
-                Routes.AuthorizationServerTokenEndpoint, thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL, code);
+                Routes.AUTHORIZATION_SERVER_TOKEN_ENDPOINT, thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, code);
 
         try {
             AccessToken token = template.getForObject(url, AccessToken.class);
@@ -71,7 +75,7 @@ public class AuthorizationController extends BaseController {
         return "/RetailCustomer/AuthorizationList/index";
     }
 
-    @RequestMapping(value = Routes.ThirdPartyAuthorizationURL, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.THIRD_PARTY_AUTHORIZATION, method = RequestMethod.GET)
     public String index(ModelMap model, Authentication principal) {
         model.put("authorizationList", service.findAllByRetailCustomerId(currentCustomer(principal).getId()));
         return "/RetailCustomer/AuthorizationList/index";

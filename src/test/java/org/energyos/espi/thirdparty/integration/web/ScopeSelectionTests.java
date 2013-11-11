@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
 import org.energyos.espi.thirdparty.service.StateService;
@@ -98,19 +98,19 @@ public class ScopeSelectionTests {
 
     @Test
     public void get_scopeSelection_returnsOkStatus() throws Exception {
-        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+        mockMvc.perform(get(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).param("scope", "scope1").param("scope", "scope2"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void get_scopeSelection_displaysScopeSelectionView() throws Exception {
-        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+        mockMvc.perform(get(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).param("scope", "scope1").param("scope", "scope2"))
                 .andExpect(view().name("/RetailCustomer/ScopeSelection"));
     }
 
     @Test
     public void get_scopeSelection_setsScopeListModel() throws Exception {
-        mockMvc.perform(get(Routes.ThirdPartyScopeSelectionScreen).param("scope", "scope1").param("scope", "scope2"))
+        mockMvc.perform(get(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).param("scope", "scope1").param("scope", "scope2"))
                 .andExpect(model().attributeExists("scopeList"));
     }
 
@@ -120,7 +120,7 @@ public class ScopeSelectionTests {
         service.persist(dataCustodian);
         String scope = Configuration.SCOPES[0];
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeSelectionScreen).principal(authentication)
+        mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
                 .param("scope", scope).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(status().is(302));
     }
@@ -131,11 +131,11 @@ public class ScopeSelectionTests {
         service.persist(dataCustodian);
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
-                dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint, Configuration.THIRD_PARTY_CLIENT_ID,
-                 "http://localhost:8080/ThirdParty" + Routes.ThirdPartyOAuthCodeCallbackURL, "code",
+                dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT, Configuration.THIRD_PARTY_CLIENT_ID,
+                 "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
                 Configuration.SCOPES[0], stateService.newState());
 
-        mockMvc.perform(post(Routes.ThirdPartyScopeSelectionScreen).principal(authentication)
+        mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
                 .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(redirectedUrl(redirectURL));
     }

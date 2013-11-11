@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Authorization;
 import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
 import org.energyos.espi.thirdparty.service.StateService;
@@ -54,19 +54,19 @@ public class ScopeSelectionController extends BaseController {
     @Qualifier("THIRD_PARTY_URL")
     private String thirdPartyURL;
 
-    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
         model.put("scopeList", Arrays.asList(scopes));
 
         return "/RetailCustomer/ScopeSelection";
     }
 
-    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreenWithRetailCustomerId, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
     }
 
-    @RequestMapping(value = Routes.ThirdPartyScopeSelectionScreen, method = RequestMethod.POST)
+    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
     public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") String dataCustodianId, Principal principal) throws JAXBException {
         DataCustodian dataCustodian = dataCustodianService.findByClientId(dataCustodianId);
 
@@ -80,8 +80,8 @@ public class ScopeSelectionController extends BaseController {
 
         authorizationService.persist(authorization);
 
-        return "redirect:" + dataCustodian.getUrl() + Routes.AuthorizationServerAuthorizationEndpoint + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
-                "&redirect_uri=" + thirdPartyURL + Routes.ThirdPartyOAuthCodeCallbackURL +
+        return "redirect:" + dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+                "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
     }

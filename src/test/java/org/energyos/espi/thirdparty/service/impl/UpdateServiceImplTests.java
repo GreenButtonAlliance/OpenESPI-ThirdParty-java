@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.Routes;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.ResourceService;
@@ -23,7 +23,7 @@ public class UpdateServiceImplTests {
 
     @Before
     public void before() {
-        uri = Routes.getDataCustodianRESTUsagePointGetURL("1", "1");
+        uri = Routes.buildDataCustodianRESTUsagePointGet("1", "1");
         updateUsagePoint = new UsagePoint();
         authorization = new Authorization();
         resourceService = mock(ResourceService.class);
