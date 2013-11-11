@@ -34,6 +34,7 @@
                 <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
                 <profile>dev</profile>
+                <database>hsql</database>
             </properties>
         </profile>
 
@@ -47,6 +48,7 @@
                 <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
                 <template>mockTemplate</template>
                 <profile>ci</profile>
+                <database>hsql</database>
             </properties>
         </profile>
 
@@ -57,6 +59,7 @@
                 <thirdparty.base.url>http://thirdparty-dev.herokuapp.com/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
                 <profile>heroku</profile>
+                <database>postgresql</database>
             </properties>
         </profile>
 
@@ -67,6 +70,7 @@
                 <thirdparty.base.url>http://54.200.90.158:8080/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
                 <profile>ec2</profile>
+                <database>hsql</database>
             </properties>
         </profile>   
         <profile>
