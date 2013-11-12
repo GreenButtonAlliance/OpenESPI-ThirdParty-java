@@ -42,7 +42,6 @@ public class BatchListRepositoryImplTest {
     public void findAll() {
         List<BatchList> foundList = repository.findAll();
 
-        System.out.println(foundList.size());
         assertThat(batchList.getId(), is(foundList.get(0).getId()));
     }
 }
