@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -25,10 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.security.Principal;
 
 @Controller
-@RequestMapping("/")
 public class HomeController {
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
     public String index(Principal principal) {
         if (principal == null) {
             return "home";
@@ -37,17 +37,17 @@ public class HomeController {
         }
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
     public String home(Principal principal) {
         return index(principal);
     }
 
-    @RequestMapping(value = "/TermsOfService", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.TERMS_OF_SERVICE, method = RequestMethod.GET)
     public String termsOfService() {
         return "/TermsOfService";
     }
 
-    @RequestMapping(value = "/UsagePolicy", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.USAGE_POLICY, method = RequestMethod.GET)
     public String usagePolicy() {
         return "/UsagePolicy";
     }

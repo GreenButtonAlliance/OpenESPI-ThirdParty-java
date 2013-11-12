@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.web.custodian;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.service.RetailCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/custodian/retailcustomers")
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
 
@@ -32,21 +32,21 @@ public class RetailCustomerController {
         binder.setValidator(new RetailCustomerValidator());
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_INDEX, method = RequestMethod.GET)
     public String index(ModelMap model) {
         model.put("customers", service.findAll());
 
         return "retailcustomers/index";
     }
 
-    @RequestMapping(value = "form", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_FORM, method = RequestMethod.GET)
     public String form(ModelMap model) {
         model.put("retailCustomer", new RetailCustomer());
 
         return "retailcustomers/form";
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_CREATE, method = RequestMethod.POST)
     public String create(@ModelAttribute("retailCustomer") @Valid RetailCustomer retailCustomer, BindingResult result) {
         if (result.hasErrors()) {
             return "retailcustomers/form";
@@ -56,7 +56,7 @@ public class RetailCustomerController {
         }
     }
 
-    @RequestMapping(value = "/{retailCustomerId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.DATA_CUSTODIAN_RETAIL_CUSTOMER_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, ModelMap model) {
         RetailCustomer retailCustomer = service.findById(retailCustomerId);
         model.put("retailCustomer", retailCustomer);

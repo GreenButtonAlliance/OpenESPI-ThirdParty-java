@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.web.tools;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/batchLists")
+@RequestMapping(Routes.THIRD_PARTY_BATCH_LIST)
 public class BatchListController {
 
     @Autowired

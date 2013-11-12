@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.service.MeterReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,13 +14,12 @@ import javax.xml.bind.JAXBException;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/meterreadings")
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class MeterReadingController {
     @Autowired
     private MeterReadingService meterReadingService;
 
-    @RequestMapping(value = "{meterReadingId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.THIRD_PARTY_METER_READINGS_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable String meterReadingId, ModelMap model) throws JAXBException {
         model.put("meterReading", meterReadingService.findByUUID(UUID.fromString(meterReadingId)));
         return "/meterreadings/show";

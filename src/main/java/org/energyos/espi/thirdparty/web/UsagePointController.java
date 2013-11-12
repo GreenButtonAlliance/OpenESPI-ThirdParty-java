@@ -16,6 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
@@ -33,14 +34,13 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/RetailCustomer/{retailCustomerId}/UsagePoint")
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
 public class UsagePointController extends BaseController {
 
     @Autowired
     private UsagePointRESTRepository usagePointRESTRepository;
 
-    @RequestMapping(value = "/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.USAGE_POINT_INDEX_TP, method = RequestMethod.GET)
     public String index(ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
         try {
@@ -55,7 +55,7 @@ public class UsagePointController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "{UsagePointHashedId}/show", method = RequestMethod.GET)
+    @RequestMapping(value = Routes.USAGE_POINT_SHOW_TP, method = RequestMethod.GET)
     public String show(@PathVariable("UsagePointHashedId") String usagePointHashedId, ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
         model.put("usagePoint", usagePointRESTRepository.findByHashedId(currentCustomer.getId(), usagePointHashedId));
