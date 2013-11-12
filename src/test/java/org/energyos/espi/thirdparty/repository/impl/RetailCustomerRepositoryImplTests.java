@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.energyos.espi.datacustodian.repositories.jpa;
+package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
