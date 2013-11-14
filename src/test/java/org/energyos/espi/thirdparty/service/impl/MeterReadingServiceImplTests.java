@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
+import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +16,13 @@ import static org.mockito.Mockito.when;
 
 public class MeterReadingServiceImplTests {
 
-    private MeterReadingRepository repository;
+    private MeterReadingRESTRepository repository;
     private MeterReadingServiceImpl service;
 
     @Before
     public void before() {
         service = new MeterReadingServiceImpl();
-        repository = mock(MeterReadingRepository.class);
+        repository = mock(MeterReadingRESTRepository.class);
         service.setRepository(repository);
     }
 

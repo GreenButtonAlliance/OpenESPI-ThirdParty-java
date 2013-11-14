@@ -3,7 +3,7 @@ package org.energyos.espi.thirdparty.repository.impl;
 import org.energyos.espi.thirdparty.domain.MeterReading;
 import org.energyos.espi.thirdparty.domain.UsagePoint;
 import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
+import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
 import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
 import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class MeterReadingRepositoryImpl implements MeterReadingRepository {
+public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepository {
 
     @Autowired
     @Qualifier("API_FEED_URL")

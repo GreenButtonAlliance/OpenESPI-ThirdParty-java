@@ -5,6 +5,6 @@ import org.energyos.espi.thirdparty.domain.MeterReading;
 import javax.xml.bind.JAXBException;
 import java.util.UUID;
 
-public interface MeterReadingRepository {
+public interface MeterReadingRESTRepository {
     MeterReading findByUUID(UUID uuid) throws JAXBException;
 }

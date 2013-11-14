@@ -17,7 +17,7 @@
 package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.repository.MeterReadingRepository;
+import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
 import org.energyos.espi.thirdparty.service.MeterReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,14 +28,14 @@ import java.util.UUID;
 @Service
 public class MeterReadingServiceImpl implements MeterReadingService {
     @Autowired
-    protected MeterReadingRepository repository;
+    protected MeterReadingRESTRepository repository;
 
     @Override
     public MeterReading findByUUID(UUID uuid) throws JAXBException {
         return repository.findByUUID(uuid);
     }
 
-    public void setRepository(MeterReadingRepository repository) {
+    public void setRepository(MeterReadingRESTRepository repository) {
        this.repository = repository;
     }
 }

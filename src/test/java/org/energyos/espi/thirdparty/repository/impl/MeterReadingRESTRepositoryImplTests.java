@@ -36,18 +36,18 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MeterReadingRepositoryImplTests {
+public class MeterReadingRESTRepositoryImplTests {
 
     public static final String FEED_WITH_USAGE_POINTS = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><entry><content><UsagePoint/></content></entry>entry><content><UsagePoint/></content></entry></feed>";
 
-    private MeterReadingRepositoryImpl repository;
+    private MeterReadingRESTRepositoryImpl repository;
     private RestTemplate template;
     private ATOMMarshaller marshaller;
     private UsagePointBuilder builder;
 
     @Before
     public void setup() {
-        repository = new MeterReadingRepositoryImpl();
+        repository = new MeterReadingRESTRepositoryImpl();
 
         template = mock(RestTemplate.class);
         repository.setTemplate(template);
