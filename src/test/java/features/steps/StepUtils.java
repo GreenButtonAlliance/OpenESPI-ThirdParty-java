@@ -16,31 +16,18 @@
 
 package features.steps;
 
+import org.energyos.espi.common.test.BaseStepUtils;
+import org.energyos.espi.common.test.CucumberSession;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class StepUtils {
-
-    public final static String THIRD_PARTY_BASE_URL = "http://localhost:8080/ThirdParty";
-    public final static String USERNAME = "alan";
-    public final static String PASSWORD = "koala";
-
-    private static WebDriver driver = WebDriverSingleton.getInstance();
-
+public class StepUtils extends BaseStepUtils {
     public static void login(String username, String password) {
         driver.get(THIRD_PARTY_BASE_URL + "/j_spring_security_logout");
         driver.get(THIRD_PARTY_BASE_URL + "/");
@@ -54,37 +41,6 @@ public class StepUtils {
         passwordInput.sendKeys(password);
         WebElement login = driver.findElement(By.name("submit"));
         login.click();
-    }
-
-    static void openPage() throws URISyntaxException, IOException {
-        Desktop.getDesktop().browse(new URI(driver.getCurrentUrl()));
-    }
-
-    static void saveAndOpenPage() throws IOException, URISyntaxException {
-        File file = new File("/tmp/cucumber.html");
-
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        FileWriter fw = new FileWriter(file.getAbsoluteFile());
-        BufferedWriter bw = new BufferedWriter(fw);
-        bw.write(driver.getPageSource());
-        bw.close();
-
-        Desktop.getDesktop().browse(new URI("file:///tmp/cucumber.html"));
-    }
-
-    public static String newUsername() {
-        return "User" + System.currentTimeMillis();
-    }
-
-    public static String newLastName() {
-        return "Doe" + System.currentTimeMillis();
-    }
-
-    public static String newFirstName() {
-        return "John" + System.currentTimeMillis();
     }
 
     public static void registerUser(String username, String firstName, String lastName, String password) {
@@ -122,16 +78,6 @@ public class StepUtils {
         String hashedId = matcher.group(1);
         assertNotNull(hashedId);
         CucumberSession.setUserHashedId(hashedId);
-    }
-
-    public static void clickLinkByPartialText(String linkText) {
-        WebElement link = driver.findElement(By.partialLinkText(linkText));
-        link.click();
-    }
-
-    public static void clickLinkByText(String linkText) {
-        WebElement link = driver.findElement(By.linkText(linkText));
-        link.click();
     }
 
     public static void navigateTo(String url) {
