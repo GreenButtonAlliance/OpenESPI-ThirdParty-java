@@ -15,7 +15,7 @@ public class MockRestTemplate extends RestTemplate {
 
     public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
-        String inputStreamString = null;
+        String inputStreamString;
         try {
             inputStreamString = new Scanner(sourceFile.getInputStream(),"UTF-8").useDelimiter("\\A").next();
             return (T)inputStreamString;
@@ -29,10 +29,10 @@ public class MockRestTemplate extends RestTemplate {
     @Override
     public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) throws RestClientException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
-        String inputStreamString = null;
+        String inputStreamString;
         try {
             inputStreamString = new Scanner(sourceFile.getInputStream(),"UTF-8").useDelimiter("\\A").next();
-            return new ResponseEntity<T>((T)inputStreamString, HttpStatus.OK);
+            return new ResponseEntity<>((T)inputStreamString, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RestClientException("The file import broke.");

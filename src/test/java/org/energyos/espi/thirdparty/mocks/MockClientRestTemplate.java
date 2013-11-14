@@ -1,12 +1,8 @@
 package org.energyos.espi.thirdparty.mocks;
 
 import org.energyos.espi.thirdparty.domain.AccessToken;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.Scanner;
 
 public class MockClientRestTemplate extends RestTemplate {
 
