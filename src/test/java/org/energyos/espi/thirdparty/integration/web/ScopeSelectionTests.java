@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.Configuration;
 import org.energyos.espi.thirdparty.domain.DataCustodian;
 import org.energyos.espi.thirdparty.domain.RetailCustomer;
 import org.energyos.espi.thirdparty.service.DataCustodianService;
