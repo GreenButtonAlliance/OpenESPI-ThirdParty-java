@@ -26,7 +26,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.servlet.http.HttpServletRequest;
+
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,33 +43,51 @@ public class HomeControllerTests {
     protected HomeController controller;
     private RetailCustomer customer;
     private Authentication principal;
+    private HttpServletRequest request;
 
     @Before
     public void setup() {
         customer = new RetailCustomer();
         customer.setId(99L);
+
         principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(customer);
+
+        request = mock(HttpServletRequest.class);
     }
 
     @Test
     public void index_whenNotLoggedIn_displaysHomeView() throws Exception {
-        assertEquals("home", controller.index(null));
+        assertEquals("home", controller.index(request, principal));
     }
 
     @Test
     public void index_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
-        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(principal));
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(false);
+
+        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(request, principal));
     }
 
     @Test
     public void home_whenNotLoggedIn_displaysHomeView() throws Exception {
-        assertEquals("home", controller.home(null));
+        assertEquals("home", controller.home(request, principal));
     }
 
     @Test
-    public void home_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
-        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(principal));
+    public void home_whenLoggedInAsCustomer_redirectsToRetailCustomerHome() throws Exception {
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(false);
+
+        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(request, principal));
+    }
+
+    @Test
+    public void home_whenLoggedInAsCustodian_redirectsToCustodianHome() throws Exception {
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(false);
+
+        assertThat(controller.home(request, null), is("redirect:/custodian/home"));
     }
 
     @Test
