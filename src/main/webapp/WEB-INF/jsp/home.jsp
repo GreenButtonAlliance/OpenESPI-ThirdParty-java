@@ -30,7 +30,7 @@
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
 	<h2>Welcome to the <a href="http://www.energyos.org">EnergyOS</a> Green Button Third Party</h2>
-	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabscom/">Pivotal Labs</a>, prepared a reference Green Button Third Party implementation.
+	<p><a href="http://www.energyos.org">EnergyOS</a> has, with the support of <a href="http://pivotallabs.com/">Pivotal Labs</a>, prepared a reference Green Button Third Party implementation.
 	    This implementation supports a full complement of Green Button facilities and, as an <a href="https://github.com/energyos">Open Source
         project</a>, is freely available for download by any interested parties.</p>
 	<p>
