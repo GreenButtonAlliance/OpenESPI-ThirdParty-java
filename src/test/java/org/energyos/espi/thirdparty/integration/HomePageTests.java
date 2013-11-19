@@ -29,8 +29,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -52,8 +50,8 @@ public class HomePageTests {
     @Before
     public void setup() {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        customer = mock(RetailCustomer.class);
-        when(customer.getId()).thenReturn(1L);
+        customer = new RetailCustomer();
+        customer.setId(1L);
         authentication = new TestingAuthenticationToken(customer, null);
     }
 
