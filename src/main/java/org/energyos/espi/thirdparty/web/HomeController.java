@@ -16,35 +16,30 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 
     @RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
-    public String index(HttpServletRequest request, Principal principal) {
-        String path = "home";
-
-        if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
-            path = "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
-        } else if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
-            path = "redirect:/custodian/home";
+    public String index(Principal principal) {
+        if (isUserCustodian(principal)) {
+            return "redirect:/custodian/home";
+        } else if (isUserUserRole(principal)) {
+            return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
         }
 
-        return path;
+        return "home";
     }
 
     @RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
-    public String home(HttpServletRequest request, Principal principal) {
-        return index(request, principal);
+    public String home(Principal principal) {
+        return index(principal);
     }
 
     @RequestMapping(value = Routes.TERMS_OF_SERVICE, method = RequestMethod.GET)
@@ -55,10 +50,6 @@ public class HomeController {
     @RequestMapping(value = Routes.USAGE_POLICY, method = RequestMethod.GET)
     public String usagePolicy() {
         return "/UsagePolicy";
-    }
-
-    private RetailCustomer currentCustomer(Principal principal) {
-        return (RetailCustomer)((Authentication)principal).getPrincipal();
     }
 
 }
