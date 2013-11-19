@@ -80,6 +80,7 @@
                 <thirdparty.base.url>http://services.greenbuttondata.org/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
                 <profile>greenbuttondata</profile>
+                <database>mysql</database>
             </properties>
         </profile>
     </profiles>
