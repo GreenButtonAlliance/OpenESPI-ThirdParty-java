@@ -14,7 +14,7 @@ import javax.xml.bind.JAXBException;
 import java.util.UUID;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_CUSTOMER')")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class MeterReadingController {
     @Autowired
     private MeterReadingRESTService meterReadingService;

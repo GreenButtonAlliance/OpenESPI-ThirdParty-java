@@ -63,7 +63,7 @@ public class HomeControllerTests {
 
     @Test
     public void index_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
-        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_USER)).thenReturn(true);
         when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(false);
 
         assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(request, principal));
@@ -76,7 +76,7 @@ public class HomeControllerTests {
 
     @Test
     public void home_whenLoggedInAsCustomer_redirectsToRetailCustomerHome() throws Exception {
-        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(true);
+        when(request.isUserInRole(RetailCustomer.ROLE_USER)).thenReturn(true);
         when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(false);
 
         assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(request, principal));
@@ -85,7 +85,7 @@ public class HomeControllerTests {
     @Test
     public void home_whenLoggedInAsCustodian_redirectsToCustodianHome() throws Exception {
         when(request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)).thenReturn(true);
-        when(request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)).thenReturn(false);
+        when(request.isUserInRole(RetailCustomer.ROLE_USER)).thenReturn(false);
 
         assertThat(controller.home(request, null), is("redirect:/custodian/home"));
     }

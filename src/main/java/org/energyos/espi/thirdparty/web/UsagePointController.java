@@ -34,7 +34,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_CUSTOMER')")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class UsagePointController extends BaseController {
 
     @Autowired

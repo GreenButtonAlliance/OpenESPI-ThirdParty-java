@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.xml.bind.JAXBException;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_CUSTOMER')")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class DataCustodianListController {
 
     @Autowired

@@ -33,7 +33,7 @@ public class HomeController {
     public String index(HttpServletRequest request, Principal principal) {
         String path = "home";
 
-        if (request.isUserInRole(RetailCustomer.ROLE_CUSTOMER)) {
+        if (request.isUserInRole(RetailCustomer.ROLE_USER)) {
             path = "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
         } else if (request.isUserInRole(RetailCustomer.ROLE_CUSTODIAN)) {
             path = "redirect:/custodian/home";
