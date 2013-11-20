@@ -16,60 +16,38 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.FeedType;
-import org.energyos.espi.common.utils.ATOMMarshaller;
-import org.energyos.espi.common.utils.UsagePointBuilder;
-import org.energyos.espi.thirdparty.utils.factories.Factory;
-import org.junit.Before;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.junit.Test;
-import org.springframework.web.client.RestTemplate;
 
-import javax.xml.bind.JAXBException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MeterReadingRESTRepositoryImplTests {
 
-    public static final String FEED_WITH_USAGE_POINTS = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><feed><entry><content><UsagePoint/></content></entry>entry><content><UsagePoint/></content></entry></feed>";
-
-    private MeterReadingRESTRepositoryImpl repository;
-    private RestTemplate template;
-    private ATOMMarshaller marshaller;
-    private UsagePointBuilder builder;
-
-    @Before
-    public void setup() {
-        repository = new MeterReadingRESTRepositoryImpl();
-
-        template = mock(RestTemplate.class);
-        repository.setTemplate(template);
-
-        marshaller = mock(ATOMMarshaller.class);
-        repository.setMarshaller(marshaller);
-
-        builder = mock(UsagePointBuilder.class);
-        repository.setBuilder(builder);
-    }
-
     @Test
-    public void findById_returnsMeterReading() throws JAXBException {
-        UsagePoint usagePoint = Factory.newUsagePoint();
+    public void findByUUID() throws Exception {
+        MeterReadingRESTRepositoryImpl repository = new MeterReadingRESTRepositoryImpl();
+
+        UsagePointRESTRepository usagePointRESTRepository = mock(UsagePointRESTRepository.class);
+        repository.setUsagePointRESTRepository(usagePointRESTRepository);
 
         List<UsagePoint> usagePoints = new ArrayList<>();
+        UsagePoint usagePoint = EspiFactory.newUsagePoint();
         usagePoints.add(usagePoint);
+        when(usagePointRESTRepository.findAllByRetailCustomerId(99L)).thenReturn(usagePoints);
 
-        when(template.getForObject(any(String.class), any(Class.class))).thenReturn(FEED_WITH_USAGE_POINTS);
-        when(marshaller.unmarshal(any(InputStream.class))).thenReturn(new FeedType());
-        when(builder.newUsagePoints(any(FeedType.class))).thenReturn(usagePoints);
+        MeterReading expectedMeterReading = usagePoint.getMeterReadings().get(0);
+        MeterReading meterReading = repository.findByUUID(99L, expectedMeterReading.getUUID());
 
-        assertEquals(usagePoint.getMeterReadings().get(0), repository.findByUUID(UUID.fromString("E8B19EF0-6833-41CE-A28B-A5E7F9F193AE")));
+        assertThat(meterReading, is(expectedMeterReading));
+
     }
 }

@@ -65,8 +65,7 @@ public class UsagePointsTests {
 
     @Before
     public void setup() {
-        retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerService.persist(retailCustomer);
+        retailCustomer = espiPersistenceFactory.createRetailCustomer();
         usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.persist(usagePoint);
         assertThat(usagePoint.getId(), is(notNullValue()));

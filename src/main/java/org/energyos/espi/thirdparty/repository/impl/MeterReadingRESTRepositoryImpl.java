@@ -2,17 +2,12 @@ package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.FeedType;
 import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
-import org.energyos.espi.common.utils.ATOMMarshaller;
-import org.energyos.espi.common.utils.UsagePointBuilder;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.JAXBException;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,34 +15,15 @@ import java.util.UUID;
 public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepository {
 
     @Autowired
-    @Qualifier("API_FEED_URL")
-    private String apiFeedURL;
+    private UsagePointRESTRepository usagePointRESTRepository;
 
-    @Autowired
-    private UsagePointBuilder builder;
-
-    @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate template;
-
-    @Autowired
-    private ATOMMarshaller marshaller;
-
-    public void setTemplate(RestTemplate template) {
-        this.template = template;
-    }
-
-    public void setMarshaller(ATOMMarshaller marshaller) {
-        this.marshaller = marshaller;
-    }
-
-    public void setBuilder(UsagePointBuilder builder) {
-        this.builder = builder;
+    public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
+        this.usagePointRESTRepository = usagePointRESTRepository;
     }
 
     @Override
-    public MeterReading findByUUID(UUID uuid) throws JAXBException {
-        List<UsagePoint> usagePointList = builder.newUsagePoints(unmarshallFeedType(requestUsagePoints()));
+    public MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException {
+        List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(retailCustomerId);
 
         return findMeterReading(usagePointList, uuid);
     }
@@ -70,13 +46,4 @@ public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepositor
         }
         return null;
     }
-
-    private String requestUsagePoints() {
-        return template.getForObject(apiFeedURL, String.class);
-    }
-
-    private FeedType unmarshallFeedType(String  xml) throws JAXBException {
-        return marshaller.unmarshal(new ByteArrayInputStream(xml.getBytes()));
-    }
-
 }

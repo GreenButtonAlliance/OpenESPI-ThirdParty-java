@@ -6,5 +6,5 @@ import javax.xml.bind.JAXBException;
 import java.util.UUID;
 
 public interface MeterReadingRESTRepository {
-    MeterReading findByUUID(UUID uuid) throws JAXBException;
+    MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException;
 }

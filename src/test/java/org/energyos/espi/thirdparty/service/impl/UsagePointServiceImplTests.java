@@ -57,13 +57,4 @@ public class UsagePointServiceImplTests {
 
         assertEquals(usagePoint, service.findByUUID(usagePoint.getUUID()));
     }
-
-    @Test
-    public void findByURI_returnsUsagePoint() throws JAXBException {
-        String uri = "http://localhost:8080/DataCustodian/espi/1_1/resource/RetailCustomer/1/UsagePoint/1";
-        UsagePoint usagePoint = Factory.newUsagePoint();
-        when(repository.findByURI(uri)).thenReturn(usagePoint);
-
-        assertEquals(usagePoint, service.findByURI(uri));
-    }
 }

@@ -1,10 +1,10 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.ResourceRepository;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
-import org.energyos.espi.thirdparty.repository.ResourceRepository;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;

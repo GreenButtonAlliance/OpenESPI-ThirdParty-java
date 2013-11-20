@@ -17,10 +17,13 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.thirdparty.service.MeterReadingRESTService;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
@@ -43,16 +46,20 @@ public class MeterReadingControllerTests {
 
     @Test
     public void show_displaysShowView() throws Exception {
-        assertEquals("/meterreadings/show", controller.show(UUID.randomUUID().toString(), mock(ModelMap.class)));
+        TestingAuthenticationToken authentication = new TestingAuthenticationToken(mock(RetailCustomer.class), null);
+        assertEquals("/meterreadings/show", controller.show(UUID.randomUUID().toString(), mock(ModelMap.class), authentication));
     }
 
     @Test
     public void show_setsMeterReadingModel() throws JAXBException {
         MeterReading meterReading = Factory.newMeterReading();
         ModelMap model = new ModelMap();
-        when(service.findByUUID(any(UUID.class))).thenReturn(meterReading);
+        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+        retailCustomer.setId(99L);
+        TestingAuthenticationToken authentication = new TestingAuthenticationToken(retailCustomer, null);
+        when(service.findByUUID(eq(99L), any(UUID.class))).thenReturn(meterReading);
 
-        controller.show(UUID.randomUUID().toString(), model);
+        controller.show(UUID.randomUUID().toString(), model, authentication);
 
         assertEquals(meterReading, model.get("meterReading"));
     }
