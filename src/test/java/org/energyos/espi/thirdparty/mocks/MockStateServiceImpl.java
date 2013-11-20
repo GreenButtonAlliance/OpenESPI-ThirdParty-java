@@ -1,6 +1,6 @@
 package org.energyos.espi.thirdparty.mocks;
 
-import org.energyos.espi.thirdparty.service.StateService;
+import org.energyos.espi.common.service.StateService;
 
 import java.util.UUID;
 

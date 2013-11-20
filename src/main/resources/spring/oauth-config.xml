@@ -15,5 +15,5 @@
 	<oauth:resource id="trusted" type="client_credentials" client-id="my-client-with-registered-redirect"
 		access-token-uri="${accessTokenUri}" scope="trust" />
 
-    <oauth:rest-template id="oauthTemplate" resource="feed"/>
+    <!--<oauth:rest-template id="oauthTemplate" resource="feed"/>-->
 </beans>

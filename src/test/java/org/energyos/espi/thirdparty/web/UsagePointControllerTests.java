@@ -16,12 +16,12 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
-import org.energyos.espi.thirdparty.service.UsagePointService;
-import org.energyos.espi.thirdparty.service.impl.UsagePointServiceImpl;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;

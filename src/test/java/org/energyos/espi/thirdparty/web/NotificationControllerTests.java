@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.BatchList;
-import org.energyos.espi.thirdparty.service.BatchListService;
+import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.service.BatchListService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

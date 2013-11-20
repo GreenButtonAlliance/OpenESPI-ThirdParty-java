@@ -1,12 +1,12 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.FeedType;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.common.utils.ATOMMarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
@@ -60,7 +61,7 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
         List<UsagePoint> usagePoints = findAllByRetailCustomerId(retailCustomerId);
 
         for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getHashedId().equals(usagePointHashedId)) {
+            if (usagePoint.getHashedId().equalsIgnoreCase(usagePointHashedId)) {
                 return usagePoint;
             }
         }
@@ -81,8 +82,8 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
         return template.exchange(authorization.getSubscriptionURI(), HttpMethod.GET, requestEntity, String.class);
     }
 
-    private Authorization findAuthorization(Long id) {
-        List<Authorization> authorizations = authorizationService.findAllByRetailCustomerId(id);
+    private Authorization findAuthorization(Long retailCustomerId) {
+        List<Authorization> authorizations = authorizationService.findAllByRetailCustomerId(retailCustomerId);
         return authorizations.get(authorizations.size() - 1);
     }
 

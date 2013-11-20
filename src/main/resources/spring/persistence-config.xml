@@ -41,7 +41,7 @@
                 </props>
             </property>
             <property name="persistenceUnitName" value="energy"/>
-            <property name="packagesToScan" value="org.energyos.espi.thirdparty.domain"/>
+            <property name="packagesToScan" value="org.energyos.espi.common.domain"/>
         </bean>
 
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
@@ -50,7 +50,4 @@
         <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
     </beans>
 
-    <beans profile="default">
-        <context:component-scan base-package="org.energyos.espi.thirdparty.repository.impl"/>
-    </beans>
 </beans>

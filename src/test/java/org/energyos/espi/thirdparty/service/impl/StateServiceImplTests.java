@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import org.energyos.espi.common.service.impl.StateServiceImpl;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotEquals;

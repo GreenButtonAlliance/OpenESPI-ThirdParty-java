@@ -1,12 +1,12 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.thirdparty.BaseTest;
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.common.models.atom.FeedType;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.utils.ATOMMarshaller;
+import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.energyos.espi.thirdparty.utils.factories.EspiFactory.newAuthorization;
-import static org.energyos.espi.thirdparty.utils.factories.EspiFactory.newUsagePoint;
+import static org.energyos.espi.common.test.EspiFactory.newAuthorization;
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;

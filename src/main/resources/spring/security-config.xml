@@ -35,9 +35,9 @@
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/batchLists" access="hasRole('ROLE_CUSTODIAN')"/>
 
-        <intercept-url pattern="/espi/1_1/RetailCustomer/**"  access="hasRole('ROLE_CUSTOMER')" />
+        <intercept-url pattern="/espi/1_1/RetailCustomer/**"  access="hasRole('ROLE_USER')" />
         <intercept-url pattern="/custodian/**"  access="hasRole('ROLE_CUSTODIAN')" />
-        <intercept-url pattern="/**"  access="hasRole('ROLE_CUSTOMER')" />
+        <intercept-url pattern="/**"  access="hasRole('ROLE_USER')" />
 
         <form-login login-page="/login" default-target-url="/default"/>
         <logout logout-success-url="/" delete-cookies="JSESSIONID"/>

@@ -24,14 +24,14 @@
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 
+    <import resource="classpath:spring/business-config.xml"/>
     <import resource="classpath:spring/persistence-config.xml"/>
     <import resource="classpath:spring/rest-config.xml"/>
     <import resource="classpath:spring/oauth-config.xml"/>
     <import resource="classpath:spring/security-config.xml"/>
 
-    <context:component-scan base-package="org.energyos.espi.thirdparty.service"/>
-    <context:component-scan base-package="org.energyos.espi.thirdparty.utils"/>
-    <context:component-scan base-package="org.energyos.espi.thirdparty.web"/>
+    <context:component-scan base-package="org.energyos.espi.common"/>
+    <context:component-scan base-package="org.energyos.espi.thirdparty"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
@@ -48,7 +48,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.service.impl.StateServiceImpl" autowire-candidate="true"/>
+    <bean id="stateService" name="stateService" class="org.energyos.espi.common.service.impl.StateServiceImpl" autowire-candidate="true"/>
 
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="excludedExceptions" value="org.springframework.security.oauth2.client.resource.UserRedirectRequiredException"/>

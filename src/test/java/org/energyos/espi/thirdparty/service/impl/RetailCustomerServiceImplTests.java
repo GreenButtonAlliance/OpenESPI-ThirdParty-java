@@ -1,7 +1,8 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.repositories.RetailCustomerRepository;
+import org.energyos.espi.common.service.impl.RetailCustomerServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 

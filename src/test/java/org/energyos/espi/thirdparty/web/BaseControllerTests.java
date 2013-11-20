@@ -16,23 +16,64 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class BaseControllerTests {
 
+    private RetailCustomer retailCustomer;
+    private Authentication principal;
+    private BaseController controller;
+
+    @Before
+    public void setUp() throws Exception {
+        retailCustomer = new RetailCustomer();
+        principal = mock(Authentication.class);
+        when(principal.getPrincipal()).thenReturn(retailCustomer);
+
+        controller = new BaseController();
+    }
+
     @Test
     public void currentCustomer() throws Exception {
-        RetailCustomer retailCustomer = new RetailCustomer();
-        Authentication principal = mock(Authentication.class);
-        when(principal.getPrincipal()).thenReturn(retailCustomer);
-        BaseController controller  = new BaseController();
-
         assertEquals(retailCustomer, controller.currentCustomer(principal));
+    }
+
+    @Test
+    public void currentCustomer_withoutAPrincipal() throws Exception {
+        assertThat(controller.currentCustomer(null), is(nullValue()));
+    }
+
+    @Test
+    public void isUserCustodian() {
+        retailCustomer.setRole(RetailCustomer.ROLE_CUSTODIAN);
+
+        assertThat(controller.isUserCustodian(principal), is(true));
+    }
+
+    @Test
+    public void isUserCustodian_withDefaultRole() {
+        assertThat(controller.isUserCustodian(principal), is(false));
+        assertThat(controller.isUserUserRole(principal), is(true));
+    }
+
+    @Test
+    public void isUserUserRole() {
+        retailCustomer.setRole(RetailCustomer.ROLE_USER);
+
+        assertThat(controller.isUserUserRole(principal), is(true));
+    }
+
+    @Test
+    public void isUserUserRole_givenNullPrincipal() {
+        assertThat(controller.isUserUserRole(null), is(false));
     }
 }

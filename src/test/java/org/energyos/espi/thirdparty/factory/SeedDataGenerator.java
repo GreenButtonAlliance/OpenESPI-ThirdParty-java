@@ -1,10 +1,10 @@
 package org.energyos.espi.thirdparty.factory;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.RetailCustomerRepository;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.test.EspiFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SeedDataGenerator {

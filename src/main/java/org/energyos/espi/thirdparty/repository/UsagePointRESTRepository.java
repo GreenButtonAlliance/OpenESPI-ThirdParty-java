@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.repository;
 
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.UsagePoint;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;

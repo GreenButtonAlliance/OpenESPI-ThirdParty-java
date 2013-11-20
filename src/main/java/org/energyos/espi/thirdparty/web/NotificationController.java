@@ -17,9 +17,10 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.BatchList;
-import org.energyos.espi.thirdparty.service.BatchListService;
+import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,7 @@ public class NotificationController extends BaseController {
     private BatchListService batchListService;
 
     @Autowired
+    @Qualifier(value = "atomMarshaller")
     public Jaxb2Marshaller marshaller;
 
     @RequestMapping(value = Routes.THIRD_PARTY_NOTIFICATION, method = RequestMethod.POST)

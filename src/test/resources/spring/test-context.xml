@@ -19,9 +19,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-
                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
+    <context:component-scan base-package="org.energyos.espi.common"/>
     <context:component-scan base-package="org.energyos.espi.thirdparty"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -42,16 +42,8 @@
         <constructor-arg value="http://localhost:8080/ThirdParty"/>
     </bean>
 
-    <bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-        <property name="packagesToScan">
-            <list>
-                <value>org.energyos.espi.thirdparty.models.atom</value>
-                <value>org.energyos.espi.thirdparty.domain</value>
-            </list>
-        </property>
-    </bean>
-
     <import resource="classpath:spring/persistence-config.xml"/>
+    <import resource="classpath:spring/business-config.xml"/>
 
     <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 

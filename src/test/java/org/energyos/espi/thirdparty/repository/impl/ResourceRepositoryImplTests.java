@@ -16,12 +16,12 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.ServiceCategory;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.ResourceRepository;
-import org.energyos.espi.thirdparty.repository.RetailCustomerRepository;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.ServiceCategory;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.ResourceRepository;
+import org.energyos.espi.common.repositories.RetailCustomerRepository;
+import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.bind.JAXBException;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -102,6 +103,6 @@ public class ResourceRepositoryImplTests {
         repository.update(updatedResource);
 
         UsagePoint up = repository.findByUUID(originalResource.getUUID());
-        assertNotNull(up.getRetailCustomer().getId());
+        assertThat(up.getRetailCustomer().getId(), is(not(nullValue())));
     }
 }

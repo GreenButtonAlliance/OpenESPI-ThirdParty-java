@@ -17,7 +17,7 @@
 package org.energyos.espi.thirdparty.web.tools;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.service.BatchListService;
+import org.energyos.espi.common.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

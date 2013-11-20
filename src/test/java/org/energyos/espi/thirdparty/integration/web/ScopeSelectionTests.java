@@ -16,14 +16,14 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.Configuration;
+import org.energyos.espi.common.domain.DataCustodian;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.Configuration;
-import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.service.DataCustodianService;
-import org.energyos.espi.thirdparty.service.RetailCustomerService;
-import org.energyos.espi.thirdparty.service.StateService;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.common.service.DataCustodianService;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.StateService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

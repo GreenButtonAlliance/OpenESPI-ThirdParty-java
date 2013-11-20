@@ -17,7 +17,7 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.Authorization;
+import org.energyos.espi.common.domain.Authorization;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;

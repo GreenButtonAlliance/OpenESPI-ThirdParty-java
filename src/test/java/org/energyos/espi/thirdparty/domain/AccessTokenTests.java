@@ -1,5 +1,6 @@
 package org.energyos.espi.thirdparty.domain;
 
+import org.energyos.espi.common.domain.AccessToken;
 import org.junit.Test;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;

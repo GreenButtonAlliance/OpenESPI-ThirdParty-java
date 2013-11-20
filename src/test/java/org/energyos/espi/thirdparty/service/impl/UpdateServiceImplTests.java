@@ -1,10 +1,10 @@
 package org.energyos.espi.thirdparty.service.impl;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
-import org.energyos.espi.thirdparty.service.ResourceService;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.thirdparty.service.ResourceRESTService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,9 +14,9 @@ import static org.mockito.Mockito.*;
 
 public class UpdateServiceImplTests {
 
-    public UpdateServiceImpl updateService;
+    public UpdateRESTServiceImpl updateService;
     public AuthorizationService authorizationService;
-    public ResourceService resourceService;
+    public ResourceRESTService resourceRESTService;
     public Authorization authorization;
     public UsagePoint updateUsagePoint;
     public String uri;
@@ -26,14 +26,14 @@ public class UpdateServiceImplTests {
         uri = Routes.buildDataCustodianRESTUsagePointGet("1", "1");
         updateUsagePoint = new UsagePoint();
         authorization = new Authorization();
-        resourceService = mock(ResourceService.class);
+        resourceRESTService = mock(ResourceRESTService.class);
         authorizationService = mock(AuthorizationService.class);
 
         when(authorizationService.findByURI(uri)).thenReturn(authorization);
-        when(resourceService.get(authorization, uri)).thenReturn(updateUsagePoint);
+        when(resourceRESTService.get(authorization, uri)).thenReturn(updateUsagePoint);
 
-        updateService = new UpdateServiceImpl();
-        updateService.setResourceService(resourceService);
+        updateService = new UpdateRESTServiceImpl();
+        updateService.setResourceRESTService(resourceRESTService);
         updateService.setAuthorizationService(authorizationService);
     }
 
@@ -48,13 +48,13 @@ public class UpdateServiceImplTests {
     public void update_fetchesResource() throws JAXBException {
         updateService.update(uri);
 
-        verify(resourceService).get(authorization, uri);
+        verify(resourceRESTService).get(authorization, uri);
     }
 
     @Test
     public void update_updatesResource() throws JAXBException {
         updateService.update(uri);
 
-        verify(resourceService).update(updateUsagePoint);
+        verify(resourceRESTService).update(updateUsagePoint);
     }
 }

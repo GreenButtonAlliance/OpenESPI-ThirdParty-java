@@ -1,8 +1,8 @@
 package org.energyos.espi.thirdparty.web.tools;
 
+import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.thirdparty.BaseTest;
-import org.energyos.espi.thirdparty.domain.BatchList;
-import org.energyos.espi.thirdparty.service.BatchListService;
+import org.energyos.espi.common.service.BatchListService;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.energyos.espi.thirdparty.utils.factories.EspiFactory.newBatchList;
+import static org.energyos.espi.common.test.EspiFactory.newBatchList;
 import static org.mockito.Mockito.*;
 
 public class BatchListControllerTest extends BaseTest {

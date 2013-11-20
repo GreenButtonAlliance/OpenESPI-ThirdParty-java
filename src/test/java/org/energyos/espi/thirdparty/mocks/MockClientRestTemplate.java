@@ -1,6 +1,6 @@
 package org.energyos.espi.thirdparty.mocks;
 
-import org.energyos.espi.thirdparty.domain.AccessToken;
+import org.energyos.espi.common.domain.AccessToken;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 

@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -44,6 +46,7 @@ public class HomeControllerTests {
     public void setup() {
         customer = new RetailCustomer();
         customer.setId(99L);
+
         principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(customer);
     }
@@ -55,6 +58,8 @@ public class HomeControllerTests {
 
     @Test
     public void index_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
+        customer.setRole(RetailCustomer.ROLE_USER);
+
         assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(principal));
     }
 
@@ -64,8 +69,17 @@ public class HomeControllerTests {
     }
 
     @Test
-    public void home_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
+    public void home_whenLoggedInAsCustomer_redirectsToRetailCustomerHome() throws Exception {
+        customer.setRole(RetailCustomer.ROLE_USER);
+
         assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(principal));
+    }
+
+    @Test
+    public void home_whenLoggedInAsCustodian_redirectsToCustodianHome() throws Exception {
+        customer.setRole(RetailCustomer.ROLE_CUSTODIAN);
+
+        assertThat(controller.home(principal), is("redirect:/custodian/home"));
     }
 
     @Test

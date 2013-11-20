@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.*;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.common.domain.AccessToken;
+import org.energyos.espi.common.service.AuthorizationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;

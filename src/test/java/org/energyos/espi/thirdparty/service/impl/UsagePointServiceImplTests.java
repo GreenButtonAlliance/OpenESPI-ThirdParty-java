@@ -1,8 +1,9 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,14 +56,5 @@ public class UsagePointServiceImplTests {
         when(repository.findByUUID(any(UUID.class))).thenReturn(usagePoint);
 
         assertEquals(usagePoint, service.findByUUID(usagePoint.getUUID()));
-    }
-
-    @Test
-    public void findByURI_returnsUsagePoint() throws JAXBException {
-        String uri = "http://localhost:8080/DataCustodian/espi/1_1/resource/RetailCustomer/1/UsagePoint/1";
-        UsagePoint usagePoint = Factory.newUsagePoint();
-        when(repository.findByURI(uri)).thenReturn(usagePoint);
-
-        assertEquals(usagePoint, service.findByURI(uri));
     }
 }
