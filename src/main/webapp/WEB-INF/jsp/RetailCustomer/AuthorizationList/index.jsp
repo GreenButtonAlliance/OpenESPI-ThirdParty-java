@@ -42,7 +42,7 @@
                     <tr>
                         <td class="data_custodian"><c:out value="${authorization.dataCustodian.description}"/></td>
                         <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
-                        <td class="subscription_id"><a href="<c:out value="${authorization.subscriptionURI}"/>"><c:out value="${authorization.subscriptionId}"/></a></td>
+                        <td class="subscription_id"><c:out value="${authorization.subscriptionId}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
