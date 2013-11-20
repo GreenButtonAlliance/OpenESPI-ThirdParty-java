@@ -16,12 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.AccessToken;
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
+import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;

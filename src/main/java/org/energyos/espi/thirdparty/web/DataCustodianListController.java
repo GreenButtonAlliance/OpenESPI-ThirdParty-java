@@ -17,7 +17,7 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.common.service.DataCustodianService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

@@ -1,9 +1,9 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.IdentifiedObject;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.IdentifiedObject;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.UsagePointRepository;
 import org.energyos.espi.thirdparty.repository.ResourceRepository;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

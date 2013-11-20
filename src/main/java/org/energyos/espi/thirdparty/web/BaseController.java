@@ -1,6 +1,6 @@
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
 
 import java.security.Principal;

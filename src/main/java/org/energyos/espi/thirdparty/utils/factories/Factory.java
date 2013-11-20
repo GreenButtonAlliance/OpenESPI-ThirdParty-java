@@ -1,10 +1,10 @@
 package org.energyos.espi.thirdparty.utils.factories;
 
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.ServiceCategory;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.ServiceCategory;
+import org.energyos.espi.common.domain.UsagePoint;
 
 
 public class Factory {

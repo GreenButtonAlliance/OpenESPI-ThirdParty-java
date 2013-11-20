@@ -16,9 +16,9 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -48,9 +48,7 @@ public class UsagePointController extends BaseController {
             model.put("usagePointList", usagePointList);
 
             return "/usagepoints/index";
-        } catch(IndexOutOfBoundsException x) {
-            return "redirect:/RetailCustomer/" + currentCustomer.getHashedId() + "/DataCustodianList";
-        } catch(HttpClientErrorException x) {
+        } catch(IndexOutOfBoundsException | HttpClientErrorException x) {
             return "redirect:/RetailCustomer/" + currentCustomer.getHashedId() + "/DataCustodianList";
         }
     }

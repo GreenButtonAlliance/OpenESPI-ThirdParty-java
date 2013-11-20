@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.FeedType;
+import org.energyos.espi.common.utils.ATOMMarshaller;
+import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;

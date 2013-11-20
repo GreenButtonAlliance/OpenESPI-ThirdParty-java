@@ -16,7 +16,7 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

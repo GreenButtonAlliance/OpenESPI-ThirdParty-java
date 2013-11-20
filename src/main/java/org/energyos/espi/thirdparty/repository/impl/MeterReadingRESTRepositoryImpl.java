@@ -1,11 +1,11 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.models.atom.FeedType;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.models.atom.FeedType;
 import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
-import org.energyos.espi.thirdparty.utils.ATOMMarshaller;
-import org.energyos.espi.thirdparty.utils.UsagePointBuilder;
+import org.energyos.espi.common.utils.ATOMMarshaller;
+import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -27,7 +27,7 @@ public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepositor
     private UsagePointBuilder builder;
 
     @Autowired
-    @Qualifier("repositoryTemplate")
+    @Qualifier("restTemplate")
     private RestTemplate template;
 
     @Autowired

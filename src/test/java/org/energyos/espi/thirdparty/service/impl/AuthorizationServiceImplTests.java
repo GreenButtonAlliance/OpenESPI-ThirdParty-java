@@ -1,12 +1,13 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.Subscription;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.AuthorizationRepository;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.Subscription;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.AuthorizationRepository;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.service.impl.AuthorizationServiceImpl;
+import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 

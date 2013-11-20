@@ -1,6 +1,6 @@
 package org.energyos.espi.thirdparty.integration.tools;
 
-import org.energyos.espi.thirdparty.service.BatchListService;
+import org.energyos.espi.common.service.BatchListService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.energyos.espi.thirdparty.utils.factories.EspiFactory.newBatchList;
+import static org.energyos.espi.common.test.EspiFactory.newBatchList;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;

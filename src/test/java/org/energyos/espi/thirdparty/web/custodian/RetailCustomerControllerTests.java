@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web.custodian;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.service.RetailCustomerService;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.service.RetailCustomerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

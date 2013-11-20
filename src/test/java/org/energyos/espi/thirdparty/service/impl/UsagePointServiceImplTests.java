@@ -1,8 +1,9 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.repository.UsagePointRepository;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;

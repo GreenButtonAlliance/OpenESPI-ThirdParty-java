@@ -18,11 +18,11 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.service.AuthorizationService;
-import org.energyos.espi.thirdparty.service.DataCustodianService;
-import org.energyos.espi.thirdparty.service.StateService;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.DataCustodian;
+import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.service.DataCustodianService;
+import org.energyos.espi.common.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.xml.bind.JAXBException;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTOMER')")
@@ -77,10 +78,12 @@ public class ScopeSelectionController extends BaseController {
         authorization.setAuthorizationServer(dataCustodian.getUrl());
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
+        authorization.setUUID(UUID.randomUUID());
 
         authorizationService.persist(authorization);
 
-        return "redirect:" + dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT + "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+        return "redirect:" + dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT +
+                "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
                 "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 

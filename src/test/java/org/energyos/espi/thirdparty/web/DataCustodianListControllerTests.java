@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.DataCustodian;
-import org.energyos.espi.thirdparty.service.DataCustodianService;
+import org.energyos.espi.common.domain.DataCustodian;
+import org.energyos.espi.common.service.DataCustodianService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;

@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.repository;
 
-import org.energyos.espi.thirdparty.domain.IdentifiedObject;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
+import org.energyos.espi.common.domain.IdentifiedObject;
+import org.energyos.espi.common.domain.UsagePoint;
 
 import java.util.UUID;
 

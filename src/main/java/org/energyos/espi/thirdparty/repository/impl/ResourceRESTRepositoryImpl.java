@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.thirdparty.domain.Authorization;
-import org.energyos.espi.thirdparty.domain.IdentifiedObject;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.IdentifiedObject;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,6 +21,7 @@ public class ResourceRESTRepositoryImpl implements ResourceRESTRepository {
     private RestTemplate template;
 
     @Autowired
+    @Qualifier(value = "atomMarshaller")
     private Jaxb2Marshaller marshaller;
 
     public IdentifiedObject get(Authorization authorization, String url) {

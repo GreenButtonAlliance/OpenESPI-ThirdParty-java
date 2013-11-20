@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.thirdparty.domain.MeterReading;
-import org.energyos.espi.thirdparty.service.MeterReadingService;
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.thirdparty.service.MeterReadingRESTService;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +32,12 @@ import static org.mockito.Mockito.*;
 public class MeterReadingControllerTests {
 
     private MeterReadingController controller;
-    private MeterReadingService service;
+    private MeterReadingRESTService service;
 
     @Before
     public void setupUp() {
         controller = new MeterReadingController();
-        service = mock(MeterReadingService.class);
+        service = mock(MeterReadingRESTService.class);
         controller.setMeterReadingService(service);
     }
 

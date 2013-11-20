@@ -16,13 +16,12 @@
 
 package org.energyos.espi.thirdparty.integration;
 
-import junit.framework.Assert;
-import org.energyos.espi.thirdparty.domain.RetailCustomer;
-import org.energyos.espi.thirdparty.domain.UsagePoint;
-import org.energyos.espi.thirdparty.service.RetailCustomerService;
-import org.energyos.espi.thirdparty.service.UsagePointService;
-import org.energyos.espi.thirdparty.utils.factories.EspiFactory;
-import org.energyos.espi.thirdparty.utils.factories.EspiPersistenceFactory;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.UsagePoint;
+import org.energyos.espi.common.service.RetailCustomerService;
+import org.energyos.espi.common.service.UsagePointService;
+import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,8 +32,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -43,6 +46,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
 @Profile("test")
+@Transactional
 public class UsagePointsTests {
 
     @Autowired
@@ -65,7 +69,7 @@ public class UsagePointsTests {
         retailCustomerService.persist(retailCustomer);
         usagePoint = EspiFactory.newUsagePoint(retailCustomer);
         usagePointService.persist(usagePoint);
-        Assert.assertNotNull(usagePoint.getId());
+        assertThat(usagePoint.getId(), is(notNullValue()));
 
         this.mockMvc = webAppContextSetup(this.wac).build();
         authentication = new TestingAuthenticationToken(retailCustomer, null);
