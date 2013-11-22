@@ -24,6 +24,7 @@ import org.energyos.espi.common.service.DataCustodianService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.thirdparty.web.ScopeSelectionController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,8 +92,8 @@ public class ScopeSelectionTests {
                 .param("Data_custodian", "1")
                 .param("Data_custodian_URL", redirectURL))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,
-                        Configuration.SCOPES[0],
-                        Configuration.SCOPES[1],
+                        ScopeSelectionController.THIRD_PARTY_SCOPES[0],
+                        ScopeSelectionController.THIRD_PARTY_SCOPES[1],
                         Configuration.THIRD_PARTY_CLIENT_ID)));
     }
 
@@ -118,7 +119,7 @@ public class ScopeSelectionTests {
     public void post_scopeAuthorization_returnsRedirectStatus() throws Exception {
         DataCustodian dataCustodian = EspiFactory.newDataCustodian();
         service.persist(dataCustodian);
-        String scope = Configuration.SCOPES[0];
+        String scope = ScopeSelectionController.THIRD_PARTY_SCOPES[0];
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
                 .param("scope", scope).param("DataCustodianID", dataCustodian.getClientId()))
@@ -133,10 +134,10 @@ public class ScopeSelectionTests {
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
                 dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT, Configuration.THIRD_PARTY_CLIENT_ID,
                  "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
-                Configuration.SCOPES[0], stateService.newState());
+                ScopeSelectionController.THIRD_PARTY_SCOPES[0], stateService.newState());
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
-                .param("scope", Configuration.SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
+                .param("scope", ScopeSelectionController.THIRD_PARTY_SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
                 .andExpect(redirectedUrl(redirectURL));
     }
 }
