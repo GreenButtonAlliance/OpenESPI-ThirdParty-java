@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.DataCustodian;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.DataCustodianService;
 import org.energyos.espi.common.service.StateService;
@@ -40,6 +40,11 @@ import java.util.UUID;
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController extends BaseController {
+
+    public static final String[] THIRD_PARTY_SCOPES = new String[]{
+            "FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13",
+            "FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
+    };
 
     @Autowired
     private DataCustodianService dataCustodianService;
@@ -64,7 +69,7 @@ public class ScopeSelectionController extends BaseController {
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(Configuration.SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
+        return "redirect:" + dataCustodianURL + "?" + newScopeParams(THIRD_PARTY_SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)

@@ -16,15 +16,15 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.thirdparty.BaseTest;
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.DataCustodian;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.DataCustodianService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
+import org.energyos.espi.thirdparty.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -60,7 +60,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
 
         String redirectURL = controller.scopeSelection(url);
 
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, Configuration.SCOPES[0], Configuration.SCOPES[1],
+        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, ScopeSelectionController.THIRD_PARTY_SCOPES[0], ScopeSelectionController.THIRD_PARTY_SCOPES[1],
                 Configuration.THIRD_PARTY_CLIENT_ID), redirectURL);
     }
 
@@ -90,12 +90,12 @@ public class ScopeSelectionControllerTests extends BaseTest {
                 Configuration.THIRD_PARTY_CLIENT_ID,
                 Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK,
                 "code",
-                Configuration.SCOPES[0]);
+                ScopeSelectionController.THIRD_PARTY_SCOPES[0]);
 
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        assertTrue(controller.scopeAuthorization(Configuration.SCOPES[0], dataCustodian.getClientId(), principal).startsWith(expectedRedirectURL));
+        assertTrue(controller.scopeAuthorization(ScopeSelectionController.THIRD_PARTY_SCOPES[0], dataCustodian.getClientId(), principal).startsWith(expectedRedirectURL));
     }
 
     @Test
@@ -109,7 +109,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        controller.scopeAuthorization(Configuration.SCOPES[0], dataCustodian.getClientId(), principal);
+        controller.scopeAuthorization(ScopeSelectionController.THIRD_PARTY_SCOPES[0], dataCustodian.getClientId(), principal);
 
         verify(authorizationService).persist(any(Authorization.class));
     }
