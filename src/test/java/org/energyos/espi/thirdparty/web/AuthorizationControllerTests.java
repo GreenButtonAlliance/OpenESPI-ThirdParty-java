@@ -16,7 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.domain.AccessToken;
+import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
@@ -48,7 +51,6 @@ public class AuthorizationControllerTests {
     @Before
     public void before() {
         controller = new AuthorizationController();
-        controller.setThirdPartyURL(Configuration.THIRD_PARTY_BASE_URL);
 
         service = mock(AuthorizationService.class);
         controller.setService(service);

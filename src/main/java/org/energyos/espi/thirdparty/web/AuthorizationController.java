@@ -40,10 +40,6 @@ public class AuthorizationController extends BaseController {
     private AuthorizationService service;
 
     @Autowired
-    @Qualifier("THIRD_PARTY_URL")
-    private String thirdPartyURL;
-
-    @Autowired
     @Qualifier("clientRestTemplateFactory")
     private ClientRestTemplateFactory templateFactory;
 
@@ -77,10 +73,6 @@ public class AuthorizationController extends BaseController {
     public String index(ModelMap model, Authentication principal) {
         model.put("authorizationList", service.findAllByRetailCustomerId(currentCustomer(principal).getId()));
         return "/RetailCustomer/AuthorizationList/index";
-    }
-
-    public void setThirdPartyURL(String thirdPartyURL) {
-        this.thirdPartyURL = thirdPartyURL;
     }
 
     public void setService(AuthorizationService service) {

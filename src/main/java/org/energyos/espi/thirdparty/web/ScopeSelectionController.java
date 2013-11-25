@@ -55,10 +55,6 @@ public class ScopeSelectionController extends BaseController {
     @Qualifier("stateService")
     private StateService stateService;
 
-    @Autowired
-    @Qualifier("THIRD_PARTY_URL")
-    private String thirdPartyURL;
-
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
         model.put("scopeList", Arrays.asList(scopes));
@@ -89,7 +85,7 @@ public class ScopeSelectionController extends BaseController {
 
         return "redirect:" + applicationInformation.getDataCustodianAuthorizationResource() +
                 "?client_id=" + applicationInformation.getDataCustodianThirdPartyId() +
-                "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
+                "&redirect_uri=" + applicationInformation.getThirdPartyDefaultOAuthCallback() +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
     }
@@ -100,10 +96,6 @@ public class ScopeSelectionController extends BaseController {
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
-    }
-
-    public void setThirdPartyURL(String thirdPartyURL) {
-        this.thirdPartyURL = thirdPartyURL;
     }
 
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {

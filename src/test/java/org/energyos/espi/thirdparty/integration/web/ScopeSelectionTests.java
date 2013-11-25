@@ -135,7 +135,7 @@ public class ScopeSelectionTests {
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
                 applicationInformation.getDataCustodianAuthorizationResource(), applicationInformation.getDataCustodianThirdPartyId(),
-                 "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
+                applicationInformation.getThirdPartyDefaultOAuthCallback(), "code",
                 ScopeSelectionController.THIRD_PARTY_SCOPES[0], stateService.newState());
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
