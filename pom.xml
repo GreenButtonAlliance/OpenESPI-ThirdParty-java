@@ -40,9 +40,6 @@
         
         <profile>
             <id>devmysql</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
              <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
@@ -54,9 +51,6 @@
         
         <profile>
             <id>ci</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
             <properties>
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
