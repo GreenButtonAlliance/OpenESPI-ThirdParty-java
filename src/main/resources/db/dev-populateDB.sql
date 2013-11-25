@@ -1,6 +1,5 @@
 INSERT INTO data_custodians (id, description, client_id, url) VALUES (1, 'ConEdison (localhost)', 'data_custodian', 'http://localhost:8080/DataCustodian');
 
-INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (1, 'alan',    'Alan',    'Turing',       'koala', 1, 'ROLE_USER');
-INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (2, 'donald',  'Donald',  'Knuth',        'koala', 1, 'ROLE_USER');
-INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (3, 'sam',     'Sam',      'White',       'koala', 1, 'ROLE_USER');
-INSERT INTO retail_customers (id, username, first_name, last_name, password, enabled, role) VALUES (4, 'grace',   'Grace',    'Hopper',      'koala', 1, 'ROLE_USER');
+INSERT INTO application_information (uuid, dataCustodianId, dataCustodianThirdPartyId, thirdPartyApplicationName, dataCustodianThirdPartySecret, dataCustodianDefaultScopeResource) VALUES ('550e8400-e29b-41d4-a716-4466554413a0', 'data_custodian', 'third_party', 'ConEdison (localhost)', 'secret', 'http://localhost:8080/DataCustodian/RetailCustomer/ScopeSelectionList');
+INSERT INTO application_information_scopes (application_information_id, scope) VALUES (1, 'FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13');
+INSERT INTO application_information_scopes (application_information_id, scope) VALUES (1, 'FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13');
