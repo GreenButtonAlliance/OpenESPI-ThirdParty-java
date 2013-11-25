@@ -34,16 +34,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.xml.bind.JAXBException;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController extends BaseController {
-
-    public static final String[] THIRD_PARTY_SCOPES = new String[]{
-            "FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13",
-            "FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
-    };
 
     @Autowired
     private ApplicationInformationService applicationInformationService;
@@ -55,10 +51,6 @@ public class ScopeSelectionController extends BaseController {
     @Qualifier("stateService")
     private StateService stateService;
 
-    @Autowired
-    @Qualifier("THIRD_PARTY_URL")
-    private String thirdPartyURL;
-
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
     public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
         model.put("scopeList", Arrays.asList(scopes));
@@ -69,7 +61,7 @@ public class ScopeSelectionController extends BaseController {
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian") String dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(THIRD_PARTY_SCOPES) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
+        return "redirect:" + dataCustodianURL + "?" + newScopeParams(applicationInformation.getScope()) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
@@ -89,7 +81,7 @@ public class ScopeSelectionController extends BaseController {
 
         return "redirect:" + applicationInformation.getDataCustodianAuthorizationResource() +
                 "?client_id=" + applicationInformation.getDataCustodianThirdPartyId() +
-                "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
+                "&redirect_uri=" + applicationInformation.getThirdPartyDefaultOAuthCallback() +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
     }
@@ -102,20 +94,18 @@ public class ScopeSelectionController extends BaseController {
         this.stateService = stateService;
     }
 
-    public void setThirdPartyURL(String thirdPartyURL) {
-        this.thirdPartyURL = thirdPartyURL;
-    }
-
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
     }
 
-    private String newScopeParams(String[] scopes) {
+    public static String newScopeParams(Set<String> scopes) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < scopes.length; i++) {
+        int i = 0;
+        for(String scope : scopes) {
             if(i > 0)
                 sb.append("&");
-            sb.append("scope=" + scopes[i]);
+            sb.append("scope=" + scope);
+            i++;
         }
         return sb.toString();
     }

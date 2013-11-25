@@ -23,7 +23,6 @@ import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
-import org.energyos.espi.thirdparty.web.ScopeSelectionController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -94,8 +93,8 @@ public class ScopeSelectionTests {
                 .param("Data_custodian", applicationInformation.getDataCustodianId())
                 .param("Data_custodian_URL", redirectURL))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,
-                        ScopeSelectionController.THIRD_PARTY_SCOPES[0],
-                        ScopeSelectionController.THIRD_PARTY_SCOPES[1],
+                        applicationInformation.getScopeArray()[0],
+                        applicationInformation.getScopeArray()[1],
                         applicationInformation.getDataCustodianThirdPartyId())));
     }
 
@@ -121,10 +120,9 @@ public class ScopeSelectionTests {
     public void post_scopeAuthorization_returnsRedirectStatus() throws Exception {
         ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
         service.persist(applicationInformation);
-        String scope = ScopeSelectionController.THIRD_PARTY_SCOPES[0];
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
-                .param("scope", scope).param("DataCustodianID", applicationInformation.getDataCustodianId()))
+                .param("scope", applicationInformation.getScopeArray()[0]).param("DataCustodianID", applicationInformation.getDataCustodianId()))
                 .andExpect(status().is(302));
     }
 
@@ -135,11 +133,11 @@ public class ScopeSelectionTests {
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
                 applicationInformation.getDataCustodianAuthorizationResource(), applicationInformation.getDataCustodianThirdPartyId(),
-                 "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
-                ScopeSelectionController.THIRD_PARTY_SCOPES[0], stateService.newState());
+                applicationInformation.getThirdPartyDefaultOAuthCallback(), "code",
+                applicationInformation.getScopeArray()[0], stateService.newState());
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
-                .param("scope", ScopeSelectionController.THIRD_PARTY_SCOPES[0]).param("DataCustodianID", applicationInformation.getDataCustodianId()))
+                .param("scope", applicationInformation.getScopeArray()[0]).param("DataCustodianID", applicationInformation.getDataCustodianId()))
                 .andExpect(redirectedUrl(redirectURL));
     }
 }
