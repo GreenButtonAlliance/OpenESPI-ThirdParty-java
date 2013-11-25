@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +38,7 @@ public class AuthorizationControllerTests {
     private final String CODE = "code";
 
     private AuthorizationController controller;
-    private RestTemplate restTemplate;
+    private ClientRestTemplate restTemplate;
     private Authentication principal;
     private AuthorizationService service;
     private RetailCustomer retailCustomer;
@@ -54,8 +53,10 @@ public class AuthorizationControllerTests {
         service = mock(AuthorizationService.class);
         controller.setService(service);
 
-        restTemplate = mock(RestTemplate.class);
-        controller.setTemplate(restTemplate);
+        restTemplate = mock(ClientRestTemplate.class);
+        ClientRestTemplateFactory factory = mock(ClientRestTemplateFactory.class);
+        when(factory.newClientRestTemplate(anyString(), anyString())).thenReturn(restTemplate);
+        controller.setTemplateFactory(factory);
 
         retailCustomer = EspiFactory.newRetailCustomer();
         principal = mock(Authentication.class);
@@ -71,7 +72,7 @@ public class AuthorizationControllerTests {
     public void authorization_fetchesToken() throws Exception {
         String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
                 applicationInformation.getDataCustodianTokenResource(),
-                Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, CODE);
+                applicationInformation.getThirdPartyDefaultOAuthCallback(), CODE);
 
         controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);
 

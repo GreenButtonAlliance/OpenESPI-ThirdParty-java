@@ -18,7 +18,6 @@ package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.AuthorizationService;
@@ -68,8 +67,9 @@ public class ScopeSelectionController extends BaseController {
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
-    public String scopeSelection(@RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(THIRD_PARTY_SCOPES) + "&ThirdPartyID=" + Configuration.THIRD_PARTY_CLIENT_ID;
+    public String scopeSelection(@RequestParam("Data_custodian") String dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
+        ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
+        return "redirect:" + dataCustodianURL + "?" + newScopeParams(THIRD_PARTY_SCOPES) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
@@ -79,7 +79,7 @@ public class ScopeSelectionController extends BaseController {
         Authorization authorization = new Authorization();
 
         authorization.setApplicationInformation(applicationInformation);
-        authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
+        authorization.setThirdParty(applicationInformation.getDataCustodianThirdPartyId());
         authorization.setAuthorizationServer(applicationInformation.getDataCustodianDefaultScopeResource());
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
@@ -88,7 +88,7 @@ public class ScopeSelectionController extends BaseController {
         authorizationService.persist(authorization);
 
         return "redirect:" + applicationInformation.getDataCustodianAuthorizationResource() +
-                "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
+                "?client_id=" + applicationInformation.getDataCustodianThirdPartyId() +
                 "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 

@@ -56,12 +56,14 @@ public class ScopeSelectionControllerTests extends BaseTest {
 
     @Test
     public void post_scopeSelection_redirects() throws Exception {
-        String url = "DataCustodianURL";
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
 
-        String redirectURL = controller.scopeSelection(url);
+        String redirectURL = controller.scopeSelection(applicationInformation.getDataCustodianId(), applicationInformation.getDataCustodianDefaultScopeResource());
 
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", url, ScopeSelectionController.THIRD_PARTY_SCOPES[0], ScopeSelectionController.THIRD_PARTY_SCOPES[1],
-                Configuration.THIRD_PARTY_CLIENT_ID), redirectURL);
+        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", applicationInformation.getDataCustodianDefaultScopeResource(),
+                ScopeSelectionController.THIRD_PARTY_SCOPES[0], ScopeSelectionController.THIRD_PARTY_SCOPES[1],
+                applicationInformation.getDataCustodianThirdPartyId()), redirectURL);
     }
 
     @Test
@@ -87,7 +89,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
 
         String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
                 applicationInformation.getDataCustodianAuthorizationResource(),
-                Configuration.THIRD_PARTY_CLIENT_ID,
+                applicationInformation.getDataCustodianThirdPartyId(),
                 Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK,
                 "code",
                 ScopeSelectionController.THIRD_PARTY_SCOPES[0]);

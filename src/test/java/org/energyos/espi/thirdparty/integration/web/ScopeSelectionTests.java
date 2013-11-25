@@ -17,7 +17,6 @@
 package org.energyos.espi.thirdparty.integration.web;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
-import org.energyos.espi.common.domain.Configuration;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
@@ -86,15 +85,18 @@ public class ScopeSelectionTests {
 
     @Test
     public void post_scopeSelection_redirectsToDataCustodian() throws Exception {
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        service.persist(applicationInformation);
+
         String redirectURL = "http://localhost:8080/DataCustodian/ScopeSelection";
 
         mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
-                .param("Data_custodian", "1")
+                .param("Data_custodian", applicationInformation.getDataCustodianId())
                 .param("Data_custodian_URL", redirectURL))
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,
                         ScopeSelectionController.THIRD_PARTY_SCOPES[0],
                         ScopeSelectionController.THIRD_PARTY_SCOPES[1],
-                        Configuration.THIRD_PARTY_CLIENT_ID)));
+                        applicationInformation.getDataCustodianThirdPartyId())));
     }
 
     @Test
@@ -132,7 +134,7 @@ public class ScopeSelectionTests {
         service.persist(applicationInformation);
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
-                applicationInformation.getDataCustodianAuthorizationResource(), Configuration.THIRD_PARTY_CLIENT_ID,
+                applicationInformation.getDataCustodianAuthorizationResource(), applicationInformation.getDataCustodianThirdPartyId(),
                  "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
                 ScopeSelectionController.THIRD_PARTY_SCOPES[0], stateService.newState());
 
