@@ -30,7 +30,7 @@
     </bean>
 
     <bean id="restTemplate" name="restTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
-    <bean id="clientRestTemplate" name="clientRestTemplate" class="org.energyos.espi.thirdparty.mocks.MockClientRestTemplate" autowire-candidate="true"/>
+    <bean id="clientRestTemplateFactory" name="clientRestTemplateFactory" class="org.energyos.espi.thirdparty.mocks.MockClientRestTemplateFactory" autowire-candidate="true"/>
 
     <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.mocks.MockStateServiceImpl" autowire-candidate="true"/>
 

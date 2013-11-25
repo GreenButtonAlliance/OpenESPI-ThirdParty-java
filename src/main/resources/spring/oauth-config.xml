@@ -8,12 +8,7 @@
 
 	<oauth:client id="oauth2ClientFilter" />
 
-    <oauth:resource id="feed" type="authorization_code" client-id="third_party" client-secret="secret"
-                    access-token-uri="${datacustodian.base.url}/oauth/token" user-authorization-uri="${datacustodian.base.url}/oauth/authorize"
-                    scope="FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13" />
-
 	<oauth:resource id="trusted" type="client_credentials" client-id="my-client-with-registered-redirect"
 		access-token-uri="${accessTokenUri}" scope="trust" />
 
-    <!--<oauth:rest-template id="oauthTemplate" resource="feed"/>-->
 </beans>

@@ -15,7 +15,6 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
-import org.energyos.espi.common.domain.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
@@ -25,9 +24,12 @@ import java.io.IOException;
 public class ClientRestTemplate extends RestTemplate {
 
     public ClientRestTemplate() {
+    }
+
+    public ClientRestTemplate(String username, String password) {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), new UsernamePasswordCredentials(Configuration.THIRD_PARTY_CLIENT_ID, Configuration.THIRD_PARTY_CLIENT_PASSWORD));
+        credentialsProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), new UsernamePasswordCredentials(username, password));
         httpClient.setCredentialsProvider(credentialsProvider);
         httpClient.addRequestInterceptor(new PreemptiveAuthInterceptor(), 0);
         ClientHttpRequestFactory rf = new HttpComponentsClientHttpRequestFactory(httpClient);

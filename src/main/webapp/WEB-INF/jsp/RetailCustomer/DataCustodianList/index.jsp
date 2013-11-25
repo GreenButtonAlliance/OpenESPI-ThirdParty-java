@@ -49,12 +49,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="dataCustodian" items="${dataCustodianList}">
+                    <c:forEach var="applicationInformation" items="${applicationInformationList}">
                         <tr>
                             <td>
                                 <label>
-                                    <input type="radio" name="Data_custodian" value="${dataCustodian.clientId}" data-data-custodian-url="${dataCustodian.scopeSelectionURL}" class="data-custodian" />
-                                    <c:out value="${dataCustodian.description}"/>
+                                    <input type="radio" name="Data_custodian" value="${applicationInformation.dataCustodianId}" data-data-custodian-url="${applicationInformation.dataCustodianDefaultScopeResource}" class="data-custodian" />
+                                    <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
                                 </label>
                             </td>
                         </tr>

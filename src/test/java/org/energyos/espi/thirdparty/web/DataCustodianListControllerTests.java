@@ -16,8 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.DataCustodian;
-import org.energyos.espi.common.service.DataCustodianService;
+import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
@@ -33,13 +33,13 @@ import static org.mockito.Mockito.when;
 public class DataCustodianListControllerTests {
 
     protected DataCustodianListController controller;
-    private DataCustodianService dataCustodianService;
+    private ApplicationInformationService applicationInformationService;
 
     @Before
     public void before() {
         controller = new DataCustodianListController();
-        dataCustodianService = mock(DataCustodianService.class);
-        controller.setDataCustodianService(dataCustodianService);
+        applicationInformationService = mock(ApplicationInformationService.class);
+        controller.setApplicationInformationService(applicationInformationService);
     }
 
     @Test
@@ -48,13 +48,13 @@ public class DataCustodianListControllerTests {
     }
 
     @Test
-    public void index_setsDataCustodianListModel() throws Exception {
-        List<DataCustodian> dataCustodianList = new ArrayList<>();
-        when(dataCustodianService.findAll()).thenReturn(dataCustodianList);
+    public void index_setsApplicationInformationListModel() throws Exception {
+        List<ApplicationInformation> applicationInformationList = new ArrayList<>();
+        when(applicationInformationService.findAll()).thenReturn(applicationInformationList);
         ModelMap model = new ModelMap();
 
         controller.index(model);
 
-        assertSame(dataCustodianList, model.get("dataCustodianList"));
+        assertSame(applicationInformationList, model.get("applicationInformationList"));
     }
 }

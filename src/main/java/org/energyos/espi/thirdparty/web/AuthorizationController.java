@@ -16,7 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.*;
+import org.energyos.espi.common.domain.AccessToken;
+import org.energyos.espi.common.domain.ApplicationInformation;
+import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -27,7 +30,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 
@@ -42,22 +44,22 @@ public class AuthorizationController extends BaseController {
     private String thirdPartyURL;
 
     @Autowired
-    @Qualifier("clientRestTemplate")
-    private RestTemplate template;
+    @Qualifier("clientRestTemplateFactory")
+    private ClientRestTemplateFactory templateFactory;
 
     @RequestMapping(value = Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal) {
         Authorization authorization = service.findByState(state);
-        authorization.setAuthorizationServer(Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT);
-        authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
+        authorization.setThirdParty(authorization.getApplicationInformation().getDataCustodianThirdPartyId());
 
-        DataCustodian dataCustodian = authorization.getDataCustodian();
+        ApplicationInformation applicationInformation = authorization.getApplicationInformation();
 
-        String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code", dataCustodian.getUrl(),
-                Routes.AUTHORIZATION_SERVER_TOKEN_ENDPOINT, thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, code);
+        String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code", applicationInformation.getDataCustodianTokenResource(),
+                applicationInformation.getThirdPartyDefaultOAuthCallback(), code);
 
         try {
-            AccessToken token = template.getForObject(url, AccessToken.class);
+            ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getDataCustodianThirdPartyId(), applicationInformation.getDataCustodianThirdPartySecret());
+            AccessToken token = restTemplate.getForObject(url, AccessToken.class);
             authorization.setAccessToken(token.getAccessToken());
             authorization.setSubscriptionURI(token.getResourceURI());
         } catch (HttpClientErrorException x) {
@@ -77,15 +79,15 @@ public class AuthorizationController extends BaseController {
         return "/RetailCustomer/AuthorizationList/index";
     }
 
-    public void setTemplate(RestTemplate template) {
-        this.template = template;
-    }
-
     public void setThirdPartyURL(String thirdPartyURL) {
         this.thirdPartyURL = thirdPartyURL;
     }
 
     public void setService(AuthorizationService service) {
         this.service = service;
+    }
+
+    public void setTemplateFactory(ClientRestTemplateFactory templateFactory) {
+        this.templateFactory = templateFactory;
     }
 }
