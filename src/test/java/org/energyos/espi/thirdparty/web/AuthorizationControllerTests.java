@@ -17,9 +17,8 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.*;
-import org.energyos.espi.common.test.EspiFactory;
-import org.energyos.espi.common.domain.AccessToken;
 import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
@@ -44,7 +43,7 @@ public class AuthorizationControllerTests {
     private Authentication principal;
     private AuthorizationService service;
     private RetailCustomer retailCustomer;
-    private DataCustodian dataCustodian;
+    private ApplicationInformation applicationInformation;
     private Authorization authorization;
 
     @Before
@@ -62,16 +61,16 @@ public class AuthorizationControllerTests {
         principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(retailCustomer);
 
-        dataCustodian = EspiFactory.newDataCustodian();
-        authorization = EspiFactory.newAuthorization(retailCustomer, dataCustodian);
+        applicationInformation = EspiFactory.newApplicationInformation();
+        authorization = EspiFactory.newAuthorization(retailCustomer, applicationInformation);
         when(service.findByState(authorization.getState())).thenReturn(authorization);
         when(restTemplate.getForObject(anyString(), eq(AccessToken.class))).thenReturn(new AccessToken());
     }
 
     @Test
     public void authorization_fetchesToken() throws Exception {
-        String url = String.format("%s%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                dataCustodian.getUrl(), Routes.AUTHORIZATION_SERVER_TOKEN_ENDPOINT,
+        String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
+                applicationInformation.getDataCustodianTokenResource(),
                 Configuration.THIRD_PARTY_BASE_URL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, CODE);
 
         controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);

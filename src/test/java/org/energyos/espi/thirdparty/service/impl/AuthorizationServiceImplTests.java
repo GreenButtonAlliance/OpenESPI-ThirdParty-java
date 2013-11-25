@@ -50,7 +50,7 @@ public class AuthorizationServiceImplTests {
     @Test
     public void persist() {
         Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer(),
-                EspiFactory.newDataCustodian());
+                EspiFactory.newApplicationInformation());
 
         service.persist(authorization);
 
@@ -60,7 +60,7 @@ public class AuthorizationServiceImplTests {
     @Test
     public void merge() {
         Authorization authorization = EspiFactory.newAuthorization(EspiFactory.newRetailCustomer(),
-                EspiFactory.newDataCustodian());
+                EspiFactory.newApplicationInformation());
 
         service.persist(authorization);
 

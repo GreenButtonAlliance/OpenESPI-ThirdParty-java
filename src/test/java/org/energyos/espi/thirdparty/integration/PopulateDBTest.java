@@ -25,8 +25,9 @@ public class PopulateDBTest {
 
     @Test
     public void populateDB() throws Exception {
-        assertThat(applicationInformationService.findAll().size(), equalTo(1));
+        assertThat(applicationInformationService.findAll().size(), equalTo(2));
         assertThat(applicationInformationService.findAll().get(0).getScope().size(), equalTo(2));
         assertThat(retailCustomerService.findAll().size(), equalTo(5));
+        assertThat(retailCustomerService.findById(1L).getFirstName(), equalTo("Alan"));
     }
 }

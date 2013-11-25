@@ -40,7 +40,7 @@
                 <tbody>
                 <c:forEach var="authorization" items="${authorizationList}">
                     <tr>
-                        <td class="data_custodian"><c:out value="${authorization.dataCustodian.description}"/></td>
+                        <td class="data_custodian"><c:out value="${authorization.applicationInformation.thirdPartyApplicationName}"/></td>
                         <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
                         <td class="subscription_id"><c:out value="${authorization.subscriptionId}"/></td>
                     </tr>

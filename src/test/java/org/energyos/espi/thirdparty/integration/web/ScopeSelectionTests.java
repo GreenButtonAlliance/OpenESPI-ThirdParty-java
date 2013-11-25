@@ -16,11 +16,11 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.DataCustodian;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.DataCustodianService;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
@@ -57,7 +57,7 @@ public class ScopeSelectionTests {
     protected WebApplicationContext wac;
 
     @Autowired
-    protected DataCustodianService service;
+    protected ApplicationInformationService service;
 
     @Autowired
     protected RetailCustomerService retailCustomerService;
@@ -75,12 +75,12 @@ public class ScopeSelectionTests {
 
     @Test
     public void post_scopeSelection_returnsRedirectStatus() throws Exception {
-        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        service.persist(dataCustodian);
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        service.persist(applicationInformation);
 
         mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
-                .param("Data_custodian", dataCustodian.getId().toString())
-                .param("Data_custodian_URL", dataCustodian.getUrl()))
+                .param("Data_custodian", applicationInformation.getDataCustodianId())
+                .param("Data_custodian_URL", applicationInformation.getDataCustodianAuthorizationResource()))
                .andExpect(status().is(302));
     }
 
@@ -117,27 +117,27 @@ public class ScopeSelectionTests {
 
     @Test
     public void post_scopeAuthorization_returnsRedirectStatus() throws Exception {
-        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        service.persist(dataCustodian);
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        service.persist(applicationInformation);
         String scope = ScopeSelectionController.THIRD_PARTY_SCOPES[0];
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
-                .param("scope", scope).param("DataCustodianID", dataCustodian.getClientId()))
+                .param("scope", scope).param("DataCustodianID", applicationInformation.getDataCustodianId()))
                 .andExpect(status().is(302));
     }
 
     @Test
     public void post_scopeAuthorization_redirectsToDataCustodian() throws Exception {
-        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        service.persist(dataCustodian);
+        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
+        service.persist(applicationInformation);
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
-                dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT, Configuration.THIRD_PARTY_CLIENT_ID,
+                applicationInformation.getDataCustodianAuthorizationResource(), Configuration.THIRD_PARTY_CLIENT_ID,
                  "http://localhost:8080/ThirdParty" + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, "code",
                 ScopeSelectionController.THIRD_PARTY_SCOPES[0], stateService.newState());
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)
-                .param("scope", ScopeSelectionController.THIRD_PARTY_SCOPES[0]).param("DataCustodianID", dataCustodian.getClientId()))
+                .param("scope", ScopeSelectionController.THIRD_PARTY_SCOPES[0]).param("DataCustodianID", applicationInformation.getDataCustodianId()))
                 .andExpect(redirectedUrl(redirectURL));
     }
 }

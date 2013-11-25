@@ -16,12 +16,12 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Configuration;
-import org.energyos.espi.common.domain.DataCustodian;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.AuthorizationService;
-import org.energyos.espi.common.service.DataCustodianService;
 import org.energyos.espi.common.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -47,7 +47,7 @@ public class ScopeSelectionController extends BaseController {
     };
 
     @Autowired
-    private DataCustodianService dataCustodianService;
+    private ApplicationInformationService applicationInformationService;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -74,28 +74,24 @@ public class ScopeSelectionController extends BaseController {
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
     public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") String dataCustodianId, Principal principal) throws JAXBException {
-        DataCustodian dataCustodian = dataCustodianService.findByClientId(dataCustodianId);
+        ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
 
         Authorization authorization = new Authorization();
 
-        authorization.setDataCustodian(dataCustodian);
+        authorization.setApplicationInformation(applicationInformation);
         authorization.setThirdParty(Configuration.THIRD_PARTY_CLIENT_ID);
-        authorization.setAuthorizationServer(dataCustodian.getUrl());
+        authorization.setAuthorizationServer(applicationInformation.getDataCustodianDefaultScopeResource());
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
         authorization.setUUID(UUID.randomUUID());
 
         authorizationService.persist(authorization);
 
-        return "redirect:" + dataCustodian.getUrl() + Routes.AUTHORIZATION_SERVER_AUTHORIZATION_ENDPOINT +
+        return "redirect:" + applicationInformation.getDataCustodianAuthorizationResource() +
                 "?client_id=" + Configuration.THIRD_PARTY_CLIENT_ID +
                 "&redirect_uri=" + thirdPartyURL + Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
-    }
-
-    public void setDataCustodianService(DataCustodianService dataCustodianService) {
-        this.dataCustodianService = dataCustodianService;
     }
 
     public void setAuthorizationService(AuthorizationService authorizationService) {
@@ -108,6 +104,10 @@ public class ScopeSelectionController extends BaseController {
 
     public void setThirdPartyURL(String thirdPartyURL) {
         this.thirdPartyURL = thirdPartyURL;
+    }
+
+    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
+        this.applicationInformationService = applicationInformationService;
     }
 
     private String newScopeParams(String[] scopes) {

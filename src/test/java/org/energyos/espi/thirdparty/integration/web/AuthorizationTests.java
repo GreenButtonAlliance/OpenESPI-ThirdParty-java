@@ -16,12 +16,12 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.DataCustodian;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.AuthorizationService;
-import org.energyos.espi.common.service.DataCustodianService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
@@ -61,10 +61,10 @@ public class AuthorizationTests {
     protected AuthorizationService authorizationService;
 
     @Autowired
-    protected DataCustodianService dataCustodianService;
+    protected StateService stateService;
 
     @Autowired
-    protected StateService stateService;
+    protected ApplicationInformationService applicationInformationService;
 
     private RetailCustomer retailCustomer;
     private Authorization authorization;
@@ -77,8 +77,8 @@ public class AuthorizationTests {
         retailCustomerService.persist(retailCustomer);
         authentication = new TestingAuthenticationToken(retailCustomer, null);
 
-        DataCustodian dataCustodian = EspiFactory.newDataCustodian();
-        dataCustodianService.persist(dataCustodian);
+        ApplicationInformation dataCustodian = EspiFactory.newApplicationInformation();
+        applicationInformationService.persist(dataCustodian);
         authorization = EspiFactory.newAuthorization(retailCustomer, dataCustodian);
         authorization.setState(stateService.newState());
         authorizationService.persist(authorization);
