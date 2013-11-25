@@ -59,7 +59,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
         String redirectURL = controller.scopeSelection(applicationInformation.getDataCustodianId(), applicationInformation.getDataCustodianDefaultScopeResource());
 
         assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", applicationInformation.getDataCustodianDefaultScopeResource(),
-                ScopeSelectionController.THIRD_PARTY_SCOPES[0], ScopeSelectionController.THIRD_PARTY_SCOPES[1],
+                applicationInformation.getScopeArray()[0], applicationInformation.getScopeArray()[1],
                 applicationInformation.getDataCustodianThirdPartyId()), redirectURL);
     }
 
@@ -89,12 +89,12 @@ public class ScopeSelectionControllerTests extends BaseTest {
                 applicationInformation.getDataCustodianThirdPartyId(),
                 applicationInformation.getThirdPartyDefaultOAuthCallback(),
                 "code",
-                ScopeSelectionController.THIRD_PARTY_SCOPES[0]);
+                applicationInformation.getScopeArray()[0]);
 
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        assertTrue(controller.scopeAuthorization(ScopeSelectionController.THIRD_PARTY_SCOPES[0], applicationInformation.getDataCustodianId(), principal).startsWith(expectedRedirectURL));
+        assertTrue(controller.scopeAuthorization(applicationInformation.getScopeArray()[0], applicationInformation.getDataCustodianId(), principal).startsWith(expectedRedirectURL));
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ScopeSelectionControllerTests extends BaseTest {
         Authentication principal = mock(Authentication.class);
         when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
 
-        controller.scopeAuthorization(ScopeSelectionController.THIRD_PARTY_SCOPES[0], applicationInformation.getDataCustodianId(), principal);
+        controller.scopeAuthorization(applicationInformation.getScopeArray()[0], applicationInformation.getDataCustodianId(), principal);
 
         verify(authorizationService).persist(any(Authorization.class));
     }

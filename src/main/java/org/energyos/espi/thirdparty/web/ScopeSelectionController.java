@@ -34,16 +34,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.xml.bind.JAXBException;
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController extends BaseController {
-
-    public static final String[] THIRD_PARTY_SCOPES = new String[]{
-            "FB=4_5_15;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13",
-            "FB=4_5_16;IntervalDuration=3600;BlockDuration=monthly;HistoryLength=13"
-    };
 
     @Autowired
     private ApplicationInformationService applicationInformationService;
@@ -65,7 +61,7 @@ public class ScopeSelectionController extends BaseController {
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian") String dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(THIRD_PARTY_SCOPES) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
+        return "redirect:" + dataCustodianURL + "?" + newScopeParams(applicationInformation.getScope()) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
@@ -102,12 +98,14 @@ public class ScopeSelectionController extends BaseController {
         this.applicationInformationService = applicationInformationService;
     }
 
-    private String newScopeParams(String[] scopes) {
+    public static String newScopeParams(Set<String> scopes) {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < scopes.length; i++) {
+        int i = 0;
+        for(String scope : scopes) {
             if(i > 0)
                 sb.append("&");
-            sb.append("scope=" + scopes[i]);
+            sb.append("scope=" + scope);
+            i++;
         }
         return sb.toString();
     }
