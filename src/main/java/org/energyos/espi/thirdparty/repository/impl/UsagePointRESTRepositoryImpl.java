@@ -16,7 +16,6 @@ import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.energyos.espi.common.utils.ATOMMarshaller;
-import org.hsqldb.lib.StringInputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
