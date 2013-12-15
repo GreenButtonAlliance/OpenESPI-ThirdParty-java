@@ -21,6 +21,8 @@ import org.energyos.espi.common.domain.UsagePoint;
 import javax.xml.bind.JAXBException;
 import java.util.List;
 
+// TODO repository convergence with common
+//
 public interface UsagePointRESTRepository {
     List<UsagePoint> findAllByRetailCustomerId(Long id) throws JAXBException;
 
