@@ -26,7 +26,7 @@ public class AuthorizationServiceImplTests {
     public void before() {
         service = new AuthorizationServiceImpl();
         repository = mock(AuthorizationRepository.class);
-        service.setRepository(repository);
+        service.setAuthorizationRepository(repository);
     }
 
     @Test
