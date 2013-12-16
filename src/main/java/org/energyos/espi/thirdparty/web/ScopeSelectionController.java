@@ -61,7 +61,7 @@ public class ScopeSelectionController extends BaseController {
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
     public String scopeSelection(@RequestParam("Data_custodian") String dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
         ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(applicationInformation.getScope()) + "&ThirdPartyID=" + applicationInformation.getDataCustodianThirdPartyId();
+        return "redirect:" + dataCustodianURL + "?" + newScopeParams(applicationInformation.getScope()) + "&ThirdPartyID=" + applicationInformation.getClientId();
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
@@ -71,17 +71,17 @@ public class ScopeSelectionController extends BaseController {
         Authorization authorization = new Authorization();
 
         authorization.setApplicationInformation(applicationInformation);
-        authorization.setThirdParty(applicationInformation.getDataCustodianThirdPartyId());
-        authorization.setAuthorizationServer(applicationInformation.getDataCustodianDefaultScopeResource());
+        authorization.setThirdParty(applicationInformation.getClientId());
+        authorization.setAuthorizationURI(applicationInformation.getThirdPartyScopeSelectionScreenURI());
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
         authorization.setUUID(UUID.randomUUID());
 
         authorizationService.persist(authorization);
 
-        return "redirect:" + applicationInformation.getDataCustodianAuthorizationResource() +
-                "?client_id=" + applicationInformation.getDataCustodianThirdPartyId() +
-                "&redirect_uri=" + applicationInformation.getThirdPartyDefaultOAuthCallback() +
+        return "redirect:" + applicationInformation.getAuthorizationServerAuthorizationEndpoint() +
+                "?client_id=" + applicationInformation.getClientId() +
+                "&redirect_uri=" + applicationInformation.getRedirectUri() +
                 "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
 
     }

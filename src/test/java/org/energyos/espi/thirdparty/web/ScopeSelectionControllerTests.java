@@ -56,11 +56,11 @@ public class ScopeSelectionControllerTests extends BaseTest {
         ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
         when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
 
-        String redirectURL = controller.scopeSelection(applicationInformation.getDataCustodianId(), applicationInformation.getDataCustodianDefaultScopeResource());
+        String redirectURL = controller.scopeSelection(applicationInformation.getDataCustodianId(), applicationInformation.getThirdPartyScopeSelectionScreenURI());
 
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", applicationInformation.getDataCustodianDefaultScopeResource(),
+        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
                 applicationInformation.getScopeArray()[0], applicationInformation.getScopeArray()[1],
-                applicationInformation.getDataCustodianThirdPartyId()), redirectURL);
+                applicationInformation.getClientId()), redirectURL);
     }
 
     @Test
@@ -85,9 +85,9 @@ public class ScopeSelectionControllerTests extends BaseTest {
         when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
 
         String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
-                applicationInformation.getDataCustodianAuthorizationResource(),
-                applicationInformation.getDataCustodianThirdPartyId(),
-                applicationInformation.getThirdPartyDefaultOAuthCallback(),
+                applicationInformation.getAuthorizationServerAuthorizationEndpoint(),
+                applicationInformation.getClientId(),
+                applicationInformation.getRedirectUri(),
                 "code",
                 applicationInformation.getScopeArray()[0]);
 
