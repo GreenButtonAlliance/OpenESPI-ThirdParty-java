@@ -78,7 +78,7 @@ public class ScopeSelectionTests {
 
         mockMvc.perform(post("/RetailCustomer/1/ScopeSelection")
                 .param("Data_custodian", applicationInformation.getDataCustodianId())
-                .param("Data_custodian_URL", applicationInformation.getDataCustodianAuthorizationResource()))
+                .param("Data_custodian_URL", applicationInformation.getAuthorizationServerAuthorizationEndpoint()))
                .andExpect(status().is(302));
     }
 
@@ -95,7 +95,7 @@ public class ScopeSelectionTests {
                 .andExpect(redirectedUrl(String.format("%s?scope=%s&scope=%s&ThirdPartyID=%s", redirectURL,
                         applicationInformation.getScopeArray()[0],
                         applicationInformation.getScopeArray()[1],
-                        applicationInformation.getDataCustodianThirdPartyId())));
+                        applicationInformation.getClientId())));
     }
 
     @Test
@@ -132,8 +132,8 @@ public class ScopeSelectionTests {
         service.persist(applicationInformation);
 
         String redirectURL = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=%s",
-                applicationInformation.getDataCustodianAuthorizationResource(), applicationInformation.getDataCustodianThirdPartyId(),
-                applicationInformation.getThirdPartyDefaultOAuthCallback(), "code",
+                applicationInformation.getAuthorizationServerAuthorizationEndpoint(), applicationInformation.getClientId(),
+                applicationInformation.getRedirectUri(), "code",
                 applicationInformation.getScopeArray()[0], stateService.newState());
 
         mockMvc.perform(post(Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN).principal(authentication)

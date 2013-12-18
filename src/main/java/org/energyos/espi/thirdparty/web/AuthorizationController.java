@@ -46,15 +46,15 @@ public class AuthorizationController extends BaseController {
     @RequestMapping(value = Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal) {
         Authorization authorization = service.findByState(state);
-        authorization.setThirdParty(authorization.getApplicationInformation().getDataCustodianThirdPartyId());
+        authorization.setThirdParty(authorization.getApplicationInformation().getClientId());
 
         ApplicationInformation applicationInformation = authorization.getApplicationInformation();
 
-        String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code", applicationInformation.getDataCustodianTokenResource(),
-                applicationInformation.getThirdPartyDefaultOAuthCallback(), code);
+        String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code", applicationInformation.getAuthorizationServerTokenEndpoint(),
+                applicationInformation.getRedirectUri(), code);
 
         try {
-            ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getDataCustodianThirdPartyId(), applicationInformation.getDataCustodianThirdPartySecret());
+            ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getClientId(), applicationInformation.getClientSecret());
             AccessToken token = restTemplate.getForObject(url, AccessToken.class);
             authorization.setAccessToken(token.getAccessToken());
             authorization.setSubscriptionURI(token.getResourceURI());

@@ -73,8 +73,8 @@ public class AuthorizationControllerTests {
     @Test
     public void authorization_fetchesToken() throws Exception {
         String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code",
-                applicationInformation.getDataCustodianTokenResource(),
-                applicationInformation.getThirdPartyDefaultOAuthCallback(), CODE);
+                applicationInformation.getAuthorizationServerTokenEndpoint(),
+                applicationInformation.getRedirectUri(), CODE);
 
         controller.authorization(CODE, authorization.getState(), new ModelMap(), principal);
 
