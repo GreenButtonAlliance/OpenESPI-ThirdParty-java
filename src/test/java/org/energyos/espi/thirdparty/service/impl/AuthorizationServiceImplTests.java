@@ -6,6 +6,7 @@ import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.repositories.AuthorizationRepository;
 import org.energyos.espi.common.repositories.UsagePointRepository;
+import org.energyos.espi.common.repositories.jpa.AuthorizationRepositoryImpl;
 import org.energyos.espi.common.service.impl.AuthorizationServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
@@ -20,12 +21,12 @@ public class AuthorizationServiceImplTests {
 
 
     private AuthorizationServiceImpl service;
-    private AuthorizationRepository repository;
+    private AuthorizationRepositoryImpl repository;
 
     @Before
     public void before() {
         service = new AuthorizationServiceImpl();
-        repository = mock(AuthorizationRepository.class);
+        repository = mock(AuthorizationRepositoryImpl.class);
         service.setAuthorizationRepository(repository);
     }
 
