@@ -1,7 +1,7 @@
 package org.energyos.espi.thirdparty.integration.web.filters;
 
 
-import org.energyos.espi.thirdparty.web.filter.CORSFilter;
+import org.energyos.espi.common.utils.CORSFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
