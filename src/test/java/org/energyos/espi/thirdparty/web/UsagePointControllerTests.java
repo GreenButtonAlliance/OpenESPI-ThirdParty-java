@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
+
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
@@ -68,7 +69,7 @@ public class UsagePointControllerTests {
     @Test
     public void show_displaysShowView() throws Exception {
         when(usagePointRESTRepository.findByHashedId(anyLong(), anyString())).thenReturn(EspiFactory.newUsagePoint());
-        assertEquals("/usagepoints/show", controller.show("7bc41774-7190-4864-841c-861ac76d46c2", mock(ModelMap.class), authentication));
+        assertEquals("/usagepoints/show", controller.show("48C2A019-5598-4E16-B0F9-49E4FF27F5FB", mock(ModelMap.class), authentication));
     }
 
     @Test

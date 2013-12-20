@@ -45,7 +45,7 @@ public class Factory {
         MeterReading meterReading = new MeterReading();
 
         meterReading.setId(98L);
-        meterReading.setMRID("urn:uuid:E8B19EF0-6833-41CE-A28B-A5E7F9F193AE");
+        meterReading.setMRID("urn:uuid:F77FBF34-A09E-4EBC-9606-FF1A59A17CAE");
         meterReading.setDescription("Electricity consumption");
 
         return meterReading;
