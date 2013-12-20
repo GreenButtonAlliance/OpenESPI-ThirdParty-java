@@ -17,6 +17,7 @@
 package features.steps;
 
 import cucumber.api.java.en.Then;
+
 import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 

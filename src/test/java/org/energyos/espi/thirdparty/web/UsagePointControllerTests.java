@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
+
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
