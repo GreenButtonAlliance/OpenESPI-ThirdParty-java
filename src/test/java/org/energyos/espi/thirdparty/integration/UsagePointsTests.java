@@ -112,7 +112,7 @@ public class UsagePointsTests {
 
     @Test
     public void show_setsUsagePointModel() throws Exception {
-        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/7bc41774-7190-4864-841c-861ac76d46c2/show")
+        mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/48C2A019-5598-4E16-B0F9-49E4FF27F5FB/show")
                 .principal(authentication))
                 .andExpect(model().attributeExists("usagePoint"));
     }

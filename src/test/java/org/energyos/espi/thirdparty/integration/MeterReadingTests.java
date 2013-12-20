@@ -48,7 +48,7 @@ public class MeterReadingTests {
     private TestingAuthenticationToken authentication;
 
 
-    private static final String UUID = "E8B19EF0-6833-41CE-A28B-A5E7F9F193AE";
+    private static final String UUID = "F77FBF34-A09E-4EBC-9606-FF1A59A17CAE";
 
     @Before
     public void setup() {

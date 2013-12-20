@@ -27,6 +27,7 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.ui.ModelMap;
 
 import javax.xml.bind.JAXBException;
+
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
