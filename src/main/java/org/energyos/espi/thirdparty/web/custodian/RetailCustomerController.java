@@ -31,7 +31,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
 public class RetailCustomerController {
