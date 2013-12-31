@@ -35,6 +35,7 @@
                 <template>oauthTemplate</template>
                 <profile>dev</profile>
                 <database>hsql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
         
@@ -46,6 +47,7 @@
                 <template>oauthTemplate</template>
                 <profile>dev</profile>
                 <database>mysql</database>
+                <hbm2ddl_auto>validate</hbm2ddl_auto>
             </properties>
         </profile>
         
@@ -57,6 +59,7 @@
                 <template>mockTemplate</template>
                 <profile>ci</profile>
                 <database>hsql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -68,6 +71,7 @@
                 <template>oauthTemplate</template>
                 <profile>heroku</profile>
                 <database>postgresql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>
 
@@ -79,6 +83,7 @@
                 <template>oauthTemplate</template>
                 <profile>ec2</profile>
                 <database>hsql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
             </properties>
         </profile>   
         <profile>
@@ -89,6 +94,7 @@
                 <template>oauthTemplate</template>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
+                <hbm2ddl_auto>validate</hbm2ddl_auto>
             </properties>
         </profile>
     </profiles>
