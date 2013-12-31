@@ -45,9 +45,9 @@
                 <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
                 <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
-                <profile>dev</profile>
+                <profile>devmysql</profile>
                 <database>mysql</database>
-                <hbm2ddl_auto>validate</hbm2ddl_auto>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
         
@@ -94,7 +94,7 @@
                 <template>oauthTemplate</template>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
-                <hbm2ddl_auto>validate</hbm2ddl_auto>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
     </profiles>
