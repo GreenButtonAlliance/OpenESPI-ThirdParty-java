@@ -41,11 +41,36 @@
     <filter>
         <filter-name>CORSFilter</filter-name>
         <filter-class>org.energyos.espi.thirdparty.web.filter.CORSFilter</filter-class>
+      
+		<!-- Allow "origin" header -->
+    	<init-param>  
+    		<param-name>allow.origin</param-name>
+    		<param-value>*</param-value>
+    	</init-param>
+        
+<!--    CORSFilter Initialization parameters (for documentation only - not required)
+     
+    	<init-param>  // Allow origin to use regex definition
+     		<param-name>allow.origin.regex</param-name>
+        	<param-value>cfg.allow.origin.regex.toString()</param-value>
+    	</init-param>
+    	
+    	<init-param>  // Define optional CORS response headers
+    		<param-name>header: Access-Control-Allow-Origin</param-name>
+    		<param-value>*</param-value>
+    	</init-param>
+    	
+    	<init-param>  // Allow CORS headers to be exposed
+    		<param-name>expose.headers</param-name>
+    		<param-value>cfg.expose.headers.toString()</param-value>
+    	</init-param>
+-->         
+             
     </filter>
     
     <filter>
-    	<filter-name>LongToStringFilter</filter-name>
-    	<filter-class>org.energyos.espi.common.utils.LongToStringFilter</filter-class>	
+    	<filter-name>StringToLongFilter</filter-name>
+    	<filter-class>org.energyos.espi.common.utils.StringToLongFilter</filter-class>	
     </filter>
     
     <filter-mapping>
@@ -54,7 +79,7 @@
     </filter-mapping>
     
     <filter-mapping>
-    	<filter-name>LongToStringFilter</filter-name>
+    	<filter-name>StringToLongFilter</filter-name>
     	<url-pattern>/*</url-pattern>
     </filter-mapping>
     
