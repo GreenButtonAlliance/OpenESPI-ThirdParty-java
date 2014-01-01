@@ -42,7 +42,6 @@
         <constructor-arg value="http://localhost:8080/ThirdParty"/>
     </bean>
 
-    <import resource="classpath:spring/persistence-config.xml"/>
     <import resource="classpath:spring/business-config.xml"/>
 
     <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
