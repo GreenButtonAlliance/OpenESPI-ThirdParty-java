@@ -60,7 +60,7 @@
                     </tbody>
                 </table>
                 <input type="hidden" name="DataCustodianID" value="${param.DataCustodianID}"/>
-                <input type="submit" name="next" value="Next" disabled="true" class="btn btn-primary">
+                <input type="submit" name="next" value="Next" disabled="disabled" class="btn btn-primary">
             </form>
         </div>
     </div>
