@@ -62,7 +62,7 @@
                     </tbody>
                 </table>
                 <input type="hidden" name="Data_custodian_URL"/>
-                <input type="submit" name="next" value="Next" disabled="true" class="btn btn-primary">
+                <input type="submit" name="next" value="Next" disabled="disabled" class="btn btn-primary">
             </form>
         </div>
     </div>
