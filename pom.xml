@@ -50,6 +50,18 @@
                 <hbm2ddl_auto>none</hbm2ddl_auto>
             </properties>
         </profile>
+
+        <profile>
+            <id>devmysql-regeneratedatabase</id>
+             <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+                <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
+                <template>oauthTemplate</template>
+                <profile>devmysql-regeneratedatabase</profile>
+                <database>mysql</database>
+                <hbm2ddl_auto>create-drop</hbm2ddl_auto>
+            </properties>
+        </profile>
         
         <profile>
             <id>ci</id>
