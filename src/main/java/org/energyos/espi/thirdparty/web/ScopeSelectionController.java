@@ -72,9 +72,7 @@ public class ScopeSelectionController extends BaseController {
 
         authorization.setApplicationInformation(applicationInformation);
         authorization.setThirdParty(applicationInformation.getClientId());
-        
-        // this line choked in Travis but not local
-        authorization.setAuthorizationURI(applicationInformation.getThirdPartyScopeSelectionScreenURI());
+ 
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
         authorization.setUUID(UUID.randomUUID());

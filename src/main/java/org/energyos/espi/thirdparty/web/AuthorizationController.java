@@ -42,9 +42,17 @@ public class AuthorizationController extends BaseController {
     @Autowired
     @Qualifier("clientRestTemplateFactory")
     private ClientRestTemplateFactory templateFactory;
+    
+    //TODO: Need to be able to process an error response from the /oauth/authorization endpoint
+    //      Since this is a redirect, the query string must be inspected to determine
+    //      if an error response is returned
 
     @RequestMapping(value = Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal) {
+    	
+    	//TODO: Need to be able to process an exception should the "state" in the /oauth/authorization response
+    	//      not match the "state" value sent in the /oauth/authorization request
+    	
         Authorization authorization = service.findByState(state);
         authorization.setThirdParty(authorization.getApplicationInformation().getClientId());
 
@@ -57,6 +65,12 @@ public class AuthorizationController extends BaseController {
             ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getClientId(), applicationInformation.getClientSecret());
             AccessToken token = restTemplate.getForObject(url, AccessToken.class);
             authorization.setAccessToken(token.getAccessToken());
+            
+            authorization.setTokenType(token.getTokenType());
+            authorization.setExpiresIn(token.getExpiresIn());
+            authorization.setRefreshToken(token.getRefreshToken());
+            authorization.setScope(token.getScope());
+            authorization.setAuthorizationURI(token.getAuthorizationURI());
             authorization.setSubscriptionURI(token.getResourceURI());
         } catch (HttpClientErrorException x) {
             throw new UserDeniedAuthorizationException("Unable to retrieve OAuth token", x);
