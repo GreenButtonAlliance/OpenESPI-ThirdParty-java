@@ -70,12 +70,14 @@ public class ScopeSelectionController extends BaseController {
 
         Authorization authorization = new Authorization();
 
+        // Initialize authorization record content
         authorization.setApplicationInformation(applicationInformation);
         authorization.setThirdParty(applicationInformation.getClientId());
- 
         authorization.setRetailCustomer(currentCustomer(principal));
         authorization.setState(stateService.newState());
         authorization.setUUID(UUID.randomUUID());
+        authorization.setResponseType("code");
+        authorization.setScope(scope);
 
         authorizationService.persist(authorization);
 
