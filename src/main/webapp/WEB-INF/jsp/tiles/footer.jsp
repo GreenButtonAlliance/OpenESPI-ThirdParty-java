@@ -20,11 +20,12 @@
 <div style="float:left;">
   <img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a>
 </div>
+<div>
       	<ul class="inline pull-right">
             <li>&copy; <a href="http://www.energyos.org/">EnergyOS</a> 2013</li>
             <li><a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
             <li><a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
-	</ul>
+		</ul>
     </div>
 </footer>
 
