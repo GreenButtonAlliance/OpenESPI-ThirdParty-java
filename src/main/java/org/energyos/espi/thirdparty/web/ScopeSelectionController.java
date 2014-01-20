@@ -24,6 +24,7 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,7 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.persistence.NoResultException;
 import javax.xml.bind.JAXBException;
+
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Set;
@@ -68,23 +71,54 @@ public class ScopeSelectionController extends BaseController {
     public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") String dataCustodianId, Principal principal) throws JAXBException {
         ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
 
-        Authorization authorization = new Authorization();
+        try {        	
+        	// Does an ACTIVE authorization record exist for the requested Scope
+        	Authorization currentAuthorization = authorizationService.findByScope(scope);
+        	
+        	// Is this a valid authorization record?
+        	if(currentAuthorization.getStatus() == null) {
+        		
+        		// Delete the invalid record and continue request
+        		authorizationService.delete(currentAuthorization);
+        		throw new NoResultException();        		
+        		} 
+        	
+        	else {
+        		
+        		// Is the existing authorization record Active
+        		if(!currentAuthorization.getStatus().equals("1")) {
+        			
+        			// No, create a new authorization record entry
+        			throw new NoResultException ();        			
+        		}
+        	}
+        	
+        } catch (NoResultException | EmptyResultDataAccessException  e) {
+        
+        	// No authorization record exist for the requested Scope
+        	Authorization authorization = new Authorization();
 
-        // Initialize authorization record content
-        authorization.setApplicationInformation(applicationInformation);
-        authorization.setThirdParty(applicationInformation.getClientId());
-        authorization.setRetailCustomer(currentCustomer(principal));
-        authorization.setState(stateService.newState());
-        authorization.setUUID(UUID.randomUUID());
-        authorization.setResponseType("code");
-        authorization.setScope(scope);
+        	// Initialize authorization record content
+        	authorization.setApplicationInformation(applicationInformation);
+        	authorization.setThirdParty(applicationInformation.getClientId());
+        	authorization.setRetailCustomer(currentCustomer(principal));
+        	authorization.setState(stateService.newState());
+        	authorization.setUUID(UUID.randomUUID());
+        	authorization.setResponseType("code");
+        	authorization.setScope(scope);
+        	authorizationService.persist(authorization);
 
-        authorizationService.persist(authorization);
-
-        return "redirect:" + applicationInformation.getAuthorizationServerAuthorizationEndpoint() +
-                "?client_id=" + applicationInformation.getClientId() +
-                "&redirect_uri=" + applicationInformation.getRedirectUri() +
-                "&response_type=code&scope=" + scope + "&state=" + authorization.getState();
+        	return "redirect:" + applicationInformation.getAuthorizationServerAuthorizationEndpoint() +
+        			"?client_id=" + applicationInformation.getClientId() +
+        			"&redirect_uri=" + applicationInformation.getRedirectUri() +
+        			"&response_type=code&scope=" + scope + "&state=" + authorization.getState();
+        }
+        
+        //TODO: Need to build AuthorizationList report
+        // Skip the OAuth access token process if an access token already exist
+//        model.put("authorizationList", authorizationService.findAllByRetailCustomerId(currentCustomer(principal).getId()));
+        
+        return "/RetailCustomer/AuthorizationList/index";        
 
     }
 

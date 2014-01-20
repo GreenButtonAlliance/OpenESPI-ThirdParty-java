@@ -23,6 +23,7 @@ import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.exceptions.UserDeniedAuthorizationException;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.security.Principal;
-import java.util.Map;
+import java.util.GregorianCalendar;
+
+import javax.persistence.NoResultException;
 
 @Controller
 public class AuthorizationController extends BaseController {
@@ -48,74 +51,89 @@ public class AuthorizationController extends BaseController {
     @RequestMapping(value = Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK, method = RequestMethod.GET)
     public String authorization(String code, String state, ModelMap model, Principal principal, @RequestParam(value = "error", required = false) String error,
     		@RequestParam(value = "error_description", required = false) String error_description, @RequestParam(value = "error_uri", required = false) String error_uri) {
-  	
-    	//TODO: Add logic to handle when the /oauth/authorization response "state" element does not match the /oauth/authorization request "state" element   	
-        Authorization authorization = authorizationService.findByState(state);        
-        ApplicationInformation applicationInformation = authorization.getApplicationInformation();      
+  	  	
+        try {
 
-        // Verify /oauth/authorization Endpoint process completed successfully
-        if(code != null) {
-        	try {
+        	// Is /oauth/authorization response valid (i.e. is the "state" element correct)?
+        	Authorization authorization = authorizationService.findByState(state);
+        	
+        	// Process valid /oauth/authorization response
+        	ApplicationInformation applicationInformation = authorization.getApplicationInformation();      
+
+        	// Verify /oauth/authorization Endpoint process completed successfully
+        	if(code != null) {
+        		try {
             
-        		// Update Authorization record with returned authorization code for audit purposes
-        		authorization.setCode(code);
-        		authorization.setGrantType("authorization_code");
-        		authorizationService.merge(authorization);
+        			// Update Authorization record with returned authorization code for audit purposes
+        			authorization.setCode(code);
+        			authorization.setGrantType("authorization_code");
+        			authorization.setUpdated(new GregorianCalendar());        		
+        			authorizationService.merge(authorization);
         		
-        		// Format /oauth/token Endpoint request
-        		String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code", applicationInformation.getAuthorizationServerTokenEndpoint(),
-        				applicationInformation.getRedirectUri(), code);        		
+        			// Format /oauth/token Endpoint request
+        			String url = String.format("%s?redirect_uri=%s&code=%s&grant_type=authorization_code", applicationInformation.getAuthorizationServerTokenEndpoint(),
+        					applicationInformation.getRedirectUri(), code);        		
             
-        		// Issue /oauth/token Endpoint request
-        		ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getClientId(), applicationInformation.getClientSecret());
+        			// Issue /oauth/token Endpoint request
+        			ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getClientId(), applicationInformation.getClientSecret());
           
-        		// Process /oauth/token Endpoint response
-        		AccessToken token = restTemplate.getForObject(url, AccessToken.class);            
-        		authorization.setAccessToken(token.getAccessToken());            
-        		authorization.setTokenType(token.getTokenType());
-        		authorization.setExpiresIn(token.getExpiresIn());
-        		authorization.setRefreshToken(token.getRefreshToken());
-        		authorization.setScope(token.getScope());
-        		authorization.setAuthorizationURI(token.getAuthorizationURI());
-        		authorization.setResourceURI(token.getResourceURI());
-        		authorization.setSubscriptionURI(token.getResourceURI());
-        		authorization.setStatus("1");   // Set authorization record status as "Active"
-        		authorization.setState(null);	// Clear State as a security measure            
+        			// Process /oauth/token Endpoint response
+        			AccessToken token = restTemplate.getForObject(url, AccessToken.class);            
+        			authorization.setAccessToken(token.getAccessToken());            
+        			authorization.setTokenType(token.getTokenType());
+        			authorization.setExpiresIn(token.getExpiresIn());
+        			authorization.setRefreshToken(token.getRefreshToken());
+        			authorization.setScope(token.getScope());
+        			authorization.setAuthorizationURI(token.getAuthorizationURI());
+        			authorization.setResourceURI(token.getResourceURI());
+        			authorization.setUpdated(new GregorianCalendar());            		
+        			authorization.setStatus("1");   // Set authorization record status as "Active"
+        			authorization.setState(null);	// Clear State as a security measure            
 
-        		// Update authorization record with /oauth/token response data
-        		authorizationService.merge(authorization);
+        			// Update authorization record with /oauth/token response data
+        			authorizationService.merge(authorization);
             
-        	} catch (HttpClientErrorException x) {
+        		} catch (HttpClientErrorException x) {
         		
-        		//TODO: Figure out how to extract error, error_description and error_uri from JSON response
+        			//TODO: Extract error, error_description and error_uri from JSON response.  Currently recording null for all three fields.
         		     		
-        		// Update authorization record        	
-            	authorization.setError(error);
-            	authorization.setErrorDescription(error_description);
-            	authorization.setErrorUri(error_uri);        		
-        		authorization.setStatus("2");   // Set authorization record status as "Denied"
-        		authorization.setState(null);	// Clear State as a security measure           
+        			// Update authorization record        	
+        			authorization.setError(error);
+        			authorization.setErrorDescription(error_description);
+        			authorization.setErrorUri(error_uri);
+        			authorization.setUpdated(new GregorianCalendar());              	
+        			authorization.setStatus("2");   // Set authorization record status as "Denied"
+        			authorization.setState(null);	// Clear State as a security measure           
+        			authorizationService.merge(authorization);
+        	
+        			//TODO: Should the "message" differ based on the exception? 
+        			throw new UserDeniedAuthorizationException("Unable to retrieve OAuth token", x);
+        		}
+        	}        	
+        	else {
+                    	
+        		// Update authorization record with error response      	
+        		authorization.setError(error);
+        		authorization.setErrorDescription(error_description);
+        		authorization.setErrorUri(error_uri);
+        		authorization.setUpdated(new GregorianCalendar());	           	
+        		authorization.setStatus("2");   //Set authorization record status as "Denied"
+        		authorization.setState(null);	//Clear State as a security measure
         		authorizationService.merge(authorization);
         	
-        		//TODO: Process error response from /oauth/token Endpoint 
-        		throw new UserDeniedAuthorizationException("Unable to retrieve OAuth token", x);
-        	}
-        }        	
-        else {
-                    	
-        	// Update authorization record        	
-        	authorization.setError(error);
-        	authorization.setErrorDescription(error_description);
-        	authorization.setErrorUri(error_uri);  
-        	authorization.setStatus("2");   //Set authorization record status as "Denied"
-        	authorization.setState(null);
-        	authorizationService.merge(authorization);
-        	
-        	// Test for "access_denied" failure code 
-        	if(error.equals("access_denied")) {
-        		throw new UserDeniedAuthorizationException("User Denied Access");
-        	}
+        		// Test for "access_denied" failure code 
+        		if(error.equals("access_denied")) {
+        			throw new UserDeniedAuthorizationException("User Denied Access");
+        		}
         		
+        	}
+        
+        } catch (NoResultException | EmptyResultDataAccessException e) {
+        	
+        	// We received an invalid /oauth/authorization response
+        	//TODO: Log receipt of an invalid /oauth/authorization response
+        	return "/home";
+        	
         }
 
         model.put("authorizationList", authorizationService.findAllByRetailCustomerId(currentCustomer(principal).getId()));
