@@ -25,7 +25,6 @@
 
 
     <import resource="classpath:spring/business-config.xml"/>
-
     <import resource="classpath:spring/rest-config.xml"/>
     <import resource="classpath:spring/oauth-config.xml"/>
     <import resource="classpath:spring/security-config.xml"/>
