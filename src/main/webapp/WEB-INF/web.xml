@@ -64,6 +64,11 @@
     		<param-name>expose.headers</param-name>
     		<param-value>cfg.expose.headers.toString()</param-value>
     	</init-param>
+    	
+    	<init-param>  // Allow Credential support
+    		<param-name>allow.credentials</param-name>
+    		<param-value>true</param-value>
+    	</init-param>    	
 -->         
              
     </filter>
