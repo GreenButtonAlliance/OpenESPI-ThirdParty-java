@@ -163,7 +163,7 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
         requestHeaders.set("Authorization", "Bearer " + authorization.getAccessToken());
         HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
-        return template.exchange(authorization.getSubscriptionURI(), HttpMethod.GET, requestEntity, String.class);
+        return template.exchange(authorization.getResourceURI(), HttpMethod.GET, requestEntity, String.class);
     }
 
     private Authorization findAuthorization(Long retailCustomerId) {

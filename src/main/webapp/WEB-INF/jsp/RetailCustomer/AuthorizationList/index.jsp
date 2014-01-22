@@ -44,7 +44,7 @@
                         <td class="data_custodian"><c:out value="${authorization.applicationInformation.dataCustodianId}"/></td>
                         <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
                         <td class="status"><c:out value="${authorization.status}"/></td>
-                        <td class="subscription_id"><c:out value="${authorization.subscriptionId}"/></td>
+                        <td class="subscription_id"><c:out value="${authorization.resourceURI}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
