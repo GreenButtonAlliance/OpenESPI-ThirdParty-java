@@ -73,7 +73,7 @@ public class ScopeSelectionController extends BaseController {
 
         try {        	
         	// Does an ACTIVE authorization record exist for the requested Scope
-        	Authorization currentAuthorization = authorizationService.findByScope(scope);
+        	Authorization currentAuthorization = authorizationService.findByScope(scope, currentCustomer(principal).getId());
         	
         	// Is this a valid authorization record?
         	if(currentAuthorization.getStatus() == null) {
