@@ -136,9 +136,7 @@ public class AuthorizationController extends BaseController {
         	
         }
 
-        model.put("authorizationList", authorizationService.findAllByRetailCustomerId(currentCustomer(principal).getId()));
-
-        return "/RetailCustomer/AuthorizationList/index";
+        return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/AuthorizationList";
     }
 
     @RequestMapping(value = Routes.THIRD_PARTY_AUTHORIZATION, method = RequestMethod.GET)

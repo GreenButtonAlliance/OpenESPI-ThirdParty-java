@@ -114,11 +114,9 @@ public class ScopeSelectionController extends BaseController {
         			"&response_type=code&scope=" + scope + "&state=" + authorization.getState();
         }
         
-        //TODO: Need to build AuthorizationList report
-        // Skip the OAuth access token process if an access token already exist
-//        model.put("authorizationList", authorizationService.findAllByRetailCustomerId(currentCustomer(principal).getId()));
-        
-        return "/RetailCustomer/AuthorizationList/index";        
+        //TODO: If an Oauth access token already exists, do we want to display the "UsagePoint" screen?
+        // Display the Authorization List screen if an OAuth access token already exist       
+        return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/AuthorizationList";        
 
     }
 
