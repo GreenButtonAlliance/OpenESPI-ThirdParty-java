@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.xml.bind.JAXBException;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -56,9 +57,16 @@ public class UsagePointController extends BaseController {
     @RequestMapping(value = Routes.USAGE_POINT_SHOW_TP, method = RequestMethod.GET)
     public String show(@PathVariable("UsagePointHashedId") String usagePointHashedId, ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
+        try {
         model.put("usagePoint", usagePointRESTRepository.findByHashedId(currentCustomer.getId(), usagePointHashedId));
-
         return "/usagepoints/show";
+        
+        } catch (Exception e) {
+       	    System.out.printf("UX Error: %s\n", e.toString());
+            List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
+            model.put("usagePointList", usagePointList);
+            return "/usagepoints/index";
+        }
     }
 
     public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
