@@ -23,6 +23,7 @@ import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void show_returnsOkStatus() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show")
                 .principal(authentication))
@@ -104,6 +106,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void show_displaysShowView() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/" + usagePoint.getHashedId() + "/show")
                 .principal(authentication))
@@ -111,6 +114,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void show_setsUsagePointModel() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/48C2A019-5598-4E16-B0F9-49E4FF27F5FB/show")
                 .principal(authentication))
