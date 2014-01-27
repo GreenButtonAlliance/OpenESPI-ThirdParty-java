@@ -16,16 +16,17 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import java.util.List;
+import java.util.UUID;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.xml.bind.JAXBException;
-import java.util.List;
-import java.util.UUID;
 
 @Repository
 public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepository {

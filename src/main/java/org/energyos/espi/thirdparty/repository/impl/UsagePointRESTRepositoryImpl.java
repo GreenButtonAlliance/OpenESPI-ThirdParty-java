@@ -16,9 +16,13 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
-import org.energyos.espi.common.domain.ServiceCategory;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.models.atom.FeedType;
@@ -27,11 +31,9 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.common.service.impl.ImportServiceImpl;
-import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
+import org.energyos.espi.common.utils.ATOMMarshaller;
 import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
-import org.energyos.espi.common.utils.ATOMMarshaller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -39,13 +41,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-
-import javax.xml.bind.JAXBException;
-
-import java.io.ByteArrayInputStream;
-import java.security.Principal;
-import java.util.List;
-import java.util.UUID;
 
 @Repository
 public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {

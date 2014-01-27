@@ -16,6 +16,16 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.test.EspiFactory;
@@ -25,13 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.ui.ModelMap;
-
-import javax.xml.bind.JAXBException;
-
-import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class MeterReadingControllerTests {
 

@@ -1,5 +1,8 @@
 package org.energyos.espi.thirdparty.mocks;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -7,9 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
-import java.util.Scanner;
 
 public class MockRestTemplate extends RestTemplate {
 

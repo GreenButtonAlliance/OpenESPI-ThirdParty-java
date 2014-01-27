@@ -16,19 +16,19 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.ModelMap;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class DataCustodianListControllerTests {
 

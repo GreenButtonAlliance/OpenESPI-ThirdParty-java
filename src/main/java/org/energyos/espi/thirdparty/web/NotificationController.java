@@ -16,8 +16,14 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.Routes;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.stream.StreamSource;
+
 import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.BatchListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,11 +31,6 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Controller
 public class NotificationController extends BaseController {

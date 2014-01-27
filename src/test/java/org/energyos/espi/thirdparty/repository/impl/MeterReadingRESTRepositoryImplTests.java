@@ -16,19 +16,19 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class MeterReadingRESTRepositoryImplTests {
 

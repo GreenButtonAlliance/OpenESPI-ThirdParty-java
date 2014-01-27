@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.web.custodian;
 
+import static org.junit.Assert.assertEquals;
+
 import org.energyos.espi.thirdparty.web.CustodianHomeController;
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class CustodianHomeControllerTests {
 

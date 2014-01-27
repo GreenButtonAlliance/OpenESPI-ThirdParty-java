@@ -16,9 +16,10 @@
 
 package org.energyos.espi.thirdparty.support;
 
-import javax.validation.constraints.Size;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+
+import javax.validation.constraints.Size;
 
 @SuppressWarnings("rawtypes")
 public class TestUtils {

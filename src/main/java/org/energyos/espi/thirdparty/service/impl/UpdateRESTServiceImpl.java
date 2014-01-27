@@ -16,6 +16,8 @@
 
 package org.energyos.espi.thirdparty.service.impl;
 
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.AuthorizationService;
@@ -23,8 +25,6 @@ import org.energyos.espi.thirdparty.service.ResourceRESTService;
 import org.energyos.espi.thirdparty.service.UpdateRESTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.xml.bind.JAXBException;
 
 @Service
 public class UpdateRESTServiceImpl implements UpdateRESTService {

@@ -16,6 +16,11 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.security.Principal;
+import java.util.GregorianCalendar;
+
+import javax.persistence.NoResultException;
+
 import org.energyos.espi.common.domain.AccessToken;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
@@ -32,11 +37,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
-
-import java.security.Principal;
-import java.util.GregorianCalendar;
-
-import javax.persistence.NoResultException;
 
 @Controller
 public class AuthorizationController extends BaseController {

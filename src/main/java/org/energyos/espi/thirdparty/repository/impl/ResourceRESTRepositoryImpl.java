@@ -16,6 +16,8 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.IdentifiedObject;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
@@ -27,8 +29,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
-
-import javax.xml.transform.stream.StreamSource;
 
 @Repository
 public class ResourceRESTRepositoryImpl implements ResourceRESTRepository {

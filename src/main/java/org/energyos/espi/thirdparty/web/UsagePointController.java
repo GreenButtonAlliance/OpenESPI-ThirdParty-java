@@ -16,6 +16,11 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.security.Principal;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -28,11 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
-
-import javax.xml.bind.JAXBException;
-
-import java.security.Principal;
-import java.util.List;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")

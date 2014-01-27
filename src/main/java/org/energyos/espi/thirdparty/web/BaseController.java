@@ -16,10 +16,10 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.security.Principal;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.springframework.security.core.Authentication;
-
-import java.security.Principal;
 
 public class BaseController {
     public RetailCustomer currentCustomer(Principal principal) {

@@ -16,12 +16,12 @@
 
 package features.steps;
 
-import cucumber.api.java.en.Then;
+import static org.junit.Assert.assertTrue;
 
 import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 
-import static org.junit.Assert.assertTrue;
+import cucumber.api.java.en.Then;
 
 public class AuthenticationSteps {
     private WebDriver driver = WebDriverSingleton.getInstance();
