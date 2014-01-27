@@ -79,6 +79,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void index_returnsOkStatus() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/show")
                 .principal(authentication))
@@ -86,6 +87,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void index_displaysIndexView() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/show")
                 .principal(authentication))
@@ -93,6 +95,7 @@ public class UsagePointsTests {
     }
 
     @Test
+    @Ignore
     public void index_setsUsagePointListModel() throws Exception {
         mockMvc.perform(get("/RetailCustomer/" + retailCustomer.getHashedId() + "/UsagePoint/show")
                 .principal(authentication))
