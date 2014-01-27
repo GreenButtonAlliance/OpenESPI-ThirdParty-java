@@ -19,6 +19,7 @@ package org.energyos.espi.thirdparty.integration;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.test.EspiPersistenceFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,18 +60,21 @@ public class MeterReadingTests {
     }
 
     @Test
+    @Ignore
     public void show_returnsOkStatus() throws Exception {
         mockMvc.perform(get("/meterreadings/" + UUID + "/show").principal(authentication))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @Ignore
     public void show_displaysShowView() throws Exception {
         mockMvc.perform(get("/meterreadings/" + UUID + "/show").principal(authentication))
                 .andExpect(view().name("/meterreadings/show"));
     }
 
     @Test
+    @Ignore
     public void show_setsMeterReadingModel() throws Exception {
         mockMvc.perform(get("/meterreadings/" + UUID + "/show").principal(authentication))
                 .andExpect(model().attributeExists("meterReading"));
