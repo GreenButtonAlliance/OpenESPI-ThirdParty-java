@@ -17,18 +17,20 @@
 <script src="<c:url value='/resources/js/jquery.min.js'/>"></script>
 
 <footer id="footer">
-<hr>
-<div style="float:left;">
-  <img src="<c:url value='/resources/ico/favicon.png'/>" width="20"/>&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a>
-</div>
-<div>
-      	<ul class="inline pull-right">
-            <li><a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
-            <li><a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
-            <li><a href="<c:url value='/about-version' />">About</a></li>
-            <li><a href="<c:url value='/Sponsors' /> ">Sponsors</a></li>
+<hr size="4">
+	<div style="width:100%; margin-left: auto 0px;">
+
+		<ul class="inline">
+			<li><img src="<c:url value='/resources/ico/favicon.png'/>"
+				width="20" />&nbsp;<a href="http://www.greenbuttondata.org">Green Button for America</a></li>
+			<li>|| <a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
+			<li>|| <a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
+			<li>|| <a href="<c:url value='/about-version' />">About</a></li>
+			<li>|| <a href="<c:url value='/Sponsors' /> ">Sponsors</a></li>
+			<li>|| &copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013, 2014 </li>
 		</ul>
-    </div>
-<div style="float:right; margin-top:5px;">&copy; <a href="http://www.EnergyOS.org/">EnergyOS.org</a> 2013, 2014</div>
-</footer>
+
+	</div>
+	
+	</footer>
 
