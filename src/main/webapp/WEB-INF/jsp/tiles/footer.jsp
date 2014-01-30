@@ -22,7 +22,7 @@
 </div>
 <div>
       	<ul class="inline pull-right">
-            <li>&copy; <a href="http://www.energyos.org/">EnergyOS</a> 2014</li>
+            <li>&copy; <a href="http://www.energyos.org/">EnergyOS</a> 2013, 2014</li>
             <li><a href="<c:url value='/TermsOfService' />">Terms of Service</a></li>
             <li><a href="<c:url value='/UsagePolicy' />">Usage Policy</a></li>
 		</ul>
