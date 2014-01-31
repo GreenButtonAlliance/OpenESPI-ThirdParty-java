@@ -110,8 +110,8 @@
         <profile>
             <id>greenbuttondata</id>
             <properties>
-                <datacustodian.base.url>http://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
-                <thirdparty.base.url>http://services.greenbuttondata.org/ThirdParty</thirdparty.base.url>
+                <datacustodian.base.url>https://services.greenbuttondata.org/DataCustodian</datacustodian.base.url>
+                <thirdparty.base.url>https://services.greenbuttondata.org/ThirdParty</thirdparty.base.url>
                 <template>oauthTemplate</template>
                 <profile>greenbuttondata</profile>
                 <database>mysql</database>
@@ -549,7 +549,7 @@
                 <version>2.0</version>
                 <configuration>
                     <path>/ThirdParty</path>
-                    <url>http://services.greenbuttondata.org/manager/text</url>
+                    <url>https://services.greenbuttondata.org/manager/text</url>
                     <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
