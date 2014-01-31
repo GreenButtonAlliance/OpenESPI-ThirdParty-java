@@ -606,7 +606,7 @@
                 </manifestEntries>
 				
 			</archive>
-			<warName>1.0</warName>
+			<warName>ThirdParty</warName>
 		</configuration>
 	</plugin>
     <plugin>
