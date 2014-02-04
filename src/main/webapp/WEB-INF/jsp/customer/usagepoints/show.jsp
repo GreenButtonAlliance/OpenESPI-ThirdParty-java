@@ -18,16 +18,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../../tiles/customer/header.jsp"/>
 
 <div class="container">
     <div class="row">
         <div class="span12">
-            <h2>Usage Point: <c:out value="${usagePoint.description}"/></h2>
+            <h2>Usage Point: <c:out value="${displayBag.get('Description')}"/></h2>
+            <p>Service Category: <c:out value="${displayBag.get('ServiceCategory')}"/></p>
 
             <table class="table table-striped">
                 <caption class="text-left">Meter Readings:</caption>
@@ -38,14 +39,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="meterReading" items="${usagePoint.meterReadings}">
+                <c:forEach var="meterReading" items="${displayBag.get('MeterReadings')}">
                     <tr>
                         <td>
-                            <a href="<c:url value='/meterreadings/${meterReading.UUID}/show'/>">
-                                <c:out value="${meterReading.description}"/>
+                            <a href="<c:url value='${meterReading.get("Uri")}' />">
+                                <c:out value='${meterReading.get("Description")}' />
                             </a>
                         </td>
-                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                        <td><c:out value="${meterReading.get('ReadingType')}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -61,7 +62,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="electricPowerUsageSummary" items="${usagePoint.electricPowerUsageSummaries}">
+                <c:forEach var="electricPowerUsageSummary" items="${displayBag.get('UsageSummmaryList')}">
                     <tr>
                         <td>
                             <c:out value="${electricPowerUsageSummary.description}"/>
@@ -82,12 +83,12 @@
                 <thead>
                 <tr>
                     <th>Description</th>
-                    <th>Summary Interval Start</th>
-                    <th>Summary Interval Duration</th>
+                    <th>Billing Period Start</th>
+                    <th>Billing Period Duration</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="electricPowerQualitySummary" items="${usagePoint.electricPowerQualitySummaries}">
+                <c:forEach var="electricPowerQualitySummary" items="${displayBag.get('QualitySummaryList')}">
                     <tr>
                         <td>
                             <c:out value="${electricPowerQualitySummary.description}"/>
@@ -110,19 +111,18 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>
-                        <c:out value="${usagePoint.localTimeParameters.tzOffset}"/>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <c:out value="${usagePoint.localTimeParameters.tzOffset}"/>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <hr>
-
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="../../tiles/footer.jsp"/>
 
 </div>
 
