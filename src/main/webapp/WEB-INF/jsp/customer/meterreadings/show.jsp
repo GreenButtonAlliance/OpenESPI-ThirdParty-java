@@ -18,11 +18,11 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="../tiles/head.jsp"/>
+<jsp:include page="../../tiles/head.jsp"/>
 
 <body>
 
-<jsp:include page="../tiles/customer/header.jsp"/>
+<jsp:include page="../../tiles/customer/header.jsp"/>
 
 <div class="container">
     <div class="row">
@@ -42,15 +42,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><c:out value="${meterReading.readingType.description}"/></td>
-                    <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
-                    <td><c:out value="${meterReading.readingType.commodity}"/></td>
-                    <td><c:out value="${meterReading.readingType.currency}"/></td>
-                    <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
-                    <td><c:out value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
-                    <td><c:out value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
-                </tr>
+                    <tr>
+                        <td><c:out value="${meterReading.readingType.description}"/></td>
+                        <td><c:out value="${meterReading.readingType.accumulationBehaviour}"/></td>
+                        <td><c:out value="${meterReading.readingType.commodity}"/></td>
+                        <td><c:out value="${meterReading.readingType.currency}"/></td>
+                        <td><c:out value="${meterReading.readingType.dataQualifier}"/></td>
+                        <td><c:out value="${meterReading.readingType.argument.numerator}/${meterReading.readingType.argument.denominator}"/></td>
+                        <td><c:out value="${meterReading.readingType.interharmonic.numerator}/${meterReading.readingType.interharmonic.denominator}"/></td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -65,14 +65,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>
-                                <c:out value="${intervalBlock.interval.duration}"/>
-                            </td>
-                            <td>
-                                <c:out value="${intervalBlock.interval.start}"/>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <c:out value="${intervalBlock.interval.duration}"/>
+                                </td>
+                                <td>
+                                    <c:out value="${intervalBlock.interval.start}"/>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                     <table class="table table-striped">
@@ -118,7 +118,7 @@
 
     <hr>
 
-    <jsp:include page="../tiles/footer.jsp"/>
+    <jsp:include page="../../tiles/footer.jsp"/>
 
 </div>
 

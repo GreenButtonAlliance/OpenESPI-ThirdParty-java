@@ -20,12 +20,16 @@ import java.security.Principal;
 import java.util.GregorianCalendar;
 
 import javax.persistence.NoResultException;
+import javax.xml.bind.JAXBException;
 
 import org.energyos.espi.common.domain.AccessToken;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
+import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -43,6 +47,13 @@ public class AuthorizationController extends BaseController {
 
     @Autowired
     private AuthorizationService authorizationService;
+    
+    //TODO - the following is legacy code that will do the import
+    // of a subscription from a DC. Needs to be separated out of the "repository"
+    // level and be callable as a TP specific service level.
+    //
+    @Autowired
+    private UsagePointRESTRepository usagePointRESTRepository;
 
     @Autowired
     @Qualifier("clientRestTemplateFactory")
@@ -93,6 +104,19 @@ public class AuthorizationController extends BaseController {
         			// Update authorization record with /oauth/token response data
         			authorizationService.merge(authorization);
             
+        			// now do the initial import of the Authorized Resouce, if it is 
+        			// not ready, then we will wait till we receive a Notify or the UX call for it.
+        			// TODO: create a Subscription to work with if needed
+        			// 
+        			RetailCustomer currentCustomer = currentCustomer(principal);
+        			try {
+						usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
+					} catch (JAXBException e) {
+						// nothing there, so log the fact and move on. It will 
+						// get imported later.
+						System.out.printf("ThirdParty Import Exception: %s\n", e.toString());
+						e.printStackTrace();
+					}
         		} catch (HttpClientErrorException x) {
         		
         			//TODO: Extract error, error_description and error_uri from JSON response.  Currently recording null for all three fields.
