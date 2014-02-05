@@ -88,42 +88,29 @@ public class AuthorizationController extends BaseController {
         			ClientRestTemplate restTemplate = templateFactory.newClientRestTemplate(applicationInformation.getClientId(), applicationInformation.getClientSecret());
           
         			// Process /oauth/token Endpoint response
-        			System.out.printf("*1*||");
         			AccessToken token = restTemplate.getForObject(url, AccessToken.class);            
-        			System.out.printf("*2*||");
         			authorization.setAccessToken(token.getAccessToken());
-        			System.out.printf("*3*||");
         			authorization.setTokenType(token.getTokenType());
-        			System.out.printf("*4*||");
         			authorization.setExpiresIn(token.getExpiresIn());
-        			System.out.printf("*5*||");
         			authorization.setRefreshToken(token.getRefreshToken());
-        			System.out.printf("*6*||");
         			authorization.setScope(token.getScope());
-        			System.out.printf("*7*||");
         			authorization.setAuthorizationURI(token.getAuthorizationURI());
-        			System.out.printf("*8*||");
         			authorization.setResourceURI(token.getResourceURI());
-        			System.out.printf("*9*||");
         			authorization.setUpdated(new GregorianCalendar());
-        			System.out.printf("*10*||");
         			authorization.setStatus("1");   // Set authorization record status as "Active"
-        			System.out.printf("*11*||");
         			authorization.setState(null);	// Clear State as a security measure
-        			System.out.printf("*12*||");
 
         			// Update authorization record with /oauth/token response data
         			authorizationService.merge(authorization);
-        			System.out.printf("*13*||");
         			// now do the initial import of the Authorized Resouce, if it is 
         			// not ready, then we will wait till we receive a Notify or the UX call for it.
         			// TODO: create a Subscription to work with if needed
         			// 
         			RetailCustomer currentCustomer = currentCustomer(principal);
-        			System.out.printf("*14*||");
+
         			try {
 						usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
-	        			System.out.printf("*15*\n");
+
 					} catch (JAXBException e) {
 						// nothing there, so log the fact and move on. It will 
 						// get imported later.
