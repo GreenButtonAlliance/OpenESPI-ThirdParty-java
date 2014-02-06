@@ -43,7 +43,9 @@ public class NotificationController extends BaseController {
 
     @RequestMapping(value = Routes.THIRD_PARTY_NOTIFICATION, method = RequestMethod.POST)
     public void notification(HttpServletResponse response, InputStream inputStream) throws IOException {
-        BatchList batchList = (BatchList)marshaller.unmarshal(new StreamSource(inputStream));
+        // TODO: do the actual import in a separate thread via a GET
+    	// 
+    	BatchList batchList = (BatchList)marshaller.unmarshal(new StreamSource(inputStream));
         batchListService.persist(batchList);
         response.setStatus(HttpServletResponse.SC_OK);
     }
