@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping
-public class VersionRESTController {
+public class VersionRESTController extends BaseController {
  
     /**
      * Handling GET request to retrieve details from MANIFEST.MF file

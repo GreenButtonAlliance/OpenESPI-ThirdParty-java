@@ -17,13 +17,14 @@
 package org.energyos.espi.thirdparty.web;
 
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.thirdparty.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(Routes.LOGIN)
-public class LoginController {
+public class LoginController extends BaseController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String index() {

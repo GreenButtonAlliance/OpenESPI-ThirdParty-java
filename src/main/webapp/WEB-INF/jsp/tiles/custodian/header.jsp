@@ -34,6 +34,7 @@
                         <li><a href="<c:url value='/custodian/retailcustomers'/>">Customer List</a></li>
                         <li><a href="<c:url value='/batchLists'/>">Batch Lists</a></li>
                         <li><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
+                        <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
                     </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li><a id="login" href="<c:url value='/login'/>">Login</a></li>
