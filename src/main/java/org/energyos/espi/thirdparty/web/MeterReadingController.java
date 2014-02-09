@@ -68,8 +68,8 @@ public class MeterReadingController extends BaseController {
         return "/customer/meterreadings/show";
     }
 
-    public void setMeterReadingService(MeterReadingService meterReadingService) {
-        this.meterReadingService = meterReadingService;
+    public void setMeterReadingService(MeterReadingService service) {
+        this.meterReadingService = service;
     }
 }
 
