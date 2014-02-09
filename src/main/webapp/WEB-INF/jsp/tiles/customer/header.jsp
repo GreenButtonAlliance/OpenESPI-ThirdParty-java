@@ -35,7 +35,8 @@
                         <li><a href="<c:url value='/RetailCustomer/${principal.id}/DataCustodianList'/>">Data Custodians</a></li>
                         <li><a href="<c:url value='/RetailCustomer/${principal.id}/AuthorizationList'/>">Authorizations</a></li>
                         <li><a id="logout" href="<c:url value='/j_spring_security_logout'/>">Logout</a></li>
-                    </security:authorize>
+                         <li><a id="profile" href="">Welcome: ${currentCustomer.firstName} ${currentCustomer.lastName}</a></li>
+                   </security:authorize>
                     <security:authorize access="isAnonymous()">
                         <li><a id="login" href="<c:url value='/login'/>">Login</a></li>
                     </security:authorize>
