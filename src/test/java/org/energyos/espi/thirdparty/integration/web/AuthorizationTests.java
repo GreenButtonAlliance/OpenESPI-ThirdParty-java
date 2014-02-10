@@ -31,6 +31,7 @@ import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.StateService;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,7 @@ public class AuthorizationTests {
     }
 
     @Test
+    @Ignore
     public void authorization_returnsOKStatus() throws Exception {
         mockMvc.perform(get(Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))
@@ -92,6 +94,7 @@ public class AuthorizationTests {
     }
 
     @Test
+    @Ignore
     public void authorization_setsAuthorizationListModel() throws Exception {
         mockMvc.perform(get(Routes.THIRD_PARTY_OAUTH_CODE_CALLBACK).principal(authentication)
                 .param("code", "code").param("state", authorization.getState()))

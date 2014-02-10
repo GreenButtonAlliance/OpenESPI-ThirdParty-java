@@ -54,9 +54,11 @@ import org.springframework.web.client.HttpClientErrorException;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class UsagePointController extends BaseController {
 
+	/*
     @Autowired
     private UsagePointRESTRepository usagePointRESTRepository; 
-    
+    */
+	
     @Autowired
     private UsagePointService usagePointService;
    
@@ -164,10 +166,11 @@ public class UsagePointController extends BaseController {
 	return displayBag;
     }
     
-
+    /*
     public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
         this.usagePointRESTRepository = usagePointRESTRepository;
     }
+    */
     
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;

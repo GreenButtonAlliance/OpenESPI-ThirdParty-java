@@ -33,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -89,7 +90,7 @@ public class CORSFilter implements Filter {
     	
     	if (logger.isInfoEnabled()) {  		
     		logger.info("CORSFilter processing: Checking for Cross Origin pre-flight OPTIONS message");
-    	}
+  	}
     	
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             HttpServletRequest req = (HttpServletRequest)request;
