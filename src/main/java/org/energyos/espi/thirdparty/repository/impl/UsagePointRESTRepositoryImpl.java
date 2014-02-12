@@ -113,7 +113,6 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
 			importService.importData(bs, retailCustomerId);
 		} catch (Exception e) {
 			// TODO need to pass the exception on through appropriately
-			System.out.printf("****Exception 030: %s\n" , e.toString());
 		}
 
 		List<UsagePoint> result;

@@ -85,17 +85,15 @@ public class UsagePointController extends BaseController {
         
         return "/customer/usagepoints/show";
      } catch (Exception e) {
-     	System.out.printf("****Exception 022: %s\n", e.toString());
+
     	 // got to do a dummy DB access to satify the transaction rollback needs ...
     	 ApplicationInformation ai = resourceService.findById(1L, ApplicationInformation.class);
     	 System.out.printf("UX Error: %s\n", e.toString());
     	 model.put("errorString", e.toString());
     	 try {
     		 // try again (and maybe we can catch the rollback error ...
-         	System.out.printf("****Exception 023: %s\n", e.toString());
     		 return "/customer/error";
     	 } catch (Exception ex) {
-         	System.out.printf("****Exception 024: %s\n", e.toString());
          return "/customer/error";
     	 }
      }
@@ -122,7 +120,6 @@ public class UsagePointController extends BaseController {
             return "/usagepoints/show";
         
         } catch (Exception e) {
-        	        	System.out.printf("****Exception 025: %s\n", e.toString());
        	    System.out.printf("UX Error: %s\n", e.toString());
             List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
             model.put("usagePointList", usagePointList);

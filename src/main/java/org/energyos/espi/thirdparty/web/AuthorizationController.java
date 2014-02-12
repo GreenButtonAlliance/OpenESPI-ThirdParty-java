@@ -114,7 +114,6 @@ public class AuthorizationController extends BaseController {
 					} catch (JAXBException e) {
 						// nothing there, so log the fact and move on. It will 
 						// get imported later.
-						System.out.printf("\nThirdParty Import Exception: %s\n", e.toString());
 						e.printStackTrace();
 					}
         		} catch (HttpClientErrorException x) {

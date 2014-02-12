@@ -119,7 +119,6 @@ public class NotificationController extends BaseController {
 		} catch (Exception e) {
 			// nothing there, so log the fact and move on. It will 
 			// get imported later.
-			System.out.printf("\n**** Exception 004: ThirdParty Subscription Import Failure: %s -  %s\n", resourceUri, e.toString());
 			e.printStackTrace();
 		}
         System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
