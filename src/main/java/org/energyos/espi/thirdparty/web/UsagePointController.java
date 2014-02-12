@@ -102,7 +102,7 @@ public class UsagePointController extends BaseController {
     }
     
     /*
-    @Transactional (rollbackFor= {JAXBException.class}, 
+    @Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
                 noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
 (readOnly = true)
     @RequestMapping(value = Routes.USAGE_POINT_SHOW_TP, method = RequestMethod.GET)
