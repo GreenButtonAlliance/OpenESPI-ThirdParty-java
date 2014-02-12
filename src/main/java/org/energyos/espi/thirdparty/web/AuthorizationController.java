@@ -103,27 +103,29 @@ public class AuthorizationController extends BaseController {
 
         			// Update authorization record with /oauth/token response data
         			authorizationService.merge(authorization);
-        			// now do the initial import of the Authorized Resouce, if it is 
+        			
+        			// now do the initial import of the Authorized Resource, if it is 
         			// not ready, then we will wait till we receive a Notify or the UX call for it.
         			// TODO: create a Subscription to work with if needed
-        			// 
+
         			RetailCustomer currentCustomer = currentCustomer(principal);
 
         			try {
 						usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
 
 					} catch (JAXBException e) {
-						// nothing there, so log the fact and move on. It will 
-						// get imported later.
+						// nothing there, so log the fact and move on. It will get imported later.
 						System.out.printf("\nThirdParty Import Exception: %s\n", e.toString());
 						e.printStackTrace();
 					}
+        			
         		} catch (HttpClientErrorException x) {
         		
         			//TODO: Extract error, error_description and error_uri from JSON response.  Currently recording null for all three fields.
         		     		
         			// Update authorization record  
         			System.out.printf("\nHTTPClientException: %s\n", x.toString());
+        			
         			authorization.setError(error);
         			authorization.setErrorDescription(error_description);
         			authorization.setErrorUri(error_uri);
@@ -138,7 +140,11 @@ public class AuthorizationController extends BaseController {
         	}        	
         	else {
                     	
-    			System.out.printf("Code == null\n");
+    			System.out.printf("\nOAuth2 authorization_request returned an error:\n");
+    			System.out.printf("Error:             " + error + "\n");
+    			System.out.printf("Error_description: " + error_description + "\n");
+    			System.out.printf("Error_uri:         " + error_uri + "\n");
+    			
         		// Update authorization record with error response      	
         		authorization.setError(error);
         		authorization.setErrorDescription(error_description);
@@ -148,10 +154,7 @@ public class AuthorizationController extends BaseController {
         		authorization.setState(null);	//Clear State as a security measure
         		authorizationService.merge(authorization);
         	
-        		// Test for "access_denied" failure code 
-        		if(error.equals("access_denied")) {
-        			throw new UserDeniedAuthorizationException("User Denied Access");
-        		}
+    			throw new UserDeniedAuthorizationException("Error: " + error_description);
         		
         	}
         
