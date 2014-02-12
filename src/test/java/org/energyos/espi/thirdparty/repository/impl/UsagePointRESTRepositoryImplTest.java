@@ -1,12 +1,28 @@
 package org.energyos.espi.thirdparty.repository.impl;
 
+import static org.energyos.espi.common.test.EspiFactory.newAuthorization;
+import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.thirdparty.BaseTest;
 import org.energyos.espi.common.models.atom.FeedType;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.utils.ATOMMarshaller;
 import org.energyos.espi.common.utils.UsagePointBuilder;
+import org.energyos.espi.thirdparty.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -14,19 +30,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import javax.xml.bind.JAXBException;
-
-import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.energyos.espi.common.test.EspiFactory.newAuthorization;
-import static org.energyos.espi.common.test.EspiFactory.newUsagePoint;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 public class UsagePointRESTRepositoryImplTest extends BaseTest {
     @Mock

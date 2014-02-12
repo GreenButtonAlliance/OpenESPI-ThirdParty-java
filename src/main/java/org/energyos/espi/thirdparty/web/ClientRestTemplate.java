@@ -16,6 +16,8 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.io.IOException;
+
 import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -34,8 +36,6 @@ import org.apache.http.protocol.HttpContext;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 public class ClientRestTemplate extends RestTemplate {
 

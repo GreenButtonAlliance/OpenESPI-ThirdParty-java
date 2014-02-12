@@ -16,17 +16,21 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
 import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -36,15 +40,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.HttpClientErrorException;
-
-import javax.xml.bind.JAXBException;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
@@ -74,7 +69,7 @@ public class UsagePointController extends BaseController {
         return "/customer/usagepoints/index";
     }
 
-    @Transactional(readOnly = true)
+    @Transactional (readOnly = true)
     @RequestMapping(value = Routes.USAGE_POINT_SHOW, method = RequestMethod.GET)
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
@@ -90,21 +85,26 @@ public class UsagePointController extends BaseController {
         
         return "/customer/usagepoints/show";
      } catch (Exception e) {
+     	System.out.printf("****Exception 022: %s\n", e.toString());
     	 // got to do a dummy DB access to satify the transaction rollback needs ...
     	 ApplicationInformation ai = resourceService.findById(1L, ApplicationInformation.class);
     	 System.out.printf("UX Error: %s\n", e.toString());
     	 model.put("errorString", e.toString());
     	 try {
     		 // try again (and maybe we can catch the rollback error ...
+         	System.out.printf("****Exception 023: %s\n", e.toString());
     		 return "/customer/error";
     	 } catch (Exception ex) {
+         	System.out.printf("****Exception 024: %s\n", e.toString());
          return "/customer/error";
     	 }
      }
     }
     
     /*
-    @Transactional(readOnly = true)
+    @Transactional (rollbackFor= {JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+(readOnly = true)
     @RequestMapping(value = Routes.USAGE_POINT_SHOW_TP, method = RequestMethod.GET)
     public String show(@PathVariable("UsagePointHashedId") String usagePointHashedId, ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
@@ -122,7 +122,7 @@ public class UsagePointController extends BaseController {
             return "/usagepoints/show";
         
         } catch (Exception e) {
-        	
+        	        	System.out.printf("****Exception 025: %s\n", e.toString());
        	    System.out.printf("UX Error: %s\n", e.toString());
             List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(currentCustomer.getId());
             model.put("usagePointList", usagePointList);
@@ -130,7 +130,7 @@ public class UsagePointController extends BaseController {
         }
     }
     */
-    @Transactional(readOnly=true)
+    @Transactional (readOnly=true)
     private HashMap<String, Object> buildDisplayBag(Long retailCustomerId, Long usagePointId) {
 		
     HashMap<String, Object> displayBag = new HashMap<String, Object> ();

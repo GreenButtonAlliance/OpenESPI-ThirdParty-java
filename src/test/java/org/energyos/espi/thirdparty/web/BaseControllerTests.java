@@ -16,16 +16,17 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import org.energyos.espi.common.domain.RetailCustomer;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.security.core.Authentication;
-
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.security.core.Authentication;
 
 public class BaseControllerTests {
 

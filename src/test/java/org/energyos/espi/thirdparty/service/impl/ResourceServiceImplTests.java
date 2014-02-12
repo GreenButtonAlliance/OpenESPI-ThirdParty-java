@@ -1,16 +1,16 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.repositories.ResourceRepository;
 import org.energyos.espi.thirdparty.repository.ResourceRESTRepository;
 import org.junit.Test;
-
-import javax.xml.bind.JAXBException;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class ResourceServiceImplTests {
 

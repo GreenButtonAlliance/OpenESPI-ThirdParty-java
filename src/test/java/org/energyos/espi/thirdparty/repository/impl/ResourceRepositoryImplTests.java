@@ -16,6 +16,16 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.ServiceCategory;
 import org.energyos.espi.common.domain.UsagePoint;
@@ -30,14 +40,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.JAXBException;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
+@Transactional (rollbackFor= {JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+
 public class ResourceRepositoryImplTests {
 
     @Autowired

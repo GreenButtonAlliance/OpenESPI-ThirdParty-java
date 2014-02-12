@@ -1,5 +1,16 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.repositories.UsagePointRepository;
@@ -7,16 +18,6 @@ import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UsagePointServiceImplTests {
 

@@ -16,6 +16,14 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.UUID;
+
+import javax.persistence.NoResultException;
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.Routes;
@@ -31,14 +39,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.persistence.NoResultException;
-import javax.xml.bind.JAXBException;
-
-import java.security.Principal;
-import java.util.Arrays;
-import java.util.Set;
-import java.util.UUID;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")

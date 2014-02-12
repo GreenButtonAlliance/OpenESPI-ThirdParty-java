@@ -1,16 +1,18 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.common.domain.Routes;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.thirdparty.service.ResourceRESTService;
 import org.junit.Before;
 import org.junit.Test;
-
-import javax.xml.bind.JAXBException;
-
-import static org.mockito.Mockito.*;
 
 public class UpdateServiceImplTests {
 

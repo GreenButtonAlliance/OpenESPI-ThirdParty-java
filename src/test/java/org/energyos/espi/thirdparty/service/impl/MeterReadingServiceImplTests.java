@@ -1,19 +1,20 @@
 package org.energyos.espi.thirdparty.service.impl;
 
-import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
-import org.energyos.espi.thirdparty.utils.factories.Factory;
-import org.junit.Before;
-import org.junit.Test;
-
-import javax.xml.bind.JAXBException;
-import java.util.UUID;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.UUID;
+
+import javax.xml.bind.JAXBException;
+
+import org.energyos.espi.common.domain.MeterReading;
+import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
+import org.energyos.espi.thirdparty.utils.factories.Factory;
+import org.junit.Before;
+import org.junit.Test;
 
 public class MeterReadingServiceImplTests {
 
