@@ -506,8 +506,8 @@
                 <version>2.6</version>
                 <configuration>
                     <includes>
-                        <include>**/*Features.java</include>
-                        <include>**/*Feature.java</include>
+                        <include>**/*Featuresx.java</include>
+                        <include>**/*Featurex.java</include>
                     </includes>
                 </configuration>
                 <executions>
