@@ -16,14 +16,15 @@
 
 package org.energyos.espi.thirdparty.service.impl;
 
+import java.util.UUID;
+
+import javax.xml.bind.JAXBException;
+
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.thirdparty.repository.MeterReadingRESTRepository;
 import org.energyos.espi.thirdparty.service.MeterReadingRESTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.xml.bind.JAXBException;
-import java.util.UUID;
 
 @Service
 public class MeterReadingRESTServiceImpl implements MeterReadingRESTService {

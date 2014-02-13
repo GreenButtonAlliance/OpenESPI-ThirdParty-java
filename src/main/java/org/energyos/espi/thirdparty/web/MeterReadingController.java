@@ -16,28 +16,20 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.util.Iterator;
+
 import org.energyos.espi.common.domain.IntervalBlock;
 import org.energyos.espi.common.domain.IntervalReading;
 import org.energyos.espi.common.domain.MeterReading;
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.MeterReadingService;
-import org.energyos.espi.thirdparty.web.BaseController;
-import org.energyos.espi.thirdparty.service.MeterReadingRESTService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.xml.bind.JAXBException;
-
-import java.security.Principal;
-import java.util.Iterator;
-import java.util.UUID;
 
 
 @Controller

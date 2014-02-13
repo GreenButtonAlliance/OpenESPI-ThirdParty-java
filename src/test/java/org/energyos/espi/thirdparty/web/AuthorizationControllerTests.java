@@ -16,6 +16,18 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.energyos.espi.common.domain.AccessToken;
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
@@ -27,15 +39,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
 
 public class AuthorizationControllerTests {
     private final String CODE = "code";

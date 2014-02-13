@@ -16,16 +16,16 @@
 
 package features.steps;
 
-import org.energyos.espi.common.test.BaseStepUtils;
-import org.energyos.espi.common.test.CucumberSession;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.energyos.espi.common.test.BaseStepUtils;
+import org.energyos.espi.common.test.CucumberSession;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class StepUtils extends BaseStepUtils {
     public static void login(String username, String password) {

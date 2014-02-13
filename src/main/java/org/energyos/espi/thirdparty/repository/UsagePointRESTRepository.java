@@ -16,10 +16,11 @@
 
 package org.energyos.espi.thirdparty.repository;
 
-import org.energyos.espi.common.domain.UsagePoint;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
-import java.util.List;
+
+import org.energyos.espi.common.domain.UsagePoint;
 
 // TODO repository convergence with common
 //

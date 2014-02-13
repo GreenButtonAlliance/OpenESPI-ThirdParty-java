@@ -1,15 +1,15 @@
 package org.energyos.espi.thirdparty.support;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.custommonkey.xmlunit.XMLUnit;
 import org.custommonkey.xmlunit.XpathEngine;
 import org.custommonkey.xmlunit.exceptions.XpathException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class Asserts {
     public static void assertXpathValue(String expectedValue, String xpathExpression, String inXMLString) throws SAXException, IOException, XpathException {

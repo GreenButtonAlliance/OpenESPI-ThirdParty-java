@@ -16,10 +16,11 @@
 
 package org.energyos.espi.thirdparty.repository;
 
-import org.energyos.espi.common.domain.MeterReading;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBException;
-import java.util.UUID;
+
+import org.energyos.espi.common.domain.MeterReading;
 
 public interface MeterReadingRESTRepository {
     MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException;

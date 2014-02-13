@@ -16,6 +16,15 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.service.BatchListService;
 import org.junit.Before;
@@ -24,15 +33,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
-
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 public class NotificationControllerTests {
 

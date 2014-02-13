@@ -16,8 +16,19 @@
 
 package org.energyos.espi.thirdparty.repository.impl;
 
-import org.energyos.espi.common.domain.Routes;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.transform.Source;
+
 import org.energyos.espi.common.domain.Authorization;
+import org.energyos.espi.common.domain.Routes;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -27,15 +38,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.Source;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
 
 public class ResourceRESTRepositoryImplTests {
 

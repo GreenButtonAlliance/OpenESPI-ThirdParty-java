@@ -16,16 +16,16 @@
 
 package features.steps;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 
 public class HomePageSteps {

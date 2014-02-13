@@ -16,13 +16,23 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Iterator;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.stream.StreamSource;
+
 import org.energyos.espi.common.domain.Authorization;
-import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.domain.BatchList;
+import org.energyos.espi.common.domain.RetailCustomer;
+import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.BatchListService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.ResourceService;
+import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -31,18 +41,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.transform.stream.StreamSource;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Iterator;
 
 @Controller
 public class NotificationController extends BaseController {
@@ -52,6 +53,9 @@ public class NotificationController extends BaseController {
     
     @Autowired
     private ResourceService resourceService;
+    
+    @Autowired
+    private UsagePointService usagePointService;
     
     @Autowired
     private ImportService importService;
@@ -82,8 +86,8 @@ public class NotificationController extends BaseController {
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
+
     @Async
-    @Transactional
     private void doImportAsynchronously(String subscriptionUri) {
     	
     	// The import related to a subscription is performed here (in a separate thread)
@@ -92,11 +96,13 @@ public class NotificationController extends BaseController {
         System.out.printf("Start Asynchronous Input: %s: %s\n  ", threadName, subscriptionUri);
         String resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));
     	Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
+    	RetailCustomer retailCustomer = authorization.getRetailCustomer();
 
     	String accessToken = authorization.getAccessToken();
     	
 		try {
-    	    HttpHeaders requestHeaders = new HttpHeaders();
+
+			HttpHeaders requestHeaders = new HttpHeaders();
     	    requestHeaders.set("Authorization", "Bearer " + accessToken);
     	    @SuppressWarnings({ "unchecked", "rawtypes" })
 			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
@@ -107,12 +113,12 @@ public class NotificationController extends BaseController {
     	    // import it into the repository
     		ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
     				.toString().getBytes());
-        	importService.importData(bs);
+    		
+        	importService.importData(bs, retailCustomer.getId());
 
 		} catch (Exception e) {
 			// nothing there, so log the fact and move on. It will 
 			// get imported later.
-			System.out.printf("\nThirdParty Subscription Import Failure: %s -  %s\n", resourceUri, e.toString());
 			e.printStackTrace();
 		}
         System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
@@ -128,6 +134,10 @@ public class NotificationController extends BaseController {
     
     public void setResourceService(ResourceService resourceService) {
     	this.resourceService = resourceService;
+    }
+    
+    public void setUsagePointService(UsagePointService usagePointService) {
+    	this.usagePointService = usagePointService;
     }
     
     public void setRestTemplate(RestTemplate restTemplate){

@@ -16,6 +16,11 @@
 
 package org.energyos.espi.thirdparty.integration.web;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
@@ -38,15 +43,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("/spring/test-context.xml")
-@Transactional
+@Transactional (rollbackFor= {javax.xml.bind.JAXBException.class}, 
+                noRollbackFor = {javax.persistence.NoResultException.class, org.springframework.dao.EmptyResultDataAccessException.class })
+
 public class AuthorizationTests {
 
     private MockMvc mockMvc;

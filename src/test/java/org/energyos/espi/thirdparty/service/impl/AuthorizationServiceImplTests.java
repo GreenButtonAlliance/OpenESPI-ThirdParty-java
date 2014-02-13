@@ -1,21 +1,22 @@
 package org.energyos.espi.thirdparty.service.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
+
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Subscription;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.repositories.AuthorizationRepository;
 import org.energyos.espi.common.repositories.UsagePointRepository;
 import org.energyos.espi.common.repositories.jpa.AuthorizationRepositoryImpl;
 import org.energyos.espi.common.service.impl.AuthorizationServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.UUID;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class AuthorizationServiceImplTests {
 

@@ -16,18 +16,20 @@
 
 package features.steps;
 
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import static features.steps.StepUtils.navigateTo;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.energyos.espi.common.test.WebDriverSingleton;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static features.steps.StepUtils.navigateTo;
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.*;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 
 
 public class RetailCustomersSteps {

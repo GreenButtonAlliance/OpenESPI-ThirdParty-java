@@ -16,9 +16,9 @@
 
 package org.energyos.espi.thirdparty.service;
 
-import org.springframework.stereotype.Service;
-
 import javax.xml.bind.JAXBException;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public interface UpdateRESTService {
