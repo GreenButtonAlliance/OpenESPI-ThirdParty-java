@@ -6,7 +6,8 @@ import org.springframework.web.client.RestClientException;
 
 public class MockClientRestTemplate extends ClientRestTemplate {
 
-    public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
+    @SuppressWarnings("unchecked")
+	public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
         AccessToken accessToken = new AccessToken();
 
         accessToken.setAccessToken("6b945882-8349-471a-915f-25e791971248");

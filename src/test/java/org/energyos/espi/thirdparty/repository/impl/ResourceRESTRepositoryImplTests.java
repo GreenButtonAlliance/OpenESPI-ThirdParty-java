@@ -47,7 +47,8 @@ public class ResourceRESTRepositoryImplTests {
     public Authorization authorization;
     public String uri;
 
-    @Before
+    @SuppressWarnings("unchecked")
+	@Before
     public void before() {
         repository = new ResourceRESTRepositoryImpl();
         marshaller = mock(Jaxb2Marshaller.class);
@@ -64,18 +65,21 @@ public class ResourceRESTRepositoryImplTests {
         uri = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_GET;
     }
 
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void get_fetchesResource() throws JAXBException {
         repository.get(authorization, uri);
 
         verify(template).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), any(Class.class));
     }
 
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void get_usesAccessToken() throws JAXBException {
         repository.get(authorization, uri);
 
-        ArgumentCaptor<HttpEntity> argumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        @SuppressWarnings("rawtypes")
+		ArgumentCaptor<HttpEntity> argumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         verify(template).exchange(anyString(), eq(HttpMethod.GET), argumentCaptor.capture(), any(Class.class));
         assertEquals("Bearer token", argumentCaptor.getValue().getHeaders().get("Authorization").get(0));
     }

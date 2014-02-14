@@ -28,7 +28,6 @@ import javax.xml.bind.JAXBException;
 
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.repositories.jpa.UsagePointRepositoryImpl;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.service.impl.ResourceServiceImpl;
 import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
@@ -47,8 +46,7 @@ public class UsagePointControllerTests {
     private ResourceServiceImpl resourceService;
     private Authentication authentication;
     private RetailCustomer retailCustomer;
-    private UsagePointRepositoryImpl usagePointRepository;
-
+    
     @Before
     public void setup() {
         controller = new UsagePointController();

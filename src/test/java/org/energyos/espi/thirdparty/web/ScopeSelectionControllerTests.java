@@ -74,7 +74,8 @@ public class ScopeSelectionControllerTests extends BaseTest {
         assertEquals("/RetailCustomer/ScopeSelection", controller.scopeSelection(new String [] {}, new ModelMap()));
     }
 
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void get_scopeSelection_setsScopeListModel() throws Exception {
         ModelMap model = new ModelMap();
 

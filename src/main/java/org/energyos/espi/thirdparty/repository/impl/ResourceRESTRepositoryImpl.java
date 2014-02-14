@@ -43,7 +43,8 @@ public class ResourceRESTRepositoryImpl implements ResourceRESTRepository {
     public IdentifiedObject get(Authorization authorization, String url) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set("Authorization", "Bearer " + authorization.getAccessToken());
-        HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
         HttpEntity<String> response = template.exchange(url, HttpMethod.GET, requestEntity, String.class);
 
