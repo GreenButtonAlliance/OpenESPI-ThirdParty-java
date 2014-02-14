@@ -24,7 +24,6 @@ import javax.xml.bind.JAXBException;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.FeedType;
 import org.energyos.espi.common.repositories.UsagePointRepository;
 import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ImportService;
@@ -134,16 +133,11 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
         return null;
     }
 
-    private FeedType unmarshalFeedType(HttpEntity<String> response) throws JAXBException {
-        ByteArrayInputStream bs = new ByteArrayInputStream(response.getBody().toString().getBytes());
-        //TODO: hook in the import service
-        return atomMarshaller.unmarshal(bs);
-    }
-
     private HttpEntity<String> getUsagePoints(Authorization authorization) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set("Authorization", "Bearer " + authorization.getAccessToken());
-        HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
         return template.exchange(authorization.getResourceURI(), HttpMethod.GET, requestEntity, String.class);
     }

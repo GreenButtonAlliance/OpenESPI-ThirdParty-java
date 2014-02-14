@@ -24,6 +24,76 @@
 
 <jsp:include page="../../tiles/customer/header.jsp"/>
 
+<div style="margin-left: 40px;">
+<table><tr><td>
+
+<a id = "downloadMyData" class="brand" href="<c:url value='/espi/1_1/resource/Batch/RetailCustomer/${currentCustomer.id}/UsagePoint/${displayBag.get("usagePointId")}'/>">
+         <img src="<c:url value='/resources/img/Green_Download_265.png'/>" width="150"/></a>  
+&nbsp;&nbsp;</td><td>
+
+  Start Date/Time: 
+  <br />
+    <div id="datetimepicker" class="input-append date" >
+      Start: <input id="startTime" type="text"></input>
+      <span class="add-on">
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+      </span>
+    </div>&nbsp;&nbsp;
+</td><td>
+    End Date/Time:
+    <br />
+    <div id="datetimepicker1" class="input-append date">
+      End: <input id="endTime" type="text"></input>
+      <span class="add-on">
+        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+      </span>
+</div>
+</td></tr></table>
+</div>
+
+    <script type="text/javascript"
+     src="<c:url value='/resources/bootstrap-datetimepicker-0.0.11/js/bootstrap-datetimepicker.min.js'/> ">
+    </script>
+    
+    <script type="text/javascript">
+      var startDate =
+       $('#datetimepicker').datetimepicker({
+        format: 'yyyy-MM-dd Thh:mm:ss Z',
+        language: 'pt-US',
+        showMeridian: true,
+        autohide: true,
+        pickerPosition: "bottom-left"
+
+
+      })     
+      .on('changeDate', function(ev){
+    	    var separator = "?";
+    	    var temp = ev.date.toISOString();
+    	    temp = temp.replace(" T", "T");
+    	    temp = temp.replace(" Z", "Z");
+    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-min=' + temp);
+          });
+      
+     var endDate =
+      $('#datetimepicker1').datetimepicker({
+          format: 'yyyy-MM-dd Thh:mm:ss Z',
+          language: 'pt-US',
+          autoclose: true,
+          showMeridian: true,
+          pickerPosition: "bottom-left"
+  		})
+  		.on('changeDate', function(ev){
+    	    var separator = "?";
+    	    var temp = ev.date.toISOString();
+    	    temp.replace(" T", "T");
+    	    temp.replace(" Z", "Z");
+    	    if ($('#downloadMyData').attr('href').indexOf("?") != -1) separator = "&";
+            $('#downloadMyData').attr('href',$('#downloadMyData').attr('href') + separator + 'published-max=' + temp);
+          });
+      
+    </script>
+<hr size="4" />
 <div class="container">
     <div class="row">
         <div class="span12">
@@ -113,7 +183,7 @@
                 <tbody>
                     <tr>
                         <td>
-                            <c:out value="${usagePoint.localTimeParameters.tzOffset}"/>
+                            <c:out value="${displayBag.get('localTimeParameters').tzOffset}"/>
                         </td>
                     </tr>
                 </tbody>

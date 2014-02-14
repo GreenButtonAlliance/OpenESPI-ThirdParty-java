@@ -55,7 +55,9 @@ public class ClientRestTemplate extends RestTemplate {
 
     static class PreemptiveAuthInterceptor implements HttpRequestInterceptor {
 
-        public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
+        @SuppressWarnings("deprecation")
+        // TODO there are two deprecated calls here ...
+		public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
             AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
 
             if (authState.getAuthScheme() == null) {

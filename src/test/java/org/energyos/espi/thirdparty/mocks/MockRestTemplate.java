@@ -13,7 +13,8 @@ import org.springframework.web.client.RestTemplate;
 
 public class MockRestTemplate extends RestTemplate {
 
-    public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
+    @SuppressWarnings("unchecked")
+	public <T> T getForObject(String url, Class<T> responseType, Object... urlVariables) throws RestClientException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         String inputStreamString;
         try {
@@ -26,7 +27,8 @@ public class MockRestTemplate extends RestTemplate {
 
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public <T> ResponseEntity<T> exchange(String url, HttpMethod method, HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables) throws RestClientException {
         ClassPathResource sourceFile = new ClassPathResource("/fixtures/test_usage_data.xml");
         String inputStreamString;
