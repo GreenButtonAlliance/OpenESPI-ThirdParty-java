@@ -18,7 +18,6 @@ package org.energyos.espi.thirdparty.web;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,19 +28,17 @@ import javax.xml.bind.JAXBException;
 
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.repositories.UsagePointRepository;
 import org.energyos.espi.common.repositories.jpa.UsagePointRepositoryImpl;
-import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.energyos.espi.common.service.impl.ResourceServiceImpl;
 import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
-import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.stubbing.OngoingStubbing;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 

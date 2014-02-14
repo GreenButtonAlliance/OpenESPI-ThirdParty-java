@@ -92,6 +92,7 @@ public class AuthorizationController extends BaseController {
         			AccessToken token = restTemplate.getForObject(url, AccessToken.class);
 
         			// Process /oauth/token Endpoint response
+
         			if(token.getAccessToken() != null) {
         				authorization.setAccessToken(token.getAccessToken());
         				authorization.setTokenType(token.getTokenType());
@@ -122,9 +123,10 @@ public class AuthorizationController extends BaseController {
         					e.printStackTrace();
         				}
         			} else {
+        				
         				System.out.printf("\n/oauth/token Request did not return an access token\n");
         			}
-        			
+
         		} catch (HttpClientErrorException x) {
         		
         			//TODO: Extract error, error_description and error_uri from JSON response.  Currently recording null for all three fields.

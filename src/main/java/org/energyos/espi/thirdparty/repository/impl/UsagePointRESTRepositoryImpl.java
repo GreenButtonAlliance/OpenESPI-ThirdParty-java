@@ -24,7 +24,6 @@ import javax.xml.bind.JAXBException;
 import org.energyos.espi.common.domain.Authorization;
 import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.UsagePoint;
-import org.energyos.espi.common.models.atom.EntryType;
 import org.energyos.espi.common.models.atom.FeedType;
 import org.energyos.espi.common.repositories.UsagePointRepository;
 import org.energyos.espi.common.service.AuthorizationService;
@@ -111,25 +110,13 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
 				.toString().getBytes());
 
 		try {
-			importService.importData(bs);
+			importService.importData(bs, retailCustomerId);
 		} catch (Exception e) {
-			// TODO: need an exception handler
+			// TODO need to pass the exception on through appropriately
 		}
-//
-        RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
-		List<EntryType> entries = importService.getEntries();
-		// now look through the list and bind all relevant entries to the Retail Customer
-		// primarily it is UsagePoints, but it may be other things in the future.
-		
-		for (EntryType entry : entries) {
-			UsagePoint usagePoint = entry.getContent().getUsagePoint();
-			if (usagePoint != null) {
-				// the follow persist seems a bit heavy handed.
-				usagePoint.setRetailCustomer(retailCustomer);
-				usagePointRepository.createOrReplaceByUUID(usagePoint);
-			}
-		}
+
 		List<UsagePoint> result;
+		RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
 		result = usagePointService.findAllByRetailCustomer(retailCustomer);
 		return result;
 	}
