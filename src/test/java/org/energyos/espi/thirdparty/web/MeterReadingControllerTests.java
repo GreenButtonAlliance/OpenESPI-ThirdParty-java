@@ -27,12 +27,9 @@ import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.service.impl.MeterReadingServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.ui.ModelMap;
 
 public class MeterReadingControllerTests {
@@ -50,7 +47,6 @@ public class MeterReadingControllerTests {
     @Test
     @Ignore
     public void show_displaysShowView() throws Exception {
-        TestingAuthenticationToken authentication = new TestingAuthenticationToken(mock(RetailCustomer.class), null);
         assertEquals("/meterreadings/show", controller.show(1L, 1L, 1L, mock(ModelMap.class)));
     }
 
@@ -61,7 +57,6 @@ public class MeterReadingControllerTests {
         ModelMap model = new ModelMap();
         RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
         retailCustomer.setId(99L);
-        TestingAuthenticationToken authentication = new TestingAuthenticationToken(retailCustomer, null);
         when(service.findById(1L)).thenReturn(meterReading);
 
         controller.show(1L, 1L, 1L, model);

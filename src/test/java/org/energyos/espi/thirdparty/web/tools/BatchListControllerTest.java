@@ -14,13 +14,10 @@ import org.energyos.espi.common.service.BatchListService;
 import org.energyos.espi.thirdparty.BaseTest;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ui.ModelMap;
 
 public class BatchListControllerTest extends BaseTest {
-    private MockHttpServletResponse response = new MockHttpServletResponse();
-
     BatchListController controller;
 
     @Mock

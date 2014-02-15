@@ -59,7 +59,8 @@ public class UsagePointRESTRepositoryImplTest extends BaseTest {
         List<UsagePoint> expectedList = new ArrayList<>();
         expectedList.add(newUsagePoint());
 
-        ResponseEntity<String> response = mock(ResponseEntity.class);
+        @SuppressWarnings("unchecked")
+		ResponseEntity<String> response = mock(ResponseEntity.class);
 
         when(authorizationService.findAllByRetailCustomerId(1L)).thenReturn(authorizations);
         when(response.getBody()).thenReturn("body");

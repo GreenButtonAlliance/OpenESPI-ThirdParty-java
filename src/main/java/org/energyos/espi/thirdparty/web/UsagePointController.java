@@ -27,6 +27,7 @@ import org.energyos.espi.common.domain.ElectricPowerQualitySummary;
 import org.energyos.espi.common.domain.ElectricPowerUsageSummary;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
+import org.energyos.espi.common.domain.TimeConfiguration;
 import org.energyos.espi.common.domain.UsagePoint;
 import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ResourceService;
@@ -75,7 +76,7 @@ public class UsagePointController extends BaseController {
     public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, ModelMap model) {
      try {
     	 
-    	UsagePoint usagePoint = resourceService.testById(usagePointId, UsagePoint.class);
+    	resourceService.testById(usagePointId, UsagePoint.class);
     	// because of the lazy loading from DB it's easier to build a bag and hand it off
         // in a separate transaction, fill up a display bag lazily - do it in  a private method
     	// so the transaction is scoped appropriately.
@@ -88,7 +89,7 @@ public class UsagePointController extends BaseController {
      } catch (Exception e) {
 
     	 // got to do a dummy DB access to satify the transaction rollback needs ...
-    	 ApplicationInformation ai = resourceService.findById(1L, ApplicationInformation.class);
+    	 resourceService.findById(1L, ApplicationInformation.class);
     	 System.out.printf("UX Error: %s\n", e.toString());
     	 model.put("errorString", e.toString());
     	 try {
@@ -138,6 +139,7 @@ public class UsagePointController extends BaseController {
 	displayBag.put("Uri", usagePoint.getSelfHref());
 	displayBag.put("usagePointId", usagePoint.getId());
 	// put the meterReadings
+	@SuppressWarnings("rawtypes")
 	List<HashMap> meterReadings = new ArrayList<HashMap> ();
 	Iterator <MeterReading> it = usagePoint.getMeterReadings().iterator();
 	while (it.hasNext()) {
@@ -156,6 +158,9 @@ public class UsagePointController extends BaseController {
 	List <ElectricPowerUsageSummary> usageSummaryList = usagePoint.getElectricPowerUsageSummaries();
 	displayBag.put("QualitySummaryList", qualitySummaryList);
 	displayBag.put("UsageSummaryList", usageSummaryList);
+	
+	TimeConfiguration timeConfiguration = usagePoint.getLocalTimeParameters();
+	displayBag.put("localTimeParameters", timeConfiguration);
 
 	return displayBag;
     }
