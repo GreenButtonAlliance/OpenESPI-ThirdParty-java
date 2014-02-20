@@ -24,6 +24,7 @@ mvn tomcat7:run
 
 Now the application should be available at [http://localhost:9000/](http://localhost:9000/).
 
+
 ## Building
 ```bash
 # for the default test profile
@@ -43,6 +44,19 @@ Open Eclipse and import a Maven project (File > Import... > Maven > Existing Mav
 ### Spring Tool Suite Setup
 
 Open Spring Tool Suite and import a Maven project (File > Import... > Maven > Existing Maven Projects).
+
+To Run from within STS:
+right click on project and select RunOnServer
+
+
+To run the DC and/or the TP:
+do a maven build and install accordingly. Then the WAR files will be in the right position.
+
+To Start server:
+sudo /home/bitnami/springsource/vfabric-tc-server-developer-2.9.3.RELEASE/base-instance/bin/tcruntime-ctl.sh start
+
+To Stop server:
+sudo /home/bitnami/springsource/vfabric-tc-server-developer-2.9.3.RELEASE/base-instance/bin/tcruntime-ctl.sh stop
 
 ### IntelliJ Setup
 
