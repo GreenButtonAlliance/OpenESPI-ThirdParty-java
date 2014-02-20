@@ -24,6 +24,16 @@ mvn tomcat7:run
 
 Now the application should be available at [http://localhost:9000/](http://localhost:9000/).
 
+## Building
+```bash
+# for the default test profile
+mvn clean install
+
+# or for a specific profile
+mvn -P <profile name> -Dmaven.test.skip=true clean install
+```
+
+
 ## IDE Setup
 
 ### Eclipse Setup
