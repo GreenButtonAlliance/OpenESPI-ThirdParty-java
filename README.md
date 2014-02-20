@@ -16,7 +16,7 @@ git clone https://github.com/energyos/OpenESPI-ThirdParty-java.git
 cd OpenESPI-ThirdParty-java/
 ```
 
-Start tomcat7 using maven:
+Build and start tomcat7 using maven (note: you must have first built the OpenESPI-Common-java jar):
 
 ```bash
 mvn tomcat7:run
