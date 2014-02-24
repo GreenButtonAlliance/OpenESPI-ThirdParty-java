@@ -72,7 +72,7 @@ public class MeterReadingController extends BaseController {
     @Autowired
     private MeterReadingRESTService meterReadingService;
 
-    @RequestMapping(value = Routes.THIRD_PARTY_METER_READINGS_SHOW, method = RequestMethod.GET)
+    @RequestMapping(value = Routes.THIRD_PARTY_METER_READINGS_SHOW, method = RequestMethod, produces = "application/atom+xml") @ResponseBody
     public String show(@PathVariable String meterReadingId, ModelMap model, Principal principal) throws JAXBException {
         RetailCustomer currentCustomer = currentCustomer(principal);
         model.put("meterReading", meterReadingService.findByUUID(currentCustomer.getId(), UUID.fromString(meterReadingId)));
