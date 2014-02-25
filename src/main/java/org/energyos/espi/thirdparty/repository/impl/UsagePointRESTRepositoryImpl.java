@@ -29,7 +29,6 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.common.utils.ATOMMarshaller;
 import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +47,6 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
 
     @Autowired
     UsagePointBuilder builder;
-
-    @Autowired
-    private ATOMMarshaller atomMarshaller;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -90,10 +86,6 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
 
     public void setBuilder(UsagePointBuilder builder) {
         this.builder = builder;
-    }
-
-    public void setAtomMarshaller(ATOMMarshaller atomMarshaller) {
-        this.atomMarshaller = atomMarshaller;
     }
 
     public void setAuthorizationService(AuthorizationService authorizationService) {
