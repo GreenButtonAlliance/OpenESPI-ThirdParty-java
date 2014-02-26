@@ -29,7 +29,6 @@ import org.energyos.espi.common.service.AuthorizationService;
 import org.energyos.espi.common.service.ImportService;
 import org.energyos.espi.common.service.RetailCustomerService;
 import org.energyos.espi.common.service.UsagePointService;
-import org.energyos.espi.common.utils.UsagePointBuilder;
 import org.energyos.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,9 +43,6 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
     @Autowired
     @Qualifier("restTemplate")
     private RestTemplate template;
-
-    @Autowired
-    UsagePointBuilder builder;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -82,10 +78,6 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
     }
     public void setTemplate(RestTemplate template) {
         this.template = template;
-    }
-
-    public void setBuilder(UsagePointBuilder builder) {
-        this.builder = builder;
     }
 
     public void setAuthorizationService(AuthorizationService authorizationService) {
