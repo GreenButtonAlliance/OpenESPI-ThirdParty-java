@@ -46,5 +46,7 @@
 
     <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 
-    <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/>
+    <!--   
+      <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/>
+     -->
 </beans>
