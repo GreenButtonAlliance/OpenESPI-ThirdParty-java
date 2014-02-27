@@ -17,7 +17,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<jsp:include page="/WEB-INF/jsptiles/head.jsp"/>
+<jsp:include page="/WEB-INF/jsp/tiles/head.jsp"/>
 
 <%--<security:authentication var="principal" property="principal" />--%>
 
