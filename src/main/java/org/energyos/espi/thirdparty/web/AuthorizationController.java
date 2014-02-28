@@ -105,6 +105,7 @@ public class AuthorizationController extends BaseController {
         				authorization.setStatus("1");   // Set authorization record status as "Active"
         				authorization.setState(null);	// Clear State as a security measure
 
+
         				// Update authorization record with /oauth/token response data
         				authorizationService.merge(authorization);
         			
