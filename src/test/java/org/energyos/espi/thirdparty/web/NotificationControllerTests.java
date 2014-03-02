@@ -27,11 +27,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.energyos.espi.common.domain.BatchList;
 import org.energyos.espi.common.service.BatchListService;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 public class NotificationControllerTests {
