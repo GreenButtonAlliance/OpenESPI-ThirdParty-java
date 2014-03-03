@@ -92,8 +92,7 @@ public class AdministratorController  extends BaseController {
 			
 			List<EntryType> entries = importService.getEntries();
 		    
-			// not sure where the <feed> description is going to be ....
-		
+		    // TODO: Use-Case 1 registration - service status
 
 		} catch (Exception e) {
 			// nothing there, so log the fact and move on. It will 
