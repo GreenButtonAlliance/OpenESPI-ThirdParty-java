@@ -71,8 +71,12 @@ public class RetailCustomerController  extends BaseController {
         if (result.hasErrors()) {
             return "retailcustomers/form";
         } else {
+        	try {
             service.persist(retailCustomer);
             return "redirect:/custodian/retailcustomers";
+        	} catch (Exception e) {
+               return "retailcustomers/form";
+        	}
         }
     }
 
