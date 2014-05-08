@@ -23,5 +23,7 @@
 		client-id="my-client-with-registered-redirect" 
 		access-token-uri="${accessTokenUri}"
 		scope="trust" />
+		
+     <oauth:rest-template id="oAuth2RestTemplate" resource="DataCustodian" />
 
 </beans>

@@ -40,11 +40,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class NotificationController extends BaseController {
@@ -62,8 +61,8 @@ public class NotificationController extends BaseController {
     private ImportService importService;
     
     @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate restTemplate;
+    @Qualifier("oAuth2RestTemplate")
+    private OAuth2RestTemplate oAuth2RestTemplate;
     
     @Autowired
     private AuthorizationService authorizationService;
@@ -109,7 +108,8 @@ public class NotificationController extends BaseController {
 			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
     	    
     	    // get the subscription
-    	    HttpEntity<String> httpResult = restTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
+    	   
+    	    HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
     	 
     	    // import it into the repository
     		ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
@@ -141,8 +141,8 @@ public class NotificationController extends BaseController {
     	this.usagePointService = usagePointService;
     }
     
-    public void setRestTemplate(RestTemplate restTemplate){
-    	this.restTemplate = restTemplate;
+    public void setOAuth2RestTemplate(OAuth2RestTemplate oAuth2RestTemplate){
+    	this.oAuth2RestTemplate = oAuth2RestTemplate;
     }
     public void setMarshaller(Jaxb2Marshaller marshaller) {
         this.marshaller = marshaller;
