@@ -39,4 +39,8 @@ public class MeterReadingRESTServiceImpl implements MeterReadingRESTService {
     public void setRepository(MeterReadingRESTRepository repository) {
        this.repository = repository;
     }
+    
+    public MeterReadingRESTRepository setRepository() {
+        return this.repository;
+     }
 }

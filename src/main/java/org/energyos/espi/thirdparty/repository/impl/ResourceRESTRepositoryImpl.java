@@ -51,12 +51,20 @@ public class ResourceRESTRepositoryImpl implements ResourceRESTRepository {
         return (IdentifiedObject)marshaller.unmarshal(new StreamSource(response.getBody()));
     }
 
-    public void setTemplate(RestTemplate template) {
+    public void setRestTemplate(RestTemplate template) {
         this.template = template;
-    }
+   }
 
-    public void setMarshaller(Jaxb2Marshaller marshaller) {
+   public RestTemplate getRestTemplate () {
+        return this.template;
+   }
+   public void setJaxb2Marshaller(Jaxb2Marshaller marshaller) {
         this.marshaller = marshaller;
-    }
+   }
+
+   public Jaxb2Marshaller getJaxb2Marshaller () {
+        return this.marshaller;
+   }
+
 }
 

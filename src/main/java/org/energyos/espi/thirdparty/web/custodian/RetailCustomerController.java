@@ -46,6 +46,10 @@ public class RetailCustomerController  extends BaseController {
     public void setService(RetailCustomerService service) {
         this.service = service;
     }
+    
+    public RetailCustomerService getService() {
+        return this.service;
+    }
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {

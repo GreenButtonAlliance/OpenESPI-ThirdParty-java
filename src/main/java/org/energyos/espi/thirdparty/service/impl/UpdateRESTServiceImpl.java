@@ -47,4 +47,12 @@ public class UpdateRESTServiceImpl implements UpdateRESTService {
     public void setAuthorizationService(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
     }
+    
+    public ResourceRESTService getResourceRESTService() {
+        return this.resourceRESTService;
+    }
+
+    public AuthorizationService getAuthorizationService() {
+        return this.authorizationService;
+    }
 }

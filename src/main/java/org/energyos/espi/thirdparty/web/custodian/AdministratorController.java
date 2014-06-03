@@ -57,10 +57,6 @@ public class AdministratorController  extends BaseController {
     @Autowired
     private ImportService importService;
     
-    public void setService(RetailCustomerService service) {
-        this.service = service;
-    }
-
     @RequestMapping(value = Routes.ROOT_SERVICE_STATUS, method = RequestMethod.GET)
     public String showServiceStatus(ModelMap model) {
     
@@ -103,6 +99,36 @@ public class AdministratorController  extends BaseController {
 	    
         return "/custodian/datacustodian/showservicestatus";
     }
+    
+    public void setRetailCustomerService(RetailCustomerService service) {
+        this.service = service;
+   }
+
+   public RetailCustomerService getRetailCustomerService () {
+        return this.service;
+   }
+   public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+   }
+
+   public RestTemplate getRestTemplate () {
+        return this.restTemplate;
+   }
+   public void setResourceService(ResourceService resourceService) {
+        this.resourceService = resourceService;
+   }
+
+   public ResourceService getResourceService () {
+        return this.resourceService;
+   }
+   public void setImportService(ImportService importService) {
+        this.importService = importService;
+   }
+
+   public ImportService getImportService () {
+        return this.importService;
+   }
+
     
 }
 

@@ -43,4 +43,9 @@ public class DataCustodianListController extends BaseController  {
     public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
         this.applicationInformationService = applicationInformationService;
     }
+    
+    public ApplicationInformationService getApplicationInformationService() {
+       return this.applicationInformationService;
+    }
+    
 }
