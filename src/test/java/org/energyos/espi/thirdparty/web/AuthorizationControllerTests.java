@@ -56,12 +56,12 @@ public class AuthorizationControllerTests {
         controller = new AuthorizationController();
 
         service = mock(AuthorizationService.class);
-        controller.setService(service);
+        controller.setAuthorizationService(service);
 
         restTemplate = mock(ClientRestTemplate.class);
         ClientRestTemplateFactory factory = mock(ClientRestTemplateFactory.class);
         when(factory.newClientRestTemplate(anyString(), anyString())).thenReturn(restTemplate);
-        controller.setTemplateFactory(factory);
+        controller.setClientRestTemplateFactory(factory);
 
         retailCustomer = EspiFactory.newRetailCustomer();
         principal = mock(Authentication.class);

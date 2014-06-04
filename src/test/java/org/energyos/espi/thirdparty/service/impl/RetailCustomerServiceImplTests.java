@@ -22,7 +22,7 @@ public class RetailCustomerServiceImplTests {
     public void setup() {
         repository = mock(RetailCustomerRepository.class);
         service = new RetailCustomerServiceImpl();
-        service.setRepository(repository);
+        service.setRetailCustomerRepository(repository);
     }
 
     @Test

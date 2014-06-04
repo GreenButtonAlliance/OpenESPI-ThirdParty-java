@@ -57,8 +57,8 @@ public class ResourceRESTRepositoryImplTests {
         ResponseEntity<String> response = new ResponseEntity<String>(HttpStatus.OK);
         when(template.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), any(Class.class))).thenReturn(response);
 
-        repository.setTemplate(template);
-        repository.setMarshaller(marshaller);
+        repository.setRestTemplate(template);
+        repository.setJaxb2Marshaller(marshaller);
 
         authorization = new Authorization();
         authorization.setAccessToken("token");
