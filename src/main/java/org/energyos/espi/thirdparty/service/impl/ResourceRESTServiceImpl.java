@@ -49,4 +49,12 @@ public class ResourceRESTServiceImpl implements ResourceRESTService {
     public void setResourceRepository(ResourceRepository resourceRepository) {
         this.resourceRepository = resourceRepository;
     }
+    
+    public ResourceRESTRepository getResourceRESTRepository() {
+        return this.resourceRESTRepository;
+    }
+
+    public ResourceRepository getResourceRepository() {
+        return this.resourceRepository;
+    }
 }

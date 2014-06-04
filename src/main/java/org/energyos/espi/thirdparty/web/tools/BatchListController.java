@@ -43,4 +43,8 @@ public class BatchListController {
     public void setBatchListService(BatchListService batchListService) {
         this.batchListService = batchListService;
     }
+    
+    public BatchListService getBatchListService() {
+        return this.batchListService;
+    }
 }

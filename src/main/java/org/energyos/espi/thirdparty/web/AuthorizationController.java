@@ -184,11 +184,27 @@ public class AuthorizationController extends BaseController {
         return "/RetailCustomer/AuthorizationList/index";
     }
 
-    public void setService(AuthorizationService service) {
-        this.authorizationService = service;
-    }
+   public void setAuthorizationService(AuthorizationService authorizationService) {
+        this.authorizationService = authorizationService;
+   }
 
-    public void setTemplateFactory(ClientRestTemplateFactory templateFactory) {
+   public AuthorizationService getAuthorizationService () {
+        return this.authorizationService;
+   }
+   public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
+        this.usagePointRESTRepository = usagePointRESTRepository;
+   }
+
+   public UsagePointRESTRepository getUsagePointRESTRepository () {
+        return this.usagePointRESTRepository;
+   }
+   public void setClientRestTemplateFactory(ClientRestTemplateFactory templateFactory) {
         this.templateFactory = templateFactory;
-    }
+   }
+
+   public ClientRestTemplateFactory getClientRestTemplateFactory () {
+        return this.templateFactory;
+   }
+
+
 }

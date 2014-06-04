@@ -38,6 +38,10 @@ public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepositor
         this.usagePointRESTRepository = usagePointRESTRepository;
     }
 
+    public UsagePointRESTRepository getUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
+        return this.usagePointRESTRepository;
+    }
+    
     @Override
     public MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException {
         List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(retailCustomerId);
