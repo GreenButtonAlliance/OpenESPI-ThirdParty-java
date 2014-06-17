@@ -33,18 +33,22 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Access Token</th>
                     <th>Status</th>
-                    <th>Subscription ID</th>
+                    <th>Subscription ID</th>                                        
+                    <th>Access Token</th>
+                    <th>Refresh Token</th>
+                    <th>Scope</th>                    
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="authorization" items="${authorizationList}">
                     <tr>
                         <td class="data_custodian"><c:out value="${authorization.applicationInformation.dataCustodianId}"/></td>
-                        <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
                         <td class="status"><c:out value="${authorization.status}"/></td>
-                        <td class="subscription_id"><c:out value="${authorization.resourceURI}"/></td>
+                        <td class="subscription_id"><c:out value="${authorization.resourceURI}"/></td>                                                
+                        <td class="access_token"><c:out value="${authorization.accessToken}"/></td>
+                        <td class="refresh_token"><c:out value="${authorization.refreshToken}"/></td>
+                        <td class="scope"><c:out value="${authorization.scope}"/></td>                        
                     </tr>
                 </c:forEach>
                 </tbody>
