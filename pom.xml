@@ -20,7 +20,7 @@
     <groupId>org.energyos</groupId>
     <artifactId>ThirdParty</artifactId>
     <packaging>war</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <name>ThirdParty</name>  
     <organization>
        <name>EnergyOS.org</name>
