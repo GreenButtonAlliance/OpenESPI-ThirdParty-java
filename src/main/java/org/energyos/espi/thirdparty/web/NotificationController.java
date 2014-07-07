@@ -35,6 +35,7 @@ import org.energyos.espi.common.service.ResourceService;
 import org.energyos.espi.common.service.UsagePointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -94,35 +95,53 @@ public class NotificationController extends BaseController {
     	// This must be provably secure b/c the access_token is visible here
         String threadName = Thread.currentThread().getName(); 
         System.out.printf("Start Asynchronous Input: %s: %s\n  ", threadName, subscriptionUri);
-        String resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));
-    	Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
-    	RetailCustomer retailCustomer = authorization.getRetailCustomer();
+        
+        String resourceUri = subscriptionUri;
+        
+        if (subscriptionUri.indexOf("?") > -1) {										// Does message contain a query element
+        	resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));	//		Yes, remove the query element
+        }
+        
+    	try {
+    		Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
+    	   	
+    		RetailCustomer retailCustomer = authorization.getRetailCustomer();
 
-    	String accessToken = authorization.getAccessToken();
+    		String accessToken = authorization.getAccessToken();
     	
-		try {
+    		try {
 
-			HttpHeaders requestHeaders = new HttpHeaders();
-    	    requestHeaders.set("Authorization", "Bearer " + accessToken);
-    	    @SuppressWarnings({ "unchecked", "rawtypes" })
-			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
+    			HttpHeaders requestHeaders = new HttpHeaders();
+    			requestHeaders.set("Authorization", "Bearer " + accessToken);
+    			@SuppressWarnings({ "unchecked", "rawtypes" })
+    			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
     	    
-    	    // get the subscription
+    			// get the subscription
     	   
-    	    HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
+    			HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
     	 
-    	    // import it into the repository
-    		ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
-    				.toString().getBytes());
+    			// import it into the repository
+    			ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
+    					.toString().getBytes());
     		
-        	importService.importData(bs, retailCustomer.getId());
+    			importService.importData(bs, retailCustomer.getId());
 
-		} catch (Exception e) {
-			// nothing there, so log the fact and move on. It will 
-			// get imported later.
-			e.printStackTrace();
-		}
-        System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
+    		} catch (Exception e) {
+    			// No Authorization, so log the fact and move on. It will 
+    			// get imported later.
+    			e.printStackTrace();
+    			
+    		}
+    		   		
+    	} catch (EmptyResultDataAccessException  e) {
+    		// No authorization, so log the fact and move on. It will
+    		// get imported later
+    		e.printStackTrace();
+    		
+//    		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
+    	}
+    	
+		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);    	
     }
     
     public void setBatchListService(BatchListService batchListService) {
