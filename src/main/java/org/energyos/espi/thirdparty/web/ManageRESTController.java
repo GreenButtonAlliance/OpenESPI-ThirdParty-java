@@ -63,7 +63,7 @@ public class ManageRESTController {
 	 * @param stream 
 	 * @throws IOException
 	 */
-	@RequestMapping(value = Routes.MANAGE, method = RequestMethod.GET, produces = "text/text")
+	@RequestMapping(value = "/manager", method = RequestMethod.GET, produces = "text/text")
 	@ResponseBody
 	public void doCommand(HttpServletResponse response,
 			@RequestParam Map<String, String> params, InputStream stream)
