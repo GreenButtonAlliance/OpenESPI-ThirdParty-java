@@ -16,11 +16,14 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.stream.StreamSource;
 
@@ -79,10 +82,8 @@ public class NotificationController extends BaseController {
         batchListService.persist(batchList);
         Iterator<String> it = batchList.getResources().iterator();
         while (it.hasNext()) {
-
-        	String resourceURI = (String) it.next();
-        	doImportAsynchronously(resourceURI);
-
+        	String resourceUri = (String) it.next();
+        	doImportAsynchronously(resourceUri);
         }
         response.setStatus(HttpServletResponse.SC_OK);
     }
@@ -99,47 +100,68 @@ public class NotificationController extends BaseController {
         String resourceUri = subscriptionUri;
         
         if (subscriptionUri.indexOf("?") > -1) {										// Does message contain a query element
-        	resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));	//		Yes, remove the query element
+        	resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));	// Yes, remove the query element
         }
-        
-    	try {
-    		Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
-    	   	
-    		RetailCustomer retailCustomer = authorization.getRetailCustomer();
-
-    		String accessToken = authorization.getAccessToken();
-    	
-    		try {
-
-    			HttpHeaders requestHeaders = new HttpHeaders();
-    			requestHeaders.set("Authorization", "Bearer " + accessToken);
-    			@SuppressWarnings({ "unchecked", "rawtypes" })
-    			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
-    	    
-    			// get the subscription
-    	   
-    			HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
-    	 
-    			// import it into the repository
-    			ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
-    					.toString().getBytes());
+    	if (resourceUri.contains("sftp://")) {
     		
-    			importService.importData(bs, retailCustomer.getId());
+    			try {
+    				String command = "sftp mget " + resourceUri.substring(resourceUri.indexOf("sftp://"));
+    				
+    				System.out.println("[Manage] Restricted Management Interface");
+    				System.out.println("[Manage] Request: " + command);
+
+    				Process p = Runtime.getRuntime().exec(command);
+
+    				// the sftp script will get the file and make a RESTful api call to add it into the workspace.
+
+    			} catch (IOException e1)  {
+    			System.out.printf("**** [Manage] Error: %s\n", e1.toString());
 
     		} catch (Exception e) {
-    			// No Authorization, so log the fact and move on. It will 
-    			// get imported later.
-    			e.printStackTrace();
-    			
+    			System.out.printf("**** [Manage] Error: %s\n", e.toString());
     		}
-    		   		
-    	} catch (EmptyResultDataAccessException  e) {
-    		// No authorization, so log the fact and move on. It will
-    		// get imported later
-    		e.printStackTrace();
-    		
-//    		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
-    	}
+
+    	} else {
+        	try {
+        		Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
+        	   	
+        		RetailCustomer retailCustomer = authorization.getRetailCustomer();
+
+        		String accessToken = authorization.getAccessToken();
+        	
+        		try {
+
+        			HttpHeaders requestHeaders = new HttpHeaders();
+        			requestHeaders.set("Authorization", "Bearer " + accessToken);
+        			@SuppressWarnings({ "unchecked", "rawtypes" })
+        			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
+        	    
+        			// get the subscription
+        	   
+        			HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
+        	 
+        			// import it into the repository
+        			ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
+        					.toString().getBytes());
+        		
+        			importService.importData(bs, retailCustomer.getId());
+
+        		} catch (Exception e) {
+        			// No Authorization, so log the fact and move on. It will 
+        			// get imported later.
+        			e.printStackTrace();
+        			
+        		}
+        		   		
+        	} catch (EmptyResultDataAccessException  e) {
+        		// No authorization, so log the fact and move on. It will
+        		// get imported later
+        		e.printStackTrace();
+        		
+//        		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
+        	}
+    	}  
+
     	
 		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);    	
     }
