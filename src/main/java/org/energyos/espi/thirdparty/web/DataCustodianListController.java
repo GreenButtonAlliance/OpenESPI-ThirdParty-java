@@ -16,10 +16,15 @@
 
 package org.energyos.espi.thirdparty.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.JAXBException;
 
+import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ApplicationInformationService;
+import org.energyos.espi.common.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -32,20 +37,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DataCustodianListController extends BaseController  {
 
     @Autowired
-    private ApplicationInformationService applicationInformationService;
+    private ResourceService resourceService;
 
     @RequestMapping(value = Routes.THIRD_PARTY_DATA_CUSTODIAN_LIST, method = RequestMethod.GET)
     public String index(ModelMap model) throws JAXBException {
-        model.put("applicationInformationList", applicationInformationService.findAll());
+    	List<Long> allIds = resourceService.findAllIds(ApplicationInformation.class);
+    	List<ApplicationInformation> applicationInformations = new ArrayList<ApplicationInformation> ();
+    	for (Long id : allIds) {
+    		applicationInformations.add(resourceService.findById(id,  ApplicationInformation.class));
+    	}
+        model.put("applicationInformationList", applicationInformations);
         return "/RetailCustomer/DataCustodianList/index";
     }
 
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
-        this.applicationInformationService = applicationInformationService;
+    public void setApplicationInformationService(ResourceService resourceService) {
+        this.resourceService = resourceService;
     }
     
-    public ApplicationInformationService getApplicationInformationService() {
-       return this.applicationInformationService;
+    public ResourceService getApplicationInformationService() {
+       return this.resourceService;
     }
     
 }

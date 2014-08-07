@@ -146,9 +146,10 @@ public class UsagePointController extends BaseController {
 		HashMap<String, Object> mrBag = new HashMap<String, Object> ();
 		MeterReading mr = it.next();
 		mrBag.put("Description", mr.getDescription());
-		// TODO build the real IntervalBlocks URI
+		// TODO remove the 1L assumption in ApplicationInformation
+		String thirdPartyNotifyURI = resourceService.findById(1L,  ApplicationInformation.class).getThirdPartyNotifyUri();
 		String uriTail = "/RetailCustomer/" + retailCustomerId + "/UsagePoint/" + usagePointId + "/MeterReading/" + mr.getId() + "/show";
-		mrBag.put("Uri", applicationInformationService.getThirdPartyNotifyURI().replace("/espi/1_1/Notification","") + uriTail);
+		mrBag.put("Uri", thirdPartyNotifyURI.replace("/espi/1_1/Notification","") + uriTail);
 		mrBag.put("ReadingType", mr.getReadingType().getDescription());
 		meterReadings.add(mrBag);
 	}
