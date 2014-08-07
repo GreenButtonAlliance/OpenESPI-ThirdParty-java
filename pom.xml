@@ -20,7 +20,7 @@
     <groupId>org.energyos</groupId>
     <artifactId>ThirdParty</artifactId>
     <packaging>war</packaging>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.2-RC1</version>
     <name>ThirdParty</name>  
     <organization>
        <name>EnergyOS.org</name>
@@ -82,7 +82,7 @@
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
         <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
         <spring-security-oauth2.version>2.0.2.RELEASE</spring-security-oauth2.version>
-        <openespi-common.version>1.2-SNAPSHOT</openespi-common.version>
+        <openespi-common.version>1.2-RC1</openespi-common.version>
         <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
         <javax-servlet.version>3.0.1</javax-servlet.version>
 
