@@ -16,14 +16,11 @@
 
 package org.energyos.espi.thirdparty.web;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Iterator;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.transform.stream.StreamSource;
 
@@ -44,10 +41,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 
 @Controller
 public class NotificationController extends BaseController {
@@ -63,11 +60,10 @@ public class NotificationController extends BaseController {
     
     @Autowired
     private ImportService importService;
-    
+
     @Autowired
-    @Qualifier("oAuth2RestTemplate")
-    private OAuth2RestTemplate oAuth2RestTemplate;
-    
+    private RestTemplate restTemplate;
+     
     @Autowired
     private AuthorizationService authorizationService;
 
@@ -87,7 +83,6 @@ public class NotificationController extends BaseController {
         }
         response.setStatus(HttpServletResponse.SC_OK);
     }
-
 
     @Async
     private void doImportAsynchronously(String subscriptionUri) {
@@ -138,7 +133,7 @@ public class NotificationController extends BaseController {
         	    
         			// get the subscription
         	   
-        			HttpEntity<String> httpResult = oAuth2RestTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);
+        			HttpEntity<String> httpResult = restTemplate.exchange(subscriptionUri, HttpMethod.GET, requestEntity, String.class);        			
         	 
         			// import it into the repository
         			ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
@@ -147,18 +142,16 @@ public class NotificationController extends BaseController {
         			importService.importData(bs, retailCustomer.getId());
 
         		} catch (Exception e) {
-        			// No Authorization, so log the fact and move on. It will 
-        			// get imported later.
-        			e.printStackTrace();
+        			// Log exception so that issue can be investigated include stack trace to help locate issue
         			
+            		System.out.printf("\nNotificationController -- Asynchronous Input:\n     Cause = %s\n     Description = %s\n\n", e.getClass(), e.getMessage());
+            		e.printStackTrace();
         		}
         		   		
         	} catch (EmptyResultDataAccessException  e) {
         		// No authorization, so log the fact and move on. It will
         		// get imported later
-        		e.printStackTrace();
-        		
-//        		System.out.printf("Asynchronous Input Completed %s: %s\n", threadName, resourceUri);
+        		System.out.printf("\nNotificationController -- Asynchronous Input:\n     Cause = %s\n     Description = %s\n\n", e.getClass(), e.getMessage());
         	}
     	}  
 
@@ -181,10 +174,11 @@ public class NotificationController extends BaseController {
     public void setUsagePointService(UsagePointService usagePointService) {
     	this.usagePointService = usagePointService;
     }
-    
-    public void setOAuth2RestTemplate(OAuth2RestTemplate oAuth2RestTemplate){
-    	this.oAuth2RestTemplate = oAuth2RestTemplate;
+
+    public RestTemplate getRestTemplate () {
+         return this.restTemplate;
     }
+    
     public void setMarshaller(Jaxb2Marshaller marshaller) {
         this.marshaller = marshaller;
     }
