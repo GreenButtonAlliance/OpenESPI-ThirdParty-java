@@ -93,6 +93,9 @@ public class NotificationController extends BaseController {
         System.out.printf("Start Asynchronous Input: %s: %s\n  ", threadName, subscriptionUri);
         
         String resourceUri = subscriptionUri;
+        String accessToken = "";
+        Authorization authorization = null;
+        RetailCustomer retailCustomer = null;
         
         if (subscriptionUri.indexOf("?") > -1) {										// Does message contain a query element
         	resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));	// Yes, remove the query element
@@ -118,12 +121,22 @@ public class NotificationController extends BaseController {
 
     	} else {
         	try {
-        		Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
-        	   	
-        		RetailCustomer retailCustomer = authorization.getRetailCustomer();
+        		if ((resourceUri.contains("/Batch/Bulk")) || (resourceUri.contains("/Authorization"))) {
+    				// mutate the resourceUri to be of the form .../Batch/Bulk
+        			resourceUri = (resourceUri.substring(0, resourceUri.indexOf("/resource/") + "/resource/".length()).concat("Batch/Bulk"));
 
-        		String accessToken = authorization.getAccessToken();
-        	
+        		} else {
+                    // mutate the resourceUri for the form /Subscription/{subscriptionId}/**
+        			String temp = resourceUri.substring(resourceUri.indexOf("/Subscription/") + "/Subscription/".length());
+        			if (temp.contains("/")) {
+        				resourceUri = resourceUri.substring(0, resourceUri.indexOf("/Subscription") + "/Subscription".length()).concat(temp.substring(0, temp.indexOf("/")));
+        			}
+  		        }
+        		
+    			authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
+				retailCustomer = authorization.getRetailCustomer();
+    			accessToken = authorization.getAccessToken();
+        		
         		try {
 
         			HttpHeaders requestHeaders = new HttpHeaders();
