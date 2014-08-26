@@ -75,12 +75,11 @@ public class NotificationController extends BaseController {
     public void notification(HttpServletResponse response, InputStream inputStream) throws IOException {
 
     	BatchList batchList = (BatchList) marshaller.unmarshal(new StreamSource(inputStream));
-        batchListService.persist(batchList);
-        Iterator<String> it = batchList.getResources().iterator();
-        while (it.hasNext()) {
-        	String resourceUri = (String) it.next();
-        	doImportAsynchronously(resourceUri);
+    	
+    	for (String resourceUri : batchList.getResources() ) {
+        	    doImportAsynchronously(resourceUri);
         }
+    	
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -126,13 +125,22 @@ public class NotificationController extends BaseController {
         			resourceUri = (resourceUri.substring(0, resourceUri.indexOf("/resource/") + "/resource/".length()).concat("Batch/Bulk"));
 
         		} else {
-                    // mutate the resourceUri for the form /Subscription/{subscriptionId}/**
-        			String temp = resourceUri.substring(resourceUri.indexOf("/Subscription/") + "/Subscription/".length());
-        			if (temp.contains("/")) {
-        				resourceUri = resourceUri.substring(0, resourceUri.indexOf("/Subscription") + "/Subscription".length()).concat(temp.substring(0, temp.indexOf("/")));
+        			if (resourceUri.contains("/Subscription")) {
+                       // mutate the resourceUri for the form /Subscription/{subscriptionId}/**
+        			    String temp = resourceUri.substring(resourceUri.indexOf("/Subscription/") + "/Subscription/".length());
+        			    if (temp.contains("/")) {
+        				    resourceUri = resourceUri.substring(0, resourceUri.indexOf("/Subscription") + "/Subscription".length()).concat(temp.substring(0, temp.indexOf("/")));
+        			    }
         			}
   		        }
         		
+        		Authorization x = resourceService.findById(2L, Authorization.class);
+        		
+        		if (x.getResourceURI().equals(resourceUri)) {
+        			System.out.println("ResourceURIs Equal:" + resourceUri);
+        		} else {
+        			System.out.println("ResourceURIs Not - Equal:" + resourceUri);
+        		}
     			authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
 				retailCustomer = authorization.getRetailCustomer();
     			accessToken = authorization.getAccessToken();
