@@ -75,12 +75,13 @@ public class NotificationController extends BaseController {
     public void notification(HttpServletResponse response, InputStream inputStream) throws IOException {
 
     	BatchList batchList = (BatchList) marshaller.unmarshal(new StreamSource(inputStream));
-        batchListService.persist(batchList);
-        Iterator<String> it = batchList.getResources().iterator();
-        while (it.hasNext()) {
-        	String resourceUri = (String) it.next();
-        	doImportAsynchronously(resourceUri);
+    	
+    	batchListService.persist(batchList);
+    	
+    	for (String resourceUri : batchList.getResources() ) {
+        	    doImportAsynchronously(resourceUri);
         }
+    	
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
@@ -93,6 +94,9 @@ public class NotificationController extends BaseController {
         System.out.printf("Start Asynchronous Input: %s: %s\n  ", threadName, subscriptionUri);
         
         String resourceUri = subscriptionUri;
+        String accessToken = "";
+        Authorization authorization = null;
+        RetailCustomer retailCustomer = null;
         
         if (subscriptionUri.indexOf("?") > -1) {										// Does message contain a query element
         	resourceUri = subscriptionUri.substring(0, subscriptionUri.indexOf("?"));	// Yes, remove the query element
@@ -118,12 +122,31 @@ public class NotificationController extends BaseController {
 
     	} else {
         	try {
-        		Authorization authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
-        	   	
-        		RetailCustomer retailCustomer = authorization.getRetailCustomer();
+        		if ((resourceUri.contains("/Batch/Bulk")) || (resourceUri.contains("/Authorization"))) {
+    				// mutate the resourceUri to be of the form .../Batch/Bulk
+        			resourceUri = (resourceUri.substring(0, resourceUri.indexOf("/resource/") + "/resource/".length()).concat("Batch/Bulk"));
 
-        		String accessToken = authorization.getAccessToken();
-        	
+        		} else {
+        			if (resourceUri.contains("/Subscription")) {
+                       // mutate the resourceUri for the form /Subscription/{subscriptionId}/**
+        			    String temp = resourceUri.substring(resourceUri.indexOf("/Subscription/") + "/Subscription/".length());
+        			    if (temp.contains("/")) {
+        				    resourceUri = resourceUri.substring(0, resourceUri.indexOf("/Subscription") + "/Subscription".length()).concat(temp.substring(0, temp.indexOf("/")));
+        			    }
+        			}
+  		        }
+        		
+        		Authorization x = resourceService.findById(2L, Authorization.class);
+        		
+        		if (x.getResourceURI().equals(resourceUri)) {
+        			System.out.println("ResourceURIs Equal:" + resourceUri);
+        		} else {
+        			System.out.println("ResourceURIs Not - Equal:" + resourceUri);
+        		}
+    			authorization = resourceService.findByResourceUri(resourceUri, Authorization.class);
+				retailCustomer = authorization.getRetailCustomer();
+    			accessToken = authorization.getAccessToken();
+        		
         		try {
 
         			HttpHeaders requestHeaders = new HttpHeaders();
