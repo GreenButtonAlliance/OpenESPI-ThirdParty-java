@@ -76,6 +76,8 @@ public class NotificationController extends BaseController {
 
     	BatchList batchList = (BatchList) marshaller.unmarshal(new StreamSource(inputStream));
     	
+    	batchListService.persist(batchList);
+    	
     	for (String resourceUri : batchList.getResources() ) {
         	    doImportAsynchronously(resourceUri);
         }
