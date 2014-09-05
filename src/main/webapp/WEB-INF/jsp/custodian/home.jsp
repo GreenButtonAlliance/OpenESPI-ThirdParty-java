@@ -29,27 +29,22 @@
 
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
-        <h1>Welcome Data Custodian</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a href="#" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-    </div>
+        <h1>Third Party Administrative Portal</h1>
+        <p>This is a template that exemplifies a minimal set of facilities needed to manage the Third Party sandbox. You may review the retail customers in
+        in the sandbox, and look at the BatchLists that have been created as the result of notifications having been received from the DataCustodian.
+  
 
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
-        </div>
-        <div class="span4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn" href="#">View details &raquo;</a></p>
+            <h2>Becoming A Third Party</h2>
+            <p>Green Button Third Parties are simply applications that support the 
+              patterns of interactions required for communication with Certified Green Button DataCustodians.
+              Each Data Custodian will require registration of their supported Third Parties. That process is, for now,
+              manual although the Green Button Community is committed to supporting dynamic registration in the near future.
+
+            <h2>Developers</h2>
+            <p>Third Party developers will need to familiarize themselves with the <a href="http://energyos.github.io/OpenESPI-GreenButton-API-Documentation/">general XML format of Green Button Data</a>.</p>
+
+            <h2>Community</h2>
+            <p>Please consider following the discussions of the <a href="http://www.greenbuttondata.org/community">Green Button Community</a> so that you may stay current with issues involved in being a Green Button Third Party.
         </div>
     </div>
 
