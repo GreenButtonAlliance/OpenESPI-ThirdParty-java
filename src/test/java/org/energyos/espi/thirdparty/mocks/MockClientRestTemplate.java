@@ -11,7 +11,7 @@ public class MockClientRestTemplate extends ClientRestTemplate {
         AccessToken accessToken = new AccessToken();
 
         accessToken.setAccessToken("6b945882-8349-471a-915f-25e791971248");
-        accessToken.setTokenType("bearer");
+        accessToken.setTokenType("Bearer");
         accessToken.setExpiresIn(43199L);
         accessToken.setScope("read write");
 

@@ -34,7 +34,7 @@ public class AccessTokenTests {
         HttpInputMessage message = mock(HttpInputMessage.class);
         when(message.getBody()).thenReturn(new ByteArrayInputStream(("{" +
                     "\"access_token\":\"6b945882-8349-471a-915f-25e791971248\"," +
-                    "\"token_type\":\"bearer\"," +
+                    "\"token_type\":\"Bearer\"," +
                     "\"expires_in\":43199," +
                     "\"scope\":\"read write\"," +
                     "\"resourceURI\":\"ResourceURI\"," +
