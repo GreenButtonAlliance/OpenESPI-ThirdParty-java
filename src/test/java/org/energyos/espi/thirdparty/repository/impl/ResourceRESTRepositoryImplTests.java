@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -41,53 +41,61 @@ import org.springframework.web.client.RestTemplate;
 
 public class ResourceRESTRepositoryImplTests {
 
-    public ResourceRESTRepositoryImpl repository;
-    public Jaxb2Marshaller marshaller;
-    public RestTemplate template;
-    public Authorization authorization;
-    public String uri;
+	public ResourceRESTRepositoryImpl repository;
+	public Jaxb2Marshaller marshaller;
+	public RestTemplate template;
+	public Authorization authorization;
+	public String uri;
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Before
-    public void before() {
-        repository = new ResourceRESTRepositoryImpl();
-        marshaller = mock(Jaxb2Marshaller.class);
+	public void before() {
+		repository = new ResourceRESTRepositoryImpl();
+		marshaller = mock(Jaxb2Marshaller.class);
 
-        template = mock(RestTemplate.class);
-        ResponseEntity<String> response = new ResponseEntity<String>(HttpStatus.OK);
-        when(template.exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), any(Class.class))).thenReturn(response);
+		template = mock(RestTemplate.class);
+		ResponseEntity<String> response = new ResponseEntity<String>(
+				HttpStatus.OK);
+		when(
+				template.exchange(anyString(), eq(HttpMethod.GET),
+						any(HttpEntity.class), any(Class.class))).thenReturn(
+				response);
 
-        repository.setRestTemplate(template);
-        repository.setJaxb2Marshaller(marshaller);
+		repository.setRestTemplate(template);
+		repository.setJaxb2Marshaller(marshaller);
 
-        authorization = new Authorization();
-        authorization.setAccessToken("token");
-        uri = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_GET;
-    }
+		authorization = new Authorization();
+		authorization.setAccessToken("token");
+		uri = Routes.DATA_CUSTODIAN_REST_USAGE_POINT_GET;
+	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Test
-    public void get_fetchesResource() throws JAXBException {
-        repository.get(authorization, uri);
+	public void get_fetchesResource() throws JAXBException {
+		repository.get(authorization, uri);
 
-        verify(template).exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), any(Class.class));
-    }
+		verify(template).exchange(anyString(), eq(HttpMethod.GET),
+				any(HttpEntity.class), any(Class.class));
+	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Test
-    public void get_usesAccessToken() throws JAXBException {
-        repository.get(authorization, uri);
+	public void get_usesAccessToken() throws JAXBException {
+		repository.get(authorization, uri);
 
-        @SuppressWarnings("rawtypes")
-		ArgumentCaptor<HttpEntity> argumentCaptor = ArgumentCaptor.forClass(HttpEntity.class);
-        verify(template).exchange(anyString(), eq(HttpMethod.GET), argumentCaptor.capture(), any(Class.class));
-        assertEquals("Bearer token", argumentCaptor.getValue().getHeaders().get("Authorization").get(0));
-    }
+		@SuppressWarnings("rawtypes")
+		ArgumentCaptor<HttpEntity> argumentCaptor = ArgumentCaptor
+				.forClass(HttpEntity.class);
+		verify(template).exchange(anyString(), eq(HttpMethod.GET),
+				argumentCaptor.capture(), any(Class.class));
+		assertEquals("Bearer token", argumentCaptor.getValue().getHeaders()
+				.get("Authorization").get(0));
+	}
 
-    @Test
-    public void get_unmarshallsResource() throws JAXBException {
-        repository.get(authorization, uri);
+	@Test
+	public void get_unmarshallsResource() throws JAXBException {
+		repository.get(authorization, uri);
 
-        verify(marshaller).unmarshal(any(Source.class));
-    }
+		verify(marshaller).unmarshal(any(Source.class));
+	}
 }

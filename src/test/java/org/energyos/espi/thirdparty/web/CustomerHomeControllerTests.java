@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,9 +29,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration("/spring/test-context.xml")
 public class CustomerHomeControllerTests {
 
-    @Test
-    public void home_displaysHomeView() throws Exception {
-        CustomerHomeController controller = new CustomerHomeController();
-        assertEquals("/RetailCustomer/home", controller.home());
-    }
+	@Test
+	public void home_displaysHomeView() throws Exception {
+		CustomerHomeController controller = new CustomerHomeController();
+		assertEquals("/RetailCustomer/home", controller.home());
+	}
 }

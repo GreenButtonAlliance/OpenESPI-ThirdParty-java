@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,11 +24,12 @@ import org.openqa.selenium.WebDriver;
 import cucumber.api.java.en.Then;
 
 public class AuthenticationSteps {
-    private WebDriver driver = WebDriverSingleton.getInstance();
+	private WebDriver driver = WebDriverSingleton.getInstance();
 
-    @Then("^I should see Retail Customer home page$")
-    public void I_should_see_Retail_Customer_home_page() throws Throwable {
-        assertTrue(driver.getCurrentUrl().endsWith("/ThirdParty/RetailCustomer/1/home"));
-        assertTrue(driver.getPageSource().contains("Logout"));
-    }
+	@Then("^I should see Retail Customer home page$")
+	public void I_should_see_Retail_Customer_home_page() throws Throwable {
+		assertTrue(driver.getCurrentUrl().endsWith(
+				"/ThirdParty/RetailCustomer/1/home"));
+		assertTrue(driver.getPageSource().contains("Logout"));
+	}
 }

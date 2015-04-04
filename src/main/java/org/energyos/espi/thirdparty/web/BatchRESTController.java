@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,12 +17,10 @@
 package org.energyos.espi.thirdparty.web;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.energyos.espi.common.domain.RetailCustomer;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.ExportService;
 import org.energyos.espi.common.service.ImportService;
@@ -34,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +71,7 @@ public class BatchRESTController {
 			@PathVariable Long retailCustomerId,
 			@RequestParam Map<String, String> params) throws IOException,
 			FeedException {
-		
+
 		response.setContentType(MediaType.APPLICATION_ATOM_XML_VALUE);
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
@@ -101,10 +98,11 @@ public class BatchRESTController {
 		response.addHeader("Content-Disposition",
 				"attachment; filename=GreenButtonDownload.xml");
 		try {
-			
+
 			// TODO -- need authorization hook
-			exportService.exportUsagePointFull(0L,retailCustomerId, usagePointId,
-					response.getOutputStream(), new ExportFilter(params));
+			exportService.exportUsagePointFull(0L, retailCustomerId,
+					usagePointId, response.getOutputStream(), new ExportFilter(
+							params));
 
 		} catch (Exception e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -112,40 +110,45 @@ public class BatchRESTController {
 
 	}
 
-    public void setImportService(ImportService importService) {
-        this.importService = importService;
-   }
+	public void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
 
-   public ImportService getImportService () {
-        return this.importService;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public ImportService getImportService() {
+		return this.importService;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-   public void setNotificationService(NotificationService notificationService) {
-        this.notificationService = notificationService;
-   }
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
 
-   public NotificationService getNotificationService () {
-        return this.notificationService;
-   }
-   public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-   }
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.retailCustomerService;
-   }
-   public void setExportService(ExportService exportService) {
-        this.exportService = exportService;
-   }
+	public void setNotificationService(NotificationService notificationService) {
+		this.notificationService = notificationService;
+	}
 
-   public ExportService getExportService () {
-        return this.exportService;
-   }
+	public NotificationService getNotificationService() {
+		return this.notificationService;
+	}
+
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
+
+	public RetailCustomerService getRetailCustomerService() {
+		return this.retailCustomerService;
+	}
+
+	public void setExportService(ExportService exportService) {
+		this.exportService = exportService;
+	}
+
+	public ExportService getExportService() {
+		return this.exportService;
+	}
 
 }

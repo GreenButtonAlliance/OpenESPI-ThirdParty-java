@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,7 +18,8 @@ package org.energyos.espi.thirdparty.web;
 
 public class ClientRestTemplateFactory {
 
-    public ClientRestTemplate newClientRestTemplate(String username, String password) {
-        return new ClientRestTemplate(username, password);
-    }
+	public ClientRestTemplate newClientRestTemplate(String username,
+			String password) {
+		return new ClientRestTemplate(username, password);
+	}
 }

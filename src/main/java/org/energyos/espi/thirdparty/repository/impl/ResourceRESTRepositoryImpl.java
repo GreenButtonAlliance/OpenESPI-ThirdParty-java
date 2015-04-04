@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -32,39 +32,42 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class ResourceRESTRepositoryImpl implements ResourceRESTRepository {
-    @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate template;
+	@Autowired
+	@Qualifier("restTemplate")
+	private RestTemplate template;
 
-    @Autowired
-    @Qualifier(value = "atomMarshaller")
-    private Jaxb2Marshaller marshaller;
+	@Autowired
+	@Qualifier(value = "atomMarshaller")
+	private Jaxb2Marshaller marshaller;
 
-    public IdentifiedObject get(Authorization authorization, String url) {
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.set("Authorization", "Bearer " + authorization.getAccessToken());
-        @SuppressWarnings({ "rawtypes", "unchecked" })
+	public IdentifiedObject get(Authorization authorization, String url) {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.set("Authorization",
+				"Bearer " + authorization.getAccessToken());
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
-        HttpEntity<String> response = template.exchange(url, HttpMethod.GET, requestEntity, String.class);
+		HttpEntity<String> response = template.exchange(url, HttpMethod.GET,
+				requestEntity, String.class);
 
-        return (IdentifiedObject)marshaller.unmarshal(new StreamSource(response.getBody()));
-    }
+		return (IdentifiedObject) marshaller.unmarshal(new StreamSource(
+				response.getBody()));
+	}
 
-    public void setRestTemplate(RestTemplate template) {
-        this.template = template;
-   }
+	public void setRestTemplate(RestTemplate template) {
+		this.template = template;
+	}
 
-   public RestTemplate getRestTemplate () {
-        return this.template;
-   }
-   public void setJaxb2Marshaller(Jaxb2Marshaller marshaller) {
-        this.marshaller = marshaller;
-   }
+	public RestTemplate getRestTemplate() {
+		return this.template;
+	}
 
-   public Jaxb2Marshaller getJaxb2Marshaller () {
-        return this.marshaller;
-   }
+	public void setJaxb2Marshaller(Jaxb2Marshaller marshaller) {
+		this.marshaller = marshaller;
+	}
+
+	public Jaxb2Marshaller getJaxb2Marshaller() {
+		return this.marshaller;
+	}
 
 }
-

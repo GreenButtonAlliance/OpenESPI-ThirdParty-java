@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import org.energyos.espi.common.domain.IdentifiedObject;
 import org.energyos.espi.common.domain.UsagePoint;
 
 public interface ResourceRESTService {
-    IdentifiedObject get(Authorization authorization, String uri);
+	IdentifiedObject get(Authorization authorization, String uri);
 
-    void update(UsagePoint resource);
+	void update(UsagePoint resource);
 }

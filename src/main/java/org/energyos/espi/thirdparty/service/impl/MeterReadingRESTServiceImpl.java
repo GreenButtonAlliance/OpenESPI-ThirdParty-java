@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -28,19 +28,20 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MeterReadingRESTServiceImpl implements MeterReadingRESTService {
-    @Autowired
-    protected MeterReadingRESTRepository repository;
+	@Autowired
+	protected MeterReadingRESTRepository repository;
 
-    @Override
-    public MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException {
-        return repository.findByUUID(retailCustomerId, uuid);
-    }
+	@Override
+	public MeterReading findByUUID(Long retailCustomerId, UUID uuid)
+			throws JAXBException {
+		return repository.findByUUID(retailCustomerId, uuid);
+	}
 
-    public void setRepository(MeterReadingRESTRepository repository) {
-       this.repository = repository;
-    }
-    
-    public MeterReadingRESTRepository setRepository() {
-        return this.repository;
-     }
+	public void setRepository(MeterReadingRESTRepository repository) {
+		this.repository = repository;
+	}
+
+	public MeterReadingRESTRepository setRepository() {
+		return this.repository;
+	}
 }

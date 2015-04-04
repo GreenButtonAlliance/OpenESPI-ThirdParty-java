@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -39,36 +39,45 @@ import org.springframework.web.client.RestTemplate;
 
 public class ClientRestTemplate extends RestTemplate {
 
-    public ClientRestTemplate() {
-    }
+	public ClientRestTemplate() {
+	}
 
-    public ClientRestTemplate(String username, String password) {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        BasicCredentialsProvider credentialsProvider =  new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), new UsernamePasswordCredentials(username, password));
-        httpClient.setCredentialsProvider(credentialsProvider);
-        httpClient.addRequestInterceptor(new PreemptiveAuthInterceptor(), 0);
-        ClientHttpRequestFactory rf = new HttpComponentsClientHttpRequestFactory(httpClient);
+	public ClientRestTemplate(String username, String password) {
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+		BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+		credentialsProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST,
+				AuthScope.ANY_PORT), new UsernamePasswordCredentials(username,
+				password));
+		httpClient.setCredentialsProvider(credentialsProvider);
+		httpClient.addRequestInterceptor(new PreemptiveAuthInterceptor(), 0);
+		ClientHttpRequestFactory rf = new HttpComponentsClientHttpRequestFactory(
+				httpClient);
 
-        this.setRequestFactory(rf);
-    }
+		this.setRequestFactory(rf);
+	}
 
-    static class PreemptiveAuthInterceptor implements HttpRequestInterceptor {
+	static class PreemptiveAuthInterceptor implements HttpRequestInterceptor {
 
-        @SuppressWarnings("deprecation")
-        // TODO there are two deprecated calls here ...
-		public void process(final HttpRequest request, final HttpContext context) throws HttpException, IOException {
-            AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
+		@SuppressWarnings("deprecation")
+		// TODO there are two deprecated calls here ...
+		public void process(final HttpRequest request, final HttpContext context)
+				throws HttpException, IOException {
+			AuthState authState = (AuthState) context
+					.getAttribute(ClientContext.TARGET_AUTH_STATE);
 
-            if (authState.getAuthScheme() == null) {
-                CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(ClientContext.CREDS_PROVIDER);
-                HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-                Credentials creds = credsProvider.getCredentials(new AuthScope(targetHost.getHostName(), targetHost.getPort()));
-                if (creds == null)
-                    throw new HttpException("No credentials for preemptive authentication");
-                authState.setAuthScheme(new BasicScheme());
-                authState.setCredentials(creds);
-            }
-        }
-    }
+			if (authState.getAuthScheme() == null) {
+				CredentialsProvider credsProvider = (CredentialsProvider) context
+						.getAttribute(ClientContext.CREDS_PROVIDER);
+				HttpHost targetHost = (HttpHost) context
+						.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+				Credentials creds = credsProvider.getCredentials(new AuthScope(
+						targetHost.getHostName(), targetHost.getPort()));
+				if (creds == null)
+					throw new HttpException(
+							"No credentials for preemptive authentication");
+				authState.setAuthScheme(new BasicScheme());
+				authState.setCredentials(creds);
+			}
+		}
+	}
 }

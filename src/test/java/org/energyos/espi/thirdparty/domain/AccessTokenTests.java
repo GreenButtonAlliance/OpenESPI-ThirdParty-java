@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,20 +29,23 @@ import org.springframework.http.converter.json.MappingJacksonHttpMessageConverte
 
 public class AccessTokenTests {
 
-    @Test
-    public void json() throws IOException {
-        HttpInputMessage message = mock(HttpInputMessage.class);
-        when(message.getBody()).thenReturn(new ByteArrayInputStream(("{" +
-                    "\"access_token\":\"6b945882-8349-471a-915f-25e791971248\"," +
-                    "\"token_type\":\"Bearer\"," +
-                    "\"expires_in\":43199," +
-                    "\"scope\":\"read write\"," +
-                    "\"resourceURI\":\"ResourceURI\"," +
-                    "\"authorizationURI\":\"AuthorizationURI\"" +
-                "}").getBytes()));
+	@Test
+	public void json() throws IOException {
+		HttpInputMessage message = mock(HttpInputMessage.class);
+		when(message.getBody())
+				.thenReturn(
+						new ByteArrayInputStream(
+								("{"
+										+ "\"access_token\":\"6b945882-8349-471a-915f-25e791971248\","
+										+ "\"token_type\":\"Bearer\","
+										+ "\"expires_in\":43199,"
+										+ "\"scope\":\"read write\","
+										+ "\"resourceURI\":\"ResourceURI\","
+										+ "\"authorizationURI\":\"AuthorizationURI\""
+										+ "}").getBytes()));
 
-        MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
+		MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
 
-        converter.read(AccessToken.class, message);
-    }
+		converter.read(AccessToken.class, message);
+	}
 }

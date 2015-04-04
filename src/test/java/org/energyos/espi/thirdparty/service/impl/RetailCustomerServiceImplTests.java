@@ -1,3 +1,19 @@
+/*
+ * Copyright 2013, 2014, 2015 EnergyOS.org
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.energyos.espi.thirdparty.service.impl;
 
 import static org.junit.Assert.assertEquals;
@@ -15,48 +31,48 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RetailCustomerServiceImplTests {
-    private RetailCustomerRepository repository;
-    private RetailCustomerServiceImpl service;
+	private RetailCustomerRepository repository;
+	private RetailCustomerServiceImpl service;
 
-    @Before
-    public void setup() {
-        repository = mock(RetailCustomerRepository.class);
-        service = new RetailCustomerServiceImpl();
-        service.setRetailCustomerRepository(repository);
-    }
+	@Before
+	public void setup() {
+		repository = mock(RetailCustomerRepository.class);
+		service = new RetailCustomerServiceImpl();
+		service.setRetailCustomerRepository(repository);
+	}
 
-    @Test
-    public void loadUserByUsername() {
-        service.loadUserByUsername("alan");
+	@Test
+	public void loadUserByUsername() {
+		service.loadUserByUsername("alan");
 
-        verify(repository).findByUsername("alan");
-    }
+		verify(repository).findByUsername("alan");
+	}
 
-    @Test
-    public void persist() {
-        RetailCustomer retailCustomer = new RetailCustomer();
+	@Test
+	public void persist() {
+		RetailCustomer retailCustomer = new RetailCustomer();
 
-        service.persist(retailCustomer);
+		service.persist(retailCustomer);
 
-        verify(repository).persist(retailCustomer);
-    }
+		verify(repository).persist(retailCustomer);
+	}
 
-    @Test
-    public void findAll_returnsAllRetailCustomers() {
-        List<RetailCustomer> allRetailCustomers = new ArrayList<RetailCustomer>();
+	@Test
+	public void findAll_returnsAllRetailCustomers() {
+		List<RetailCustomer> allRetailCustomers = new ArrayList<RetailCustomer>();
 
-        when(repository.findAll()).thenReturn(allRetailCustomers);
+		when(repository.findAll()).thenReturn(allRetailCustomers);
 
-        assertEquals(allRetailCustomers, service.findAll());
-    }
+		assertEquals(allRetailCustomers, service.findAll());
+	}
 
-    @Test
-    public void findById_returnsRetailCustomers() {
-        RetailCustomer customer = new RetailCustomer();
-        customer.setId(13L);
+	@Test
+	public void findById_returnsRetailCustomers() {
+		RetailCustomer customer = new RetailCustomer();
+		customer.setId(13L);
 
-        when(repository.findById(customer.getId())).thenReturn(customer);
+		when(repository.findById(customer.getId())).thenReturn(customer);
 
-        assertEquals(customer, service.findById(customer.getId()));
-    }
+		assertEquals(customer, service.findById(customer.getId()));
+	}
 }

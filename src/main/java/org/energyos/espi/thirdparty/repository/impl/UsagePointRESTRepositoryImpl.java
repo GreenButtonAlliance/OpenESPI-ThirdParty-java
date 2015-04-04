@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -40,51 +40,55 @@ import org.springframework.web.client.RestTemplate;
 
 @Repository
 public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
-    @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate template;
+	@Autowired
+	@Qualifier("restTemplate")
+	private RestTemplate template;
 
-    @Autowired
-    private AuthorizationService authorizationService;
-    
-    @Autowired
-    private ImportService importService;
+	@Autowired
+	private AuthorizationService authorizationService;
 
-    @Autowired
-    private UsagePointService usagePointService;
-    
-    @Autowired
-    private UsagePointRepository usagePointRepository;
-    
-    @Autowired
-    private RetailCustomerService retailCustomerService;
-    
-    // services initializers
-    //
-    public void setUsagePointService(UsagePointService usagePointService) {
-    	this.usagePointService = usagePointService;
-    }
-    
-    public void setImportService(ImportService importService) {
-        this.importService = importService;
-    }
-    
-    public void setRetailCustomerService(RetailCustomerService retailCustomerService) {
-        this.retailCustomerService = retailCustomerService;
-    }
-    
-    public void setUsagePointRepository(UsagePointRepository usagePointRepository) {
-    	this.usagePointRepository = usagePointRepository;
-    }
-    public void setTemplate(RestTemplate template) {
-        this.template = template;
-    }
+	@Autowired
+	private ImportService importService;
 
-    public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-    }
+	@Autowired
+	private UsagePointService usagePointService;
 
-    @Override
+	@Autowired
+	private UsagePointRepository usagePointRepository;
+
+	@Autowired
+	private RetailCustomerService retailCustomerService;
+
+	// services initializers
+	//
+	public void setUsagePointService(UsagePointService usagePointService) {
+		this.usagePointService = usagePointService;
+	}
+
+	public void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
+
+	public void setRetailCustomerService(
+			RetailCustomerService retailCustomerService) {
+		this.retailCustomerService = retailCustomerService;
+	}
+
+	public void setUsagePointRepository(
+			UsagePointRepository usagePointRepository) {
+		this.usagePointRepository = usagePointRepository;
+	}
+
+	public void setTemplate(RestTemplate template) {
+		this.template = template;
+	}
+
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
+
+	@Override
 	public List<UsagePoint> findAllByRetailCustomerId(Long retailCustomerId)
 			throws JAXBException {
 
@@ -99,36 +103,41 @@ public class UsagePointRESTRepositoryImpl implements UsagePointRESTRepository {
 		}
 
 		List<UsagePoint> result;
-		RetailCustomer retailCustomer = retailCustomerService.findById(retailCustomerId);
+		RetailCustomer retailCustomer = retailCustomerService
+				.findById(retailCustomerId);
 		result = usagePointService.findAllByRetailCustomer(retailCustomer);
 		return result;
 	}
 
-    @Override
-    public UsagePoint findByHashedId(Long retailCustomerId, String usagePointHashedId) throws JAXBException {
-        List<UsagePoint> usagePoints = findAllByRetailCustomerId(retailCustomerId);
+	@Override
+	public UsagePoint findByHashedId(Long retailCustomerId,
+			String usagePointHashedId) throws JAXBException {
+		List<UsagePoint> usagePoints = findAllByRetailCustomerId(retailCustomerId);
 
-        for (UsagePoint usagePoint : usagePoints) {
-            if (usagePoint.getHashedId().equalsIgnoreCase(usagePointHashedId)) {
-                return usagePoint;
-            }
-        }
+		for (UsagePoint usagePoint : usagePoints) {
+			if (usagePoint.getHashedId().equalsIgnoreCase(usagePointHashedId)) {
+				return usagePoint;
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private HttpEntity<String> getUsagePoints(Authorization authorization) {
-        HttpHeaders requestHeaders = new HttpHeaders();
-        requestHeaders.set("Authorization", "Bearer " + authorization.getAccessToken());
-        @SuppressWarnings({ "rawtypes", "unchecked" })
+	private HttpEntity<String> getUsagePoints(Authorization authorization) {
+		HttpHeaders requestHeaders = new HttpHeaders();
+		requestHeaders.set("Authorization",
+				"Bearer " + authorization.getAccessToken());
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
 
-        return template.exchange(authorization.getResourceURI(), HttpMethod.GET, requestEntity, String.class);
-    }
+		return template.exchange(authorization.getResourceURI(),
+				HttpMethod.GET, requestEntity, String.class);
+	}
 
-    private Authorization findAuthorization(Long retailCustomerId) {
-        List<Authorization> authorizations = authorizationService.findAllByRetailCustomerId(retailCustomerId);
-        return authorizations.get(authorizations.size() - 1);
-    }
+	private Authorization findAuthorization(Long retailCustomerId) {
+		List<Authorization> authorizations = authorizationService
+				.findAllByRetailCustomerId(retailCustomerId);
+		return authorizations.get(authorizations.size() - 1);
+	}
 
 }

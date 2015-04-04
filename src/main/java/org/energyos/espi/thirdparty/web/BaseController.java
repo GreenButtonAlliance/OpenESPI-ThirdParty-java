@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,30 +23,31 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 public class BaseController {
-	
-    @ModelAttribute("currentCustomer")
-    public RetailCustomer currentCustomer(Principal principal) {
-    	try {
-        return (RetailCustomer) ((Authentication)principal).getPrincipal();
-    	} catch (Exception e) {
-    		return null;
-    	}
-    }
 
-    public boolean isUserCustodian(Principal principal) {
-        return checkRole(principal, RetailCustomer.ROLE_CUSTODIAN);
-    }
+	@ModelAttribute("currentCustomer")
+	public RetailCustomer currentCustomer(Principal principal) {
+		try {
+			return (RetailCustomer) ((Authentication) principal).getPrincipal();
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
-    public boolean isUserUserRole(Principal principal) {
-        return checkRole(principal, RetailCustomer.ROLE_USER);
-    }
+	public boolean isUserCustodian(Principal principal) {
+		return checkRole(principal, RetailCustomer.ROLE_CUSTODIAN);
+	}
 
-    private boolean checkRole(Principal principal, String givenRole) {
-        RetailCustomer retailCustomer = currentCustomer(principal);
-        if(retailCustomer == null) return false;
+	public boolean isUserUserRole(Principal principal) {
+		return checkRole(principal, RetailCustomer.ROLE_USER);
+	}
 
-        String role = retailCustomer.getRole();
+	private boolean checkRole(Principal principal, String givenRole) {
+		RetailCustomer retailCustomer = currentCustomer(principal);
+		if (retailCustomer == null)
+			return false;
 
-        return givenRole.equals(role);
-    }
+		String role = retailCustomer.getRole();
+
+		return givenRole.equals(role);
+	}
 }

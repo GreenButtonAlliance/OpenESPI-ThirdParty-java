@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,21 +30,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(Routes.THIRD_PARTY_BATCH_LIST)
 public class BatchListController {
 
-    @Autowired
-    private BatchListService batchListService;
+	@Autowired
+	private BatchListService batchListService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String index(ModelMap model) throws IOException {
-        model.put("batchLists", batchListService.findAll());
+	@RequestMapping(method = RequestMethod.GET)
+	public String index(ModelMap model) throws IOException {
+		model.put("batchLists", batchListService.findAll());
 
-        return "tools/batchLists";
-    }
+		return "tools/batchLists";
+	}
 
-    public void setBatchListService(BatchListService batchListService) {
-        this.batchListService = batchListService;
-    }
-    
-    public BatchListService getBatchListService() {
-        return this.batchListService;
-    }
+	public void setBatchListService(BatchListService batchListService) {
+		this.batchListService = batchListService;
+	}
+
+	public BatchListService getBatchListService() {
+		return this.batchListService;
+	}
 }

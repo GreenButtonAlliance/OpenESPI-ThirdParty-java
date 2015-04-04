@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -37,58 +37,63 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ContextConfiguration("/spring/test-context.xml")
 public class HomeControllerTests {
 
-    @Autowired
-    protected HomeController controller;
-    private RetailCustomer customer;
-    private Authentication principal;
+	@Autowired
+	protected HomeController controller;
+	private RetailCustomer customer;
+	private Authentication principal;
 
-    @Before
-    public void setup() {
-        customer = new RetailCustomer();
-        customer.setId(99L);
+	@Before
+	public void setup() {
+		customer = new RetailCustomer();
+		customer.setId(99L);
 
-        principal = mock(Authentication.class);
-        when(principal.getPrincipal()).thenReturn(customer);
-    }
+		principal = mock(Authentication.class);
+		when(principal.getPrincipal()).thenReturn(customer);
+	}
 
-    @Test
-    public void index_whenNotLoggedIn_displaysHomeView() throws Exception {
-        assertEquals("home", controller.index(null));
-    }
+	@Test
+	public void index_whenNotLoggedIn_displaysHomeView() throws Exception {
+		assertEquals("home", controller.index(null));
+	}
 
-    @Test
-    public void index_whenLoggedIn_redirectsToRetailCustomHome() throws Exception {
-        customer.setRole(RetailCustomer.ROLE_USER);
+	@Test
+	public void index_whenLoggedIn_redirectsToRetailCustomHome()
+			throws Exception {
+		customer.setRole(RetailCustomer.ROLE_USER);
 
-        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.index(principal));
-    }
+		assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home",
+				controller.index(principal));
+	}
 
-    @Test
-    public void home_whenNotLoggedIn_displaysHomeView() throws Exception {
-        assertEquals("home", controller.home(null));
-    }
+	@Test
+	public void home_whenNotLoggedIn_displaysHomeView() throws Exception {
+		assertEquals("home", controller.home(null));
+	}
 
-    @Test
-    public void home_whenLoggedInAsCustomer_redirectsToRetailCustomerHome() throws Exception {
-        customer.setRole(RetailCustomer.ROLE_USER);
+	@Test
+	public void home_whenLoggedInAsCustomer_redirectsToRetailCustomerHome()
+			throws Exception {
+		customer.setRole(RetailCustomer.ROLE_USER);
 
-        assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home", controller.home(principal));
-    }
+		assertEquals("redirect:/RetailCustomer/" + customer.getId() + "/home",
+				controller.home(principal));
+	}
 
-    @Test
-    public void home_whenLoggedInAsCustodian_redirectsToCustodianHome() throws Exception {
-        customer.setRole(RetailCustomer.ROLE_CUSTODIAN);
+	@Test
+	public void home_whenLoggedInAsCustodian_redirectsToCustodianHome()
+			throws Exception {
+		customer.setRole(RetailCustomer.ROLE_CUSTODIAN);
 
-        assertThat(controller.home(principal), is("redirect:/custodian/home"));
-    }
+		assertThat(controller.home(principal), is("redirect:/custodian/home"));
+	}
 
-    @Test
-    public void termsOfService_displaysTermsOfServiceView() {
-        assertEquals("/TermsOfService", controller.termsOfService());
-    }
+	@Test
+	public void termsOfService_displaysTermsOfServiceView() {
+		assertEquals("/TermsOfService", controller.termsOfService());
+	}
 
-    @Test
-    public void usagePolicy_displaysUsagePolicyView() {
-        assertEquals("/UsagePolicy", controller.usagePolicy());
-    }
+	@Test
+	public void usagePolicy_displaysUsagePolicyView() {
+		assertEquals("/UsagePolicy", controller.usagePolicy());
+	}
 }

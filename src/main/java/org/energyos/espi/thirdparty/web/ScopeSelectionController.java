@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -44,103 +44,123 @@ import org.springframework.web.bind.annotation.RequestParam;
 @PreAuthorize("hasRole('ROLE_USER')")
 public class ScopeSelectionController extends BaseController {
 
-    @Autowired
-    private ApplicationInformationService applicationInformationService;
+	@Autowired
+	private ApplicationInformationService applicationInformationService;
 
-    @Autowired
-    private AuthorizationService authorizationService;
+	@Autowired
+	private AuthorizationService authorizationService;
 
-    @Autowired
-    @Qualifier("stateService")
-    private StateService stateService;
+	@Autowired
+	@Qualifier("stateService")
+	private StateService stateService;
 
-    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
-    public String scopeSelection(@RequestParam("scope") String [] scopes, ModelMap model) throws JAXBException {
-        model.put("scopeList", Arrays.asList(scopes));
+	@RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
+	public String scopeSelection(@RequestParam("scope") String[] scopes,
+			ModelMap model) throws JAXBException {
+		model.put("scopeList", Arrays.asList(scopes));
 
-        return "/RetailCustomer/ScopeSelection";
-    }
+		return "/RetailCustomer/ScopeSelection";
+	}
 
-    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
-    public String scopeSelection(@RequestParam("Data_custodian") String dataCustodianId, @RequestParam("Data_custodian_URL") String dataCustodianURL) throws JAXBException {
-        ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
-        return "redirect:" + dataCustodianURL + "?" + newScopeParams(applicationInformation.getScope()) + "&ThirdPartyID=" + applicationInformation.getClientId();
-    }
+	@RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN_WITH_RETAIL_CUSTOMER_ID, method = RequestMethod.POST)
+	public String scopeSelection(
+			@RequestParam("Data_custodian") String dataCustodianId,
+			@RequestParam("Data_custodian_URL") String dataCustodianURL)
+			throws JAXBException {
+		ApplicationInformation applicationInformation = applicationInformationService
+				.findByDataCustodianClientId(dataCustodianId);
+		return "redirect:" + dataCustodianURL + "?"
+				+ newScopeParams(applicationInformation.getScope())
+				+ "&ThirdPartyID=" + applicationInformation.getClientId();
+	}
 
-    @RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
-    public String scopeAuthorization(@RequestParam("scope") String scope, @RequestParam("DataCustodianID") String dataCustodianId, Principal principal) throws JAXBException {
-        ApplicationInformation applicationInformation = applicationInformationService.findByDataCustodianClientId(dataCustodianId);
+	@RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.POST)
+	public String scopeAuthorization(@RequestParam("scope") String scope,
+			@RequestParam("DataCustodianID") String dataCustodianId,
+			Principal principal) throws JAXBException {
+		ApplicationInformation applicationInformation = applicationInformationService
+				.findByDataCustodianClientId(dataCustodianId);
 
-        try {        	
-        	// Does an ACTIVE authorization record exist for the requested Scope
-        	Authorization currentAuthorization = authorizationService.findByScope(scope, currentCustomer(principal).getId());
-        	
-        	// Is this a valid authorization record?
-        	if(currentAuthorization.getStatus() == null) {
-        		
-        		// Delete the invalid record and continue request
-        		authorizationService.delete(currentAuthorization);
-        		throw new NoResultException();        		
-        		} 
-        	
-        	else {
-        		
-        		// Is the existing authorization record Active
-        		if(!currentAuthorization.getStatus().equals("1")) {
-        			
-        			// No, create a new authorization record entry
-        			throw new NoResultException ();        			
-        		}
-        	}
-        	
-        } catch (NoResultException | EmptyResultDataAccessException  e) {
-        
-        	// No authorization record exist for the requested Scope
-        	Authorization authorization = new Authorization();
+		try {
+			// Does an ACTIVE authorization record exist for the requested Scope
+			Authorization currentAuthorization = authorizationService
+					.findByScope(scope, currentCustomer(principal).getId());
 
-        	// Initialize authorization record content
-        	authorization.setApplicationInformation(applicationInformation);
-        	authorization.setThirdParty(applicationInformation.getClientId());
-        	authorization.setRetailCustomer(currentCustomer(principal));
-        	authorization.setState(stateService.newState());
-        	authorization.setUUID(UUID.randomUUID());
-        	authorization.setResponseType("code");
-        	authorization.setScope(scope);
-        	authorizationService.persist(authorization);
+			// Is this a valid authorization record?
+			if (currentAuthorization.getStatus() == null) {
 
-        	return "redirect:" + applicationInformation.getAuthorizationServerAuthorizationEndpoint() +
-        			"?client_id=" + applicationInformation.getClientId() +
-        			"&redirect_uri=" + applicationInformation.getRedirectUri() +
-        			"&response_type=code&scope=" + scope + "&state=" + authorization.getState();
-        }
-        
-        //TODO: If an Oauth access token already exists, do we want to display the "UsagePoint" screen?
-        // Display the Authorization List screen if an OAuth access token already exist       
-        return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/AuthorizationList";        
+				// Delete the invalid record and continue request
+				authorizationService.delete(currentAuthorization);
+				throw new NoResultException();
+			}
 
-    }
+			else {
 
-    public void setAuthorizationService(AuthorizationService authorizationService) {
-        this.authorizationService = authorizationService;
-    }
+				// Is the existing authorization record Active
+				if (!currentAuthorization.getStatus().equals("1")) {
 
-    public void setStateService(StateService stateService) {
-        this.stateService = stateService;
-    }
+					// No, create a new authorization record entry
+					throw new NoResultException();
+				}
+			}
 
-    public void setApplicationInformationService(ApplicationInformationService applicationInformationService) {
-        this.applicationInformationService = applicationInformationService;
-    }
+		} catch (NoResultException | EmptyResultDataAccessException e) {
 
-    public static String newScopeParams(Set<String> scopes) {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for(String scope : scopes) {
-            if(i > 0)
-                sb.append("&");
-            sb.append("scope=" + scope);
-            i++;
-        }
-        return sb.toString();
-    }
+			// No authorization record exist for the requested Scope
+			Authorization authorization = new Authorization();
+
+			// Initialize authorization record content
+			authorization.setApplicationInformation(applicationInformation);
+			authorization.setThirdParty(applicationInformation.getClientId());
+			authorization.setRetailCustomer(currentCustomer(principal));
+			authorization.setState(stateService.newState());
+			authorization.setUUID(UUID.randomUUID());
+			authorization.setResponseType("code");
+			authorization.setScope(scope);
+			authorizationService.persist(authorization);
+
+			return "redirect:"
+					+ applicationInformation
+							.getAuthorizationServerAuthorizationEndpoint()
+					+ "?client_id=" + applicationInformation.getClientId()
+					+ "&redirect_uri="
+					+ applicationInformation.getRedirectUri()
+					+ "&response_type=code&scope=" + scope + "&state="
+					+ authorization.getState();
+		}
+
+		// TODO: If an Oauth access token already exists, do we want to display
+		// the "UsagePoint" screen?
+		// Display the Authorization List screen if an OAuth access token
+		// already exist
+		return "redirect:/RetailCustomer/" + currentCustomer(principal).getId()
+				+ "/AuthorizationList";
+
+	}
+
+	public void setAuthorizationService(
+			AuthorizationService authorizationService) {
+		this.authorizationService = authorizationService;
+	}
+
+	public void setStateService(StateService stateService) {
+		this.stateService = stateService;
+	}
+
+	public void setApplicationInformationService(
+			ApplicationInformationService applicationInformationService) {
+		this.applicationInformationService = applicationInformationService;
+	}
+
+	public static String newScopeParams(Set<String> scopes) {
+		StringBuilder sb = new StringBuilder();
+		int i = 0;
+		for (String scope : scopes) {
+			if (i > 0)
+				sb.append("&");
+			sb.append("scope=" + scope);
+			i++;
+		}
+		return sb.toString();
+	}
 }

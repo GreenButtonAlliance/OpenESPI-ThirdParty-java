@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -26,30 +26,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController extends BaseController {
 
-    @RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
-    public String index(Principal principal) {
-        if (isUserCustodian(principal)) {
-            return "redirect:/custodian/home";
-        } else if (isUserUserRole(principal)) {
-            return "redirect:/RetailCustomer/" + currentCustomer(principal).getId() + "/home";
-        }
+	@RequestMapping(value = Routes.ROOT, method = RequestMethod.GET)
+	public String index(Principal principal) {
+		if (isUserCustodian(principal)) {
+			return "redirect:/custodian/home";
+		} else if (isUserUserRole(principal)) {
+			return "redirect:/RetailCustomer/"
+					+ currentCustomer(principal).getId() + "/home";
+		}
 
-        return "home";
-    }
+		return "home";
+	}
 
-    @RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
-    public String home(Principal principal) {
-        return index(principal);
-    }
+	@RequestMapping(value = Routes.HOME, method = RequestMethod.GET)
+	public String home(Principal principal) {
+		return index(principal);
+	}
 
-    @RequestMapping(value = Routes.TERMS_OF_SERVICE, method = RequestMethod.GET)
-    public String termsOfService() {
-        return "/TermsOfService";
-    }
+	@RequestMapping(value = Routes.TERMS_OF_SERVICE, method = RequestMethod.GET)
+	public String termsOfService() {
+		return "/TermsOfService";
+	}
 
-    @RequestMapping(value = Routes.USAGE_POLICY, method = RequestMethod.GET)
-    public String usagePolicy() {
-        return "/UsagePolicy";
-    }
+	@RequestMapping(value = Routes.USAGE_POLICY, method = RequestMethod.GET)
+	public String usagePolicy() {
+		return "/UsagePolicy";
+	}
 
 }

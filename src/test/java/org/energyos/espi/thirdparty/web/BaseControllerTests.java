@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -30,51 +30,51 @@ import org.springframework.security.core.Authentication;
 
 public class BaseControllerTests {
 
-    private RetailCustomer retailCustomer;
-    private Authentication principal;
-    private BaseController controller;
+	private RetailCustomer retailCustomer;
+	private Authentication principal;
+	private BaseController controller;
 
-    @Before
-    public void setUp() throws Exception {
-        retailCustomer = new RetailCustomer();
-        principal = mock(Authentication.class);
-        when(principal.getPrincipal()).thenReturn(retailCustomer);
+	@Before
+	public void setUp() throws Exception {
+		retailCustomer = new RetailCustomer();
+		principal = mock(Authentication.class);
+		when(principal.getPrincipal()).thenReturn(retailCustomer);
 
-        controller = new BaseController();
-    }
+		controller = new BaseController();
+	}
 
-    @Test
-    public void currentCustomer() throws Exception {
-        assertEquals(retailCustomer, controller.currentCustomer(principal));
-    }
+	@Test
+	public void currentCustomer() throws Exception {
+		assertEquals(retailCustomer, controller.currentCustomer(principal));
+	}
 
-    @Test
-    public void currentCustomer_withoutAPrincipal() throws Exception {
-        assertThat(controller.currentCustomer(null), is(nullValue()));
-    }
+	@Test
+	public void currentCustomer_withoutAPrincipal() throws Exception {
+		assertThat(controller.currentCustomer(null), is(nullValue()));
+	}
 
-    @Test
-    public void isUserCustodian() {
-        retailCustomer.setRole(RetailCustomer.ROLE_CUSTODIAN);
+	@Test
+	public void isUserCustodian() {
+		retailCustomer.setRole(RetailCustomer.ROLE_CUSTODIAN);
 
-        assertThat(controller.isUserCustodian(principal), is(true));
-    }
+		assertThat(controller.isUserCustodian(principal), is(true));
+	}
 
-    @Test
-    public void isUserCustodian_withDefaultRole() {
-        assertThat(controller.isUserCustodian(principal), is(false));
-        assertThat(controller.isUserUserRole(principal), is(true));
-    }
+	@Test
+	public void isUserCustodian_withDefaultRole() {
+		assertThat(controller.isUserCustodian(principal), is(false));
+		assertThat(controller.isUserUserRole(principal), is(true));
+	}
 
-    @Test
-    public void isUserUserRole() {
-        retailCustomer.setRole(RetailCustomer.ROLE_USER);
+	@Test
+	public void isUserUserRole() {
+		retailCustomer.setRole(RetailCustomer.ROLE_USER);
 
-        assertThat(controller.isUserUserRole(principal), is(true));
-    }
+		assertThat(controller.isUserUserRole(principal), is(true));
+	}
 
-    @Test
-    public void isUserUserRole_givenNullPrincipal() {
-        assertThat(controller.isUserUserRole(null), is(false));
-    }
+	@Test
+	public void isUserUserRole_givenNullPrincipal() {
+		assertThat(controller.isUserUserRole(null), is(false));
+	}
 }

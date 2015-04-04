@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,16 +24,16 @@ import org.energyos.espi.common.test.EspiFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SeedDataGenerator {
-    @Autowired
-    UsagePointRepository usagePointRepository;
-    @Autowired
-    RetailCustomerRepository retailCustomerRepository;
+	@Autowired
+	UsagePointRepository usagePointRepository;
+	@Autowired
+	RetailCustomerRepository retailCustomerRepository;
 
-    public void init() throws Exception {
-        RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
-        retailCustomerRepository.persist(retailCustomer);
+	public void init() throws Exception {
+		RetailCustomer retailCustomer = EspiFactory.newRetailCustomer();
+		retailCustomerRepository.persist(retailCustomer);
 
-        UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
-        usagePointRepository.persist(usagePoint);
-    }
+		UsagePoint usagePoint = EspiFactory.newUsagePoint(retailCustomer);
+		usagePointRepository.persist(usagePoint);
+	}
 }

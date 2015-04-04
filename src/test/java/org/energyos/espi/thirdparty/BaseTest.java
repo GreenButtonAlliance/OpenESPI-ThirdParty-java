@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@ import org.junit.Before;
 import org.mockito.MockitoAnnotations;
 
 public class BaseTest {
-    @Before
-    public void initMocks() {
-        MockitoAnnotations.initMocks(this);
-    }
+	@Before
+	public void initMocks() {
+		MockitoAnnotations.initMocks(this);
+	}
 }

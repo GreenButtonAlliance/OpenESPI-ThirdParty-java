@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -27,34 +27,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ResourceRESTServiceImpl implements ResourceRESTService {
-    @Autowired
-    private ResourceRESTRepository resourceRESTRepository;
+	@Autowired
+	private ResourceRESTRepository resourceRESTRepository;
 
-    @Autowired
-    private ResourceRepository resourceRepository;
+	@Autowired
+	private ResourceRepository resourceRepository;
 
-    public IdentifiedObject get(Authorization authorization, String uri) {
-        return resourceRESTRepository.get(authorization, uri);
-    }
+	public IdentifiedObject get(Authorization authorization, String uri) {
+		return resourceRESTRepository.get(authorization, uri);
+	}
 
-    @Override
-    public void update(UsagePoint resource) {
-        resourceRepository.update(resource);
-    }
+	@Override
+	public void update(UsagePoint resource) {
+		resourceRepository.update(resource);
+	}
 
-    public void setResourceRESTRepository(ResourceRESTRepository resourceRESTRepository) {
-        this.resourceRESTRepository = resourceRESTRepository;
-    }
+	public void setResourceRESTRepository(
+			ResourceRESTRepository resourceRESTRepository) {
+		this.resourceRESTRepository = resourceRESTRepository;
+	}
 
-    public void setResourceRepository(ResourceRepository resourceRepository) {
-        this.resourceRepository = resourceRepository;
-    }
-    
-    public ResourceRESTRepository getResourceRESTRepository() {
-        return this.resourceRESTRepository;
-    }
+	public void setResourceRepository(ResourceRepository resourceRepository) {
+		this.resourceRepository = resourceRepository;
+	}
 
-    public ResourceRepository getResourceRepository() {
-        return this.resourceRepository;
-    }
+	public ResourceRESTRepository getResourceRESTRepository() {
+		return this.resourceRESTRepository;
+	}
+
+	public ResourceRepository getResourceRepository() {
+		return this.resourceRepository;
+	}
 }

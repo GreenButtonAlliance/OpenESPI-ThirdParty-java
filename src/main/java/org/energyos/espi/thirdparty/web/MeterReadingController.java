@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import org.energyos.espi.common.domain.IntervalReading;
 import org.energyos.espi.common.domain.MeterReading;
 import org.energyos.espi.common.domain.Routes;
 import org.energyos.espi.common.service.MeterReadingService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,51 +35,56 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping()
 public class MeterReadingController extends BaseController {
 
-    @Autowired
-    protected MeterReadingService meterReadingService;
-    
-    @Transactional (readOnly = true)
-    @RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
-    public String show(@PathVariable Long retailCustomerId, @PathVariable Long usagePointId, @PathVariable Long meterReadingId, ModelMap model) {
-    	// TODO need to walk the subtree to force the load (for now)
-    	MeterReading mr = meterReadingService.findById(retailCustomerId, usagePointId, meterReadingId);
-        MeterReading newMeterReading = new MeterReading();
-        newMeterReading.merge(mr);
-        Iterator <IntervalBlock> it = newMeterReading.getIntervalBlocks().iterator();
-        while (it.hasNext()) {
-        	IntervalBlock temp = it.next();
-            Iterator <IntervalReading> it1 = temp.getIntervalReadings().iterator();
-            while (it1.hasNext()) {
-            	IntervalReading temp1 = it1.next();
-            	temp1.getCost();
-            }
-        	
-        }
-        model.put("meterReading", newMeterReading);
-        return "/customer/meterreadings/show";
-    }
+	@Autowired
+	protected MeterReadingService meterReadingService;
 
-    public void setMeterReadingService(MeterReadingService service) {
-        this.meterReadingService = service;
-    }
+	@Transactional(readOnly = true)
+	@RequestMapping(value = Routes.METER_READINGS_SHOW, method = RequestMethod.GET)
+	public String show(@PathVariable Long retailCustomerId,
+			@PathVariable Long usagePointId, @PathVariable Long meterReadingId,
+			ModelMap model) {
+		// TODO need to walk the subtree to force the load (for now)
+		MeterReading mr = meterReadingService.findById(retailCustomerId,
+				usagePointId, meterReadingId);
+		MeterReading newMeterReading = new MeterReading();
+		newMeterReading.merge(mr);
+		Iterator<IntervalBlock> it = newMeterReading.getIntervalBlocks()
+				.iterator();
+		while (it.hasNext()) {
+			IntervalBlock temp = it.next();
+			Iterator<IntervalReading> it1 = temp.getIntervalReadings()
+					.iterator();
+			while (it1.hasNext()) {
+				IntervalReading temp1 = it1.next();
+				temp1.getCost();
+			}
+
+		}
+		model.put("meterReading", newMeterReading);
+		return "/customer/meterreadings/show";
+	}
+
+	public void setMeterReadingService(MeterReadingService service) {
+		this.meterReadingService = service;
+	}
 }
 
 /*
-@Controller
-@PreAuthorize("hasRole('ROLE_USER')")
-public class MeterReadingController extends BaseController {
-    @Autowired
-    private MeterReadingRESTService meterReadingService;
-
-    @RequestMapping(value = Routes.THIRD_PARTY_METER_READINGS_SHOW, method = RequestMethod, produces = "application/atom+xml") @ResponseBody
-    public String show(@PathVariable String meterReadingId, ModelMap model, Principal principal) throws JAXBException {
-        RetailCustomer currentCustomer = currentCustomer(principal);
-        model.put("meterReading", meterReadingService.findByUUID(currentCustomer.getId(), UUID.fromString(meterReadingId)));
-        return "/meterreadings/show";
-    }
-
-    public void setMeterReadingService(MeterReadingRESTService meterReadingService) {
-        this.meterReadingService = meterReadingService;
-    }
-}
-*/
+ * @Controller
+ * 
+ * @PreAuthorize("hasRole('ROLE_USER')") public class MeterReadingController
+ * extends BaseController {
+ * 
+ * @Autowired private MeterReadingRESTService meterReadingService;
+ * 
+ * @RequestMapping(value = Routes.THIRD_PARTY_METER_READINGS_SHOW, method =
+ * RequestMethod, produces = "application/atom+xml") @ResponseBody public String
+ * show(@PathVariable String meterReadingId, ModelMap model, Principal
+ * principal) throws JAXBException { RetailCustomer currentCustomer =
+ * currentCustomer(principal); model.put("meterReading",
+ * meterReadingService.findByUUID(currentCustomer.getId(),
+ * UUID.fromString(meterReadingId))); return "/meterreadings/show"; }
+ * 
+ * public void setMeterReadingService(MeterReadingRESTService
+ * meterReadingService) { this.meterReadingService = meterReadingService; } }
+ */

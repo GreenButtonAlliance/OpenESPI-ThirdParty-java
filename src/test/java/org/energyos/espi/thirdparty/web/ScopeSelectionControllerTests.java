@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,81 +42,115 @@ import org.springframework.ui.ModelMap;
 
 public class ScopeSelectionControllerTests extends BaseTest {
 
-    private ScopeSelectionController controller;
-    @Mock private ApplicationInformationService applicationInformationService;
-    @Mock private AuthorizationService authorizationService;
-    @Mock private StateService stateService;
+	private ScopeSelectionController controller;
+	@Mock
+	private ApplicationInformationService applicationInformationService;
+	@Mock
+	private AuthorizationService authorizationService;
+	@Mock
+	private StateService stateService;
 
-    @Before
-    public void before() {
-        controller = new ScopeSelectionController();
-        controller.setApplicationInformationService(applicationInformationService);
-        controller.setAuthorizationService(authorizationService);
-        controller.setStateService(stateService);
-    }
+	@Before
+	public void before() {
+		controller = new ScopeSelectionController();
+		controller
+				.setApplicationInformationService(applicationInformationService);
+		controller.setAuthorizationService(authorizationService);
+		controller.setStateService(stateService);
+	}
 
-    @Test
-    public void post_scopeSelection_redirects() throws Exception {
-        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
-        when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
-
-        String redirectURL = controller.scopeSelection(applicationInformation.getDataCustodianId(), applicationInformation.getThirdPartyScopeSelectionScreenURI());
-
-        assertEquals(String.format("redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s", applicationInformation.getThirdPartyScopeSelectionScreenURI(),
-                applicationInformation.getScopeArray()[0], applicationInformation.getScopeArray()[1],
-                applicationInformation.getClientId()), redirectURL);
-    }
-
-    @Test
-    public void get_scopeSelection_displaysScopeSelectionView() throws Exception {
-        ScopeSelectionController controller = new ScopeSelectionController();
-
-        assertEquals("/RetailCustomer/ScopeSelection", controller.scopeSelection(new String [] {}, new ModelMap()));
-    }
-
-    @SuppressWarnings("unchecked")
 	@Test
-    public void get_scopeSelection_setsScopeListModel() throws Exception {
-        ModelMap model = new ModelMap();
+	public void post_scopeSelection_redirects() throws Exception {
+		ApplicationInformation applicationInformation = EspiFactory
+				.newApplicationInformation();
+		when(
+				applicationInformationService
+						.findByDataCustodianClientId(eq(applicationInformation
+								.getDataCustodianId()))).thenReturn(
+				applicationInformation);
 
-        controller.scopeSelection(new String [] {"scope1", "scope2"}, model);
+		String redirectURL = controller.scopeSelection(
+				applicationInformation.getDataCustodianId(),
+				applicationInformation.getThirdPartyScopeSelectionScreenURI());
 
-        assertTrue(((List<String>)model.get("scopeList")).size() > 0);
-    }
+		assertEquals(String.format(
+				"redirect:%s?scope=%s&scope=%s&ThirdPartyID=%s",
+				applicationInformation.getThirdPartyScopeSelectionScreenURI(),
+				applicationInformation.getScopeArray()[0],
+				applicationInformation.getScopeArray()[1],
+				applicationInformation.getClientId()), redirectURL);
+	}
 
-    @Test
-    @Ignore
-    public void post_scopeAuthorization_redirects() throws Exception {
-        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
-        when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
+	@Test
+	public void get_scopeSelection_displaysScopeSelectionView()
+			throws Exception {
+		ScopeSelectionController controller = new ScopeSelectionController();
 
-        String expectedRedirectURL = String.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
-                applicationInformation.getAuthorizationServerAuthorizationEndpoint(),
-                applicationInformation.getClientId(),
-                applicationInformation.getRedirectUri(),
-                "code",
-                applicationInformation.getScopeArray()[0]);
+		assertEquals("/RetailCustomer/ScopeSelection",
+				controller.scopeSelection(new String[] {}, new ModelMap()));
+	}
 
-        Authentication principal = mock(Authentication.class);
-        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+	@SuppressWarnings("unchecked")
+	@Test
+	public void get_scopeSelection_setsScopeListModel() throws Exception {
+		ModelMap model = new ModelMap();
 
-        assertTrue(controller.scopeAuthorization(applicationInformation.getScopeArray()[0], applicationInformation.getDataCustodianId(), principal).startsWith(expectedRedirectURL));
-    }
+		controller.scopeSelection(new String[] { "scope1", "scope2" }, model);
 
-    @Test
-    @Ignore
-    public void post_scopeAuthorization_createsAuthorization() throws Exception {
-        ApplicationInformation applicationInformation = EspiFactory.newApplicationInformation();
-        when(applicationInformationService.findByDataCustodianClientId(eq(applicationInformation.getDataCustodianId()))).thenReturn(applicationInformation);
+		assertTrue(((List<String>) model.get("scopeList")).size() > 0);
+	}
 
-        AuthorizationService authorizationService = mock(AuthorizationService.class);
-        controller.setAuthorizationService(authorizationService);
+	@Test
+	@Ignore
+	public void post_scopeAuthorization_redirects() throws Exception {
+		ApplicationInformation applicationInformation = EspiFactory
+				.newApplicationInformation();
+		when(
+				applicationInformationService
+						.findByDataCustodianClientId(eq(applicationInformation
+								.getDataCustodianId()))).thenReturn(
+				applicationInformation);
 
-        Authentication principal = mock(Authentication.class);
-        when(principal.getPrincipal()).thenReturn(EspiFactory.newRetailCustomer());
+		String expectedRedirectURL = String
+				.format("redirect:%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=%s&state=",
+						applicationInformation
+								.getAuthorizationServerAuthorizationEndpoint(),
+						applicationInformation.getClientId(),
+						applicationInformation.getRedirectUri(), "code",
+						applicationInformation.getScopeArray()[0]);
 
-        controller.scopeAuthorization(applicationInformation.getScopeArray()[0], applicationInformation.getDataCustodianId(), principal);
+		Authentication principal = mock(Authentication.class);
+		when(principal.getPrincipal()).thenReturn(
+				EspiFactory.newRetailCustomer());
 
-        verify(authorizationService).persist(any(Authorization.class));
-    }
+		assertTrue(controller.scopeAuthorization(
+				applicationInformation.getScopeArray()[0],
+				applicationInformation.getDataCustodianId(), principal)
+				.startsWith(expectedRedirectURL));
+	}
+
+	@Test
+	@Ignore
+	public void post_scopeAuthorization_createsAuthorization() throws Exception {
+		ApplicationInformation applicationInformation = EspiFactory
+				.newApplicationInformation();
+		when(
+				applicationInformationService
+						.findByDataCustodianClientId(eq(applicationInformation
+								.getDataCustodianId()))).thenReturn(
+				applicationInformation);
+
+		AuthorizationService authorizationService = mock(AuthorizationService.class);
+		controller.setAuthorizationService(authorizationService);
+
+		Authentication principal = mock(Authentication.class);
+		when(principal.getPrincipal()).thenReturn(
+				EspiFactory.newRetailCustomer());
+
+		controller.scopeAuthorization(
+				applicationInformation.getScopeArray()[0],
+				applicationInformation.getDataCustodianId(), principal);
+
+		verify(authorizationService).persist(any(Authorization.class));
+	}
 }

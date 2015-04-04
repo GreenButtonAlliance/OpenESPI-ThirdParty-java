@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@ import javax.xml.bind.JAXBException;
 
 import org.energyos.espi.common.domain.ApplicationInformation;
 import org.energyos.espi.common.domain.Routes;
-import org.energyos.espi.common.service.ApplicationInformationService;
 import org.energyos.espi.common.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,28 +33,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_USER')")
-public class DataCustodianListController extends BaseController  {
+public class DataCustodianListController extends BaseController {
 
-    @Autowired
-    private ResourceService resourceService;
+	@Autowired
+	private ResourceService resourceService;
 
-    @RequestMapping(value = Routes.THIRD_PARTY_DATA_CUSTODIAN_LIST, method = RequestMethod.GET)
-    public String index(ModelMap model) throws JAXBException {
-    	List<Long> allIds = resourceService.findAllIds(ApplicationInformation.class);
-    	List<ApplicationInformation> applicationInformations = new ArrayList<ApplicationInformation> ();
-    	for (Long id : allIds) {
-    		applicationInformations.add(resourceService.findById(id,  ApplicationInformation.class));
-    	}
-        model.put("applicationInformationList", applicationInformations);
-        return "/RetailCustomer/DataCustodianList/index";
-    }
+	@RequestMapping(value = Routes.THIRD_PARTY_DATA_CUSTODIAN_LIST, method = RequestMethod.GET)
+	public String index(ModelMap model) throws JAXBException {
+		List<Long> allIds = resourceService
+				.findAllIds(ApplicationInformation.class);
+		List<ApplicationInformation> applicationInformations = new ArrayList<ApplicationInformation>();
+		for (Long id : allIds) {
+			applicationInformations.add(resourceService.findById(id,
+					ApplicationInformation.class));
+		}
+		model.put("applicationInformationList", applicationInformations);
+		return "/RetailCustomer/DataCustodianList/index";
+	}
 
-    public void setApplicationInformationService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-    }
-    
-    public ResourceService getApplicationInformationService() {
-       return this.resourceService;
-    }
-    
+	public void setApplicationInformationService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getApplicationInformationService() {
+		return this.resourceService;
+	}
+
 }

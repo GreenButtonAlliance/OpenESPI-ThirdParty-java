@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -33,63 +33,68 @@ import org.energyos.espi.common.service.impl.ResourceServiceImpl;
 import org.energyos.espi.common.service.impl.UsagePointServiceImpl;
 import org.energyos.espi.common.test.EspiFactory;
 import org.energyos.espi.thirdparty.utils.factories.Factory;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
 
 public class UsagePointControllerTests {
 
-    private UsagePointController controller;
-    private UsagePointService service;
-    private ResourceServiceImpl resourceService;
-    private Authentication authentication;
-    private RetailCustomer retailCustomer;
-    
-    @Before
-    public void setup() {
-        controller = new UsagePointController();
-        service = mock(UsagePointServiceImpl.class);
-        resourceService = mock(ResourceServiceImpl.class);
-        controller.setResourceService(resourceService);
-        authentication = mock(Authentication.class);
-        retailCustomer = EspiFactory.newRetailCustomer();
-        when(authentication.getPrincipal()).thenReturn(retailCustomer);
-    }
+	private UsagePointController controller;
+	private UsagePointService service;
+	private ResourceServiceImpl resourceService;
+	private Authentication authentication;
+	private RetailCustomer retailCustomer;
 
-    @Test
-    @Ignore
-    public void index_displaysIndexView() throws Exception {
-        when(resourceService.findAllIds(UsagePoint.class)).thenReturn(new ArrayList<Long>());
-        assertEquals("/usagepoints/index", controller.index(mock(ModelMap.class), authentication));
-    }
+	@Before
+	public void setup() {
+		controller = new UsagePointController();
+		service = mock(UsagePointServiceImpl.class);
+		resourceService = mock(ResourceServiceImpl.class);
+		controller.setResourceService(resourceService);
+		authentication = mock(Authentication.class);
+		retailCustomer = EspiFactory.newRetailCustomer();
+		when(authentication.getPrincipal()).thenReturn(retailCustomer);
+	}
 
-    @Test
-    @Ignore
-    public void index_findsUsagePointsForLoggedInCustomer() throws JAXBException {
-        controller.index(mock(ModelMap.class), authentication);
-        verify(resourceService).findAllIdsByXPath(1L, UsagePoint.class).equals(null);
-        
-    }
+	@Test
+	@Ignore
+	public void index_displaysIndexView() throws Exception {
+		when(resourceService.findAllIds(UsagePoint.class)).thenReturn(
+				new ArrayList<Long>());
+		assertEquals("/usagepoints/index",
+				controller.index(mock(ModelMap.class), authentication));
+	}
 
-    @Test
-    @Ignore
-    public void show_displaysShowView() throws Exception {
-        when(resourceService.findById(anyLong(), UsagePoint.class)).thenReturn(EspiFactory.newUsagePoint());
-        assertEquals("/usagepoints/show", controller.show(1L, 1L, mock(ModelMap.class)));
-    }
+	@Test
+	@Ignore
+	public void index_findsUsagePointsForLoggedInCustomer()
+			throws JAXBException {
+		controller.index(mock(ModelMap.class), authentication);
+		verify(resourceService).findAllIdsByXPath(1L, UsagePoint.class).equals(
+				null);
 
-    @Test
-    @Ignore
-    public void show_findsTheUsagePointByUUID() throws Exception {
-        UsagePoint usagePoint = Factory.newUsagePoint();
-        String hashedId = "hashedId";
-        when(service.findByHashedId(hashedId)).thenReturn(usagePoint);
+	}
 
-        controller.show(1L, 1L, mock(ModelMap.class));
-        verify(resourceService).findById(retailCustomer.getId(), UsagePoint.class);
-    }
+	@Test
+	@Ignore
+	public void show_displaysShowView() throws Exception {
+		when(resourceService.findById(anyLong(), UsagePoint.class)).thenReturn(
+				EspiFactory.newUsagePoint());
+		assertEquals("/usagepoints/show",
+				controller.show(1L, 1L, mock(ModelMap.class)));
+	}
+
+	@Test
+	@Ignore
+	public void show_findsTheUsagePointByUUID() throws Exception {
+		UsagePoint usagePoint = Factory.newUsagePoint();
+		String hashedId = "hashedId";
+		when(service.findByHashedId(hashedId)).thenReturn(usagePoint);
+
+		controller.show(1L, 1L, mock(ModelMap.class));
+		verify(resourceService).findById(retailCustomer.getId(),
+				UsagePoint.class);
+	}
 }

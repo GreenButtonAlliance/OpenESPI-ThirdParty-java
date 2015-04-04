@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,42 +29,50 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MeterReadingRESTRepositoryImpl implements MeterReadingRESTRepository {
+public class MeterReadingRESTRepositoryImpl implements
+		MeterReadingRESTRepository {
 
-    @Autowired
-    private UsagePointRESTRepository usagePointRESTRepository;
+	@Autowired
+	private UsagePointRESTRepository usagePointRESTRepository;
 
-    public void setUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
-        this.usagePointRESTRepository = usagePointRESTRepository;
-    }
+	public void setUsagePointRESTRepository(
+			UsagePointRESTRepository usagePointRESTRepository) {
+		this.usagePointRESTRepository = usagePointRESTRepository;
+	}
 
-    public UsagePointRESTRepository getUsagePointRESTRepository(UsagePointRESTRepository usagePointRESTRepository) {
-        return this.usagePointRESTRepository;
-    }
-    
-    @Override
-    public MeterReading findByUUID(Long retailCustomerId, UUID uuid) throws JAXBException {
-        List<UsagePoint> usagePointList = usagePointRESTRepository.findAllByRetailCustomerId(retailCustomerId);
+	public UsagePointRESTRepository getUsagePointRESTRepository(
+			UsagePointRESTRepository usagePointRESTRepository) {
+		return this.usagePointRESTRepository;
+	}
 
-        return findMeterReading(usagePointList, uuid);
-    }
+	@Override
+	public MeterReading findByUUID(Long retailCustomerId, UUID uuid)
+			throws JAXBException {
+		List<UsagePoint> usagePointList = usagePointRESTRepository
+				.findAllByRetailCustomerId(retailCustomerId);
 
-    private MeterReading findMeterReading(List<UsagePoint> usagePointList, UUID uuid) {
-        for (UsagePoint usagePoint : usagePointList) {
-            MeterReading meterReading = findMeterReadingInUsagePoint(usagePoint.getMeterReadings(), uuid);
-            if (meterReading != null) {
-                return meterReading;
-            }
-        }
-        return null;
-    }
+		return findMeterReading(usagePointList, uuid);
+	}
 
-    private MeterReading findMeterReadingInUsagePoint(List<MeterReading> meterReadings, UUID uuid) {
-        for (MeterReading meterReading : meterReadings) {
-            if (meterReading.getUUID().equals(uuid)) {
-                return meterReading;
-            }
-        }
-        return null;
-    }
+	private MeterReading findMeterReading(List<UsagePoint> usagePointList,
+			UUID uuid) {
+		for (UsagePoint usagePoint : usagePointList) {
+			MeterReading meterReading = findMeterReadingInUsagePoint(
+					usagePoint.getMeterReadings(), uuid);
+			if (meterReading != null) {
+				return meterReading;
+			}
+		}
+		return null;
+	}
+
+	private MeterReading findMeterReadingInUsagePoint(
+			List<MeterReading> meterReadings, UUID uuid) {
+		for (MeterReading meterReading : meterReadings) {
+			if (meterReading.getUUID().equals(uuid)) {
+				return meterReading;
+			}
+		}
+		return null;
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013, 2014 EnergyOS.org
+ * Copyright 2013, 2014, 2015 EnergyOS.org
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -42,93 +42,99 @@ import org.springframework.web.client.RestTemplate;
 
 @Controller
 @PreAuthorize("hasRole('ROLE_CUSTODIAN')")
-public class AdministratorController  extends BaseController {
+public class AdministratorController extends BaseController {
 
-    @Autowired
-    private RetailCustomerService service;
-    
-    @Autowired
-    @Qualifier("restTemplate")
-    private RestTemplate restTemplate;
-    
-    @Autowired
-    private ResourceService resourceService;
+	@Autowired
+	private RetailCustomerService service;
 
-    @Autowired
-    private ImportService importService;
-    
-    @RequestMapping(value = Routes.ROOT_SERVICE_STATUS, method = RequestMethod.GET)
-    public String showServiceStatus(ModelMap model) {
-    
-    	ApplicationInformation applicationInformation = resourceService.findById(1L, ApplicationInformation.class);
-        String statusUri = applicationInformation.getAuthorizationServerAuthorizationEndpoint() + "/ReadServiceStatus";
-        // not sure this will work w/o the right seed information
-        //
-    	Authorization authorization = resourceService.findByResourceUri(statusUri, Authorization.class);
-    	RetailCustomer retailCustomer = authorization.getRetailCustomer();
+	@Autowired
+	@Qualifier("restTemplate")
+	private RestTemplate restTemplate;
 
-    	String accessToken = authorization.getAccessToken();
-    	String serviceStatus = "OK";
-    	
+	@Autowired
+	private ResourceService resourceService;
+
+	@Autowired
+	private ImportService importService;
+
+	@RequestMapping(value = Routes.ROOT_SERVICE_STATUS, method = RequestMethod.GET)
+	public String showServiceStatus(ModelMap model) {
+
+		ApplicationInformation applicationInformation = resourceService
+				.findById(1L, ApplicationInformation.class);
+		String statusUri = applicationInformation
+				.getAuthorizationServerAuthorizationEndpoint()
+				+ "/ReadServiceStatus";
+		// not sure this will work w/o the right seed information
+		//
+		Authorization authorization = resourceService.findByResourceUri(
+				statusUri, Authorization.class);
+		RetailCustomer retailCustomer = authorization.getRetailCustomer();
+
+		String accessToken = authorization.getAccessToken();
+		String serviceStatus = "OK";
+
 		try {
 
 			HttpHeaders requestHeaders = new HttpHeaders();
-    	    requestHeaders.set("Authorization", "Bearer " + accessToken);
-    	    @SuppressWarnings({ "unchecked", "rawtypes" })
+			requestHeaders.set("Authorization", "Bearer " + accessToken);
+			@SuppressWarnings({ "unchecked", "rawtypes" })
 			HttpEntity<?> requestEntity = new HttpEntity(requestHeaders);
-    	    
-    	    // get the subscription
-    	    HttpEntity<String> httpResult = restTemplate.exchange(statusUri, HttpMethod.GET, requestEntity, String.class);
-    	 
-    	    // import it into the repository
-    		ByteArrayInputStream bs = new ByteArrayInputStream(httpResult.getBody()
-    				.toString().getBytes());
-    		
+
+			// get the subscription
+			HttpEntity<String> httpResult = restTemplate.exchange(statusUri,
+					HttpMethod.GET, requestEntity, String.class);
+
+			// import it into the repository
+			ByteArrayInputStream bs = new ByteArrayInputStream(httpResult
+					.getBody().toString().getBytes());
+
 			importService.importData(bs, retailCustomer.getId());
-			
+
 			List<EntryType> entries = importService.getEntries();
-		    
-		    // TODO: Use-Case 1 registration - service status
+
+			// TODO: Use-Case 1 registration - service status
 
 		} catch (Exception e) {
-			// nothing there, so log the fact and move on. It will 
+			// nothing there, so log the fact and move on. It will
 			// get imported later.
 			e.printStackTrace();
 		}
-	    model.put("serviceStatus", serviceStatus);
-	    
-        return "/custodian/datacustodian/showservicestatus";
-    }
-    
-    public void setRetailCustomerService(RetailCustomerService service) {
-        this.service = service;
-   }
+		model.put("serviceStatus", serviceStatus);
 
-   public RetailCustomerService getRetailCustomerService () {
-        return this.service;
-   }
-   public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-   }
+		return "/custodian/datacustodian/showservicestatus";
+	}
 
-   public RestTemplate getRestTemplate () {
-        return this.restTemplate;
-   }
-   public void setResourceService(ResourceService resourceService) {
-        this.resourceService = resourceService;
-   }
+	public void setRetailCustomerService(RetailCustomerService service) {
+		this.service = service;
+	}
 
-   public ResourceService getResourceService () {
-        return this.resourceService;
-   }
-   public void setImportService(ImportService importService) {
-        this.importService = importService;
-   }
+	public RetailCustomerService getRetailCustomerService() {
+		return this.service;
+	}
 
-   public ImportService getImportService () {
-        return this.importService;
-   }
+	public void setRestTemplate(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
 
-    
+	public RestTemplate getRestTemplate() {
+		return this.restTemplate;
+	}
+
+	public void setResourceService(ResourceService resourceService) {
+		this.resourceService = resourceService;
+	}
+
+	public ResourceService getResourceService() {
+		return this.resourceService;
+	}
+
+	public void setImportService(ImportService importService) {
+		this.importService = importService;
+	}
+
+	public ImportService getImportService() {
+		return this.importService;
+	}
+
 }
-
