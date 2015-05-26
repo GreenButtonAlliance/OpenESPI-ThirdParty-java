@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mvn clean verify -P ci
+mvn -P devmysql clean 
