@@ -3,10 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="clientRestTemplateFactory" name="clientRestTemplateFactory" class="org.energyos.espi.thirdparty.web.ClientRestTemplateFactory" autowire-candidate="true"/>
+    <!-- <bean id="clientRestTemplateFactory" name="clientRestTemplateFactory" class="org.energyos.espi.thirdparty.web.ClientRestTemplateFactory" autowire-candidate="true"/> -->
 
-    <!--<alias name="${template}" alias="repositoryTemplate"/>-->
+    <!-- <alias name="${template}" alias="repositoryTemplate"/> -->
 
+<!--  
     <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="${datacustodian.base.url}/api/feed"/>
     </bean>
@@ -14,6 +15,6 @@
     <bean id="THIRD_PARTY_URL" class="java.lang.String">
         <constructor-arg value="${thirdparty.base.url}"/>
     </bean>
-
-    <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/>
+-->
+    <!-- <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/> -->
 </beans>
