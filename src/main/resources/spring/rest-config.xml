@@ -7,7 +7,6 @@
 
     <!-- <alias name="${template}" alias="repositoryTemplate"/> -->
 
-<!--  
     <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="${datacustodian.base.url}/api/feed"/>
     </bean>
@@ -15,6 +14,7 @@
     <bean id="THIRD_PARTY_URL" class="java.lang.String">
         <constructor-arg value="${thirdparty.base.url}"/>
     </bean>
--->
+
     <!-- <bean id="restTemplate" name="restTemplate" class="org.springframework.web.client.RestTemplate" autowire-candidate="true"/> -->
+
 </beans>
