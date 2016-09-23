@@ -27,8 +27,8 @@
 
     <import resource="datasource-config.xml"/>
 
-    <!-- <context:property-placeholder location="classpath:spring/${profile}.properties,classpath:spring/${database}-data-access.properties"/> -->
-    <context:property-placeholder location="classpath:spring/${database}-data-access.properties"/>
+    <context:property-placeholder location="classpath:spring/${profile}.properties,classpath:spring/${database}-data-access.properties"/>
+    <!-- <context:property-placeholder location="classpath:spring/${database}-data-access.properties"/> -->
 
     <tx:annotation-driven />
 
