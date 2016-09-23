@@ -80,6 +80,7 @@
 			<!-- Green Button Alliance AWS Green Button Sandbox -->
 			<id>awsgbasandbox</id>
 			<properties>
+				<datacustodian.base.url>https://sandbox.greenbuttonalliance.org:8443/DataCustodian</datacustodian.base.url>
 				<thirdparty.base.url>https://sandbox.greenbuttonalliance.org:8443/ThirdParty</thirdparty.base.url>
 				<template>oauthTemplate</template>
 				<profile>awsgbasandbox</profile>
