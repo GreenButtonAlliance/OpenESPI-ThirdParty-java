@@ -34,19 +34,17 @@
 
     <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.mocks.MockStateServiceImpl" autowire-candidate="true"/>
 
-    <bean id="API_FEED_URL" class="java.lang.String">
+    <!-- <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="http://localhost:8080/DataCustodian/api/feed"/>
     </bean>
 
     <bean id="THIRD_PARTY_URL" class="java.lang.String">
         <constructor-arg value="http://localhost:8080/ThirdParty"/>
-    </bean>
+    </bean> -->
 
     <import resource="classpath:spring/business-config.xml"/>
 
     <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 
-    <!--   
-      <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/>
-     -->
+    <!-- <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/> -->
 </beans>
