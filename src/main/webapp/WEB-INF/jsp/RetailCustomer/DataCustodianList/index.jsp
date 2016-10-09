@@ -54,7 +54,7 @@
                             <td>
                                 <label>
                                     <input type="radio" name="Data_custodian" value="${applicationInformation.dataCustodianId}" data-data-custodian-url="${applicationInformation.dataCustodianScopeSelectionScreenURI}" class="data-custodian" />
-                                    <c:out value="${applicationInformation.dataCustodianId}"/>
+                                    <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
                                 </label>
                             </td>
                         </tr>
