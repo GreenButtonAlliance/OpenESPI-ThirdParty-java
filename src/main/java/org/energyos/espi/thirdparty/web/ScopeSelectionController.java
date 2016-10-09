@@ -57,6 +57,11 @@ public class ScopeSelectionController extends BaseController {
 	@RequestMapping(value = Routes.THIRD_PARTY_SCOPE_SELECTION_SCREEN, method = RequestMethod.GET)
 	public String scopeSelection(@RequestParam("scope") String[] scopes,
 			ModelMap model) throws JAXBException {
+
+		System.out
+				.printf("ScopeSelectionController: HttpRequest Method: GET, scopes: %s\n",
+						Arrays.asList(scopes));
+		
 		model.put("scopeList", Arrays.asList(scopes));
 
 		return "/RetailCustomer/ScopeSelection";
@@ -67,6 +72,11 @@ public class ScopeSelectionController extends BaseController {
 			@RequestParam("Data_custodian") String dataCustodianId,
 			@RequestParam("Data_custodian_URL") String dataCustodianURL)
 			throws JAXBException {
+
+		System.out
+				.printf("ScopeSelectionController: HttpRequest Method: POST, dataCustodianID: %s dataCustodianURL: %s\n",
+						dataCustodianId, dataCustodianURL);
+		
 		ApplicationInformation applicationInformation = applicationInformationService
 				.findByDataCustodianClientId(dataCustodianId);
 		return "redirect:" + dataCustodianURL + "?"
@@ -78,6 +88,11 @@ public class ScopeSelectionController extends BaseController {
 	public String scopeAuthorization(@RequestParam("scope") String scope,
 			@RequestParam("DataCustodianID") String dataCustodianId,
 			Principal principal) throws JAXBException {
+
+		System.out
+				.printf("ScopeSelectionController: HttpRequest Method: POST, scope: %s dataCustodianID: %s\n",
+						scope, dataCustodianId);
+		
 		ApplicationInformation applicationInformation = applicationInformationService
 				.findByDataCustodianClientId(dataCustodianId);
 
