@@ -36,16 +36,17 @@
 <security:authentication var="principal" property="principal" />
 
 <div class="container">
-    <div class="row">
-        <div class="span12">
-            <h2>Data Custodian List</h2>
+<%-- <div class="row">
+        <div class="span12"> --%>
+            <h1>Data Custodian List</h2>
 
 
             <form method="POST" action="<c:url value='/RetailCustomer/${principal.id}/ScopeSelection'/>">
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Data Custodian</th>
+                        <th>URL</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -57,6 +58,7 @@
                                     <c:out value="${applicationInformation.thirdPartyApplicationName}"/>
                                 </label>
                             </td>
+                            <td><c:out value="${applicationInformation.dataCustodianScopeSelectionScreenURI}"/></td>
                         </tr>
                     </c:forEach>
                     </tbody>
