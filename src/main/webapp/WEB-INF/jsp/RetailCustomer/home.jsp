@@ -29,7 +29,7 @@
     <!-- Main hero unit for a primary marketing message or call to action -->
     <div class="hero-unit">
         <h1>Retail Customer Portal</h1>
-        This is minimal Third Party Retail Customer Portal. The Green Button Third Party sanbox allows Retail Customers to authorize access to data
+        This is minimal Third Party Retail Customer Portal. The Green Button Third Party sandbox allows Retail Customers to authorize access to data
         maintained at the Sandbox DataCustodian as well as look at Usage Points and interval
         data that has been received from the  DataCustodian.
     </div>
