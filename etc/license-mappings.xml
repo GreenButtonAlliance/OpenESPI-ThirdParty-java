@@ -15,7 +15,10 @@
   ~    limitations under the License.
   -->
 
-<license-lookup xmlns="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup https://source.jasig.org/schemas/maven-notice-plugin/license-lookup/license-lookup-v1.0.xsd">
+<license-lookup xmlns="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup" 
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                xsi:schemaLocation="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup"
+                targetNamespace="https://source.jasig.org/schemas/maven-notice-plugin/license-lookup/license-lookup-v1.0.xsd">
     <artifact>
         <groupId>jstl</groupId>
         <artifactId>jstl</artifactId>
