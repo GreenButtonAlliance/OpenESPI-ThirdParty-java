@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/energyos/OpenESPI-ThirdParty-java.png)](https://travis-ci.org/energyos/OpenESPI-ThirdParty-java)
+[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java.svg?style=shield&circle-token=circle:token)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java)
 
 OpenESPI-ThirdParty
 ======================
@@ -6,16 +6,16 @@ OpenESPI-ThirdParty
 The Open Energy Services Provider Interface (ESPI) Third Party Repository Providing implementations of the interface used to provide energy usage information to retail customers.
 
 An operational sandbox with these services operating may be found at:
-<a href="https://services.greenbuttondata.org">services.greenbuttondata.org</a>
+<a href="https://sandbox.greenbuttonalliance.org:8443/ThirdParty">Green Button Alliance Third Party Sandbox</a>
 
 ## Setup
 
-Note: You need to download and install [OpenESPI-Common-Java](https://github.com/energyos/OpenESPI-Common-java) into your local Maven repository to build this project.
+Note: You need to download and install [OpenESPI-Common-Java](https://github.com/GreenButtonAlliance/OpenESPI-Common-java) into your local Maven repository to build this project.
 
 First clone the project from github:
 
 ```bash
-git clone https://github.com/energyos/OpenESPI-ThirdParty-java.git
+git clone https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java.git
 cd OpenESPI-ThirdParty-java/
 ```
 
