@@ -1,5 +1,4 @@
-[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java.svg?style=shield&circle-token=circle:token)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java)
-
+[![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java/tree/master.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java/tree/master)
 OpenESPI-ThirdParty
 ======================
 
