@@ -40,11 +40,9 @@ jobs:
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
       # run tests! and gen code coverage
-      - run: mvn integration-test cobertura:cobertura
+      - run: mvn integration-test
 
       - store_test_results:
           path: target/surefire-reports
 
-      - run:
-          name: Send to CodeCov
-          command: bash <(curl -s https://codecov.io/bash)
+      - run: mvn sonar:sonar -Dsonar.projectKey=GreenButtonAlliance_OpenESPI-ThirdParty-java -Dsonar.organization=greenbuttonalliance -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=d4000937355cf982b09811925b0bbdeffb283d5e
