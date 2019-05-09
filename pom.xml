@@ -20,100 +20,78 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.energyos</groupId>
-    <artifactId>ThirdParty</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <groupId>org.GreenButtonAlliance</groupId>
+    <artifactId>open-espi-third-party</artifactId>
+    <version>1.3.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>ThirdParty</name>  
+
+    <name>open-espi-third-party</name>
+    <description>
+        North American Energy Standards Board (NAESB) REQ.21 Energy Service Provider Interface (ESPI) 1.0
+        Third Party (Client) Web Server implementation.
+    </description>
+
+    <url>https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java</url>
+
     <organization>
-       <name>EnergyOS.org</name>
-       <url>http://www.energyos.org</url>
+       <name>Green Button Alliance, Inc.</name>
+       <url>http://www.greenbuttonalliance.org</url>
     </organization>
-    
+
+    <developers>
+        <developer>
+            <id>jteeter</id>
+            <name>John Teeter</name>
+            <email>john.teeter@energyos.org</email>
+        </developer>
+
+        <developer>
+            <id>dcoffin</id>
+            <name>Donald F. Coffin</name>
+            <email>donald.coffin@reminetworks.com</email>
+        </developer>
+
+        <developer>
+            <id>mburns</id>
+            <name>Dr. Martin J. Burns</name>
+            <email>marty@hypertek.us</email>
+        </developer>
+
+        <developer>
+            <id>apliszka</id>
+            <name>Andy Pliszka</name>
+            <email>apliska@pivotal.io</email>
+        </developer>
+
+        <developer>
+            <id>rclutton</id>
+            <name>Robbie Clutton</name>
+            <email>rclutton@pivotal.io</email>
+        </developer>
+
+        <developer>
+            <id>wramsey</id>
+            <name>William Ramsey</name>
+            <email>wramsey@pivotal.io</email>
+        </developer>
+    </developers>
+
+    <inceptionYear>2013</inceptionYear>
+
     <licenses>
     	<license>
     		<name>The Apache Software License, Version 2.0</name>
-    		<url>http://www.apache.org/licenses/LICENSE-2.o.txt</url>
+    		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     	</license>
     </licenses>
-       
-    <scm>
-       <connection>scm:git:https://github.com/energyos/OpenESPI-ThirdParty-java.git/</connection>
-       <developerConnection>scm:git:git@github.com:energyos/OpenESPI-ThirdParty-java.git</developerConnection>
-       <url>https://github.com/energyos/OpenESPI-ThirdParty-java.git</url>
-       <tag>HEAD</tag>
-    </scm>
-    
-    <developers>
-    	<developer>
-    		<id>jteeter</id>
-    		<name>John Teeter</name>
-    		<email>john.teeter@energyos.org</email>
-    	</developer>
-    	
-    	<developer>
-    		<id>dcoffin</id>
-    		<name>Donald F. Coffin</name>
-    		<email>donald.coffin@reminetworks.com</email>
-    	</developer>
-    	
-    	<developer>
-    		<id>mburns</id>
-    		<name>Dr. Martin J. Burns</name>
-    		<email>marty@hypertek.us</email>
-    	</developer>
-    	
-    	<developer>
-    		<id>apliszka</id>
-    		<name>Andy Pliszka</name>
-    		<email>apliska@pivotal.io</email>
-    	</developer>
-    	
-    	<developer>
-    		<id>rclutton</id>
-    		<name>Robbie Clutton</name>
-    		<email>rclutton@pivotal.io</email>
-    	</developer>
-    	
-    	<developer>
-    		<id>wramsey</id>
-    		<name>William Ramsey</name>
-    		<email>wramsey@pivotal.io</email>
-    	</developer>
-    </developers>
-
-    <profiles>
-        <profile>
-            <id>devmysql</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-             <properties>
-                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
-                <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
-                <template>oauthTemplate</template>
-                <profile>devmysql</profile>
-                <database>mysql</database>
-                <hbm2ddl_auto>none</hbm2ddl_auto>
-            </properties>
-        </profile>
-
-		<profile>
-			<!-- Green Button Alliance AWS Green Button Sandbox -->
-			<id>awsgbasandbox</id>
-			<properties>
-				<datacustodian.base.url>https://sandbox.greenbuttonalliance.org:8443/DataCustodian</datacustodian.base.url>
-				<thirdparty.base.url>https://sandbox.greenbuttonalliance.org:8443/ThirdParty</thirdparty.base.url>
-				<template>oauthTemplate</template>
-				<profile>awsgbasandbox</profile>
-				<database>mysql</database>
-				<hbm2ddl_auto>none</hbm2ddl_auto>
-			</properties>
-		</profile>
-		
-    </profiles>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.7</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
         <!-- Spring -->
         <spring.version>4.0.6.RELEASE</spring.version>
         <spring.security.version>3.2.3.RELEASE</spring.security.version>
@@ -144,127 +122,120 @@
         <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
 
         <maven.build.timestamp.format>yyyy/MM/dd hh:mm:ss a,z</maven.build.timestamp.format>
+        <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>spring-maven-release</id>
-            <name>Spring Maven Release Repository</name>
-            <url>http://maven.springframework.org/release</url>
-        </repository>
+    <profiles>
+        <profile>
+            <id>devmysql</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <datacustodian.base.url>http://localhost:8080/DataCustodian</datacustodian.base.url>
+                <thirdparty.base.url>http://localhost:8080/ThirdParty</thirdparty.base.url>
+                <template>oauthTemplate</template>
+                <profile>devmysql</profile>
+                <database>mysql</database>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
+            </properties>
+        </profile>
 
-        <repository>
-            <id>spring-maven-milestone</id>
-            <name>Spring Maven Milestone Repository</name>
-            <url>http://maven.springframework.org/milestone</url>
-        </repository>
-
-        <repository>
-            <id>spring-maven-snapshot</id>
-            <url>http://maven.springframework.org/snapshot</url>
-            <name>Spring Maven Snapshot Repository</name>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+        <profile>
+            <!-- Green Button Alliance AWS Green Button Sandbox -->
+            <id>awsgbasandbox</id>
+            <properties>
+                <datacustodian.base.url>https://sandbox.greenbuttonalliance.org:8443/DataCustodian</datacustodian.base.url>
+                <thirdparty.base.url>https://sandbox.greenbuttonalliance.org:8443/ThirdParty</thirdparty.base.url>
+                <template>oauthTemplate</template>
+                <profile>awsgbasandbox</profile>
+                <database>mysql</database>
+                <hbm2ddl_auto>none</hbm2ddl_auto>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
-            <groupId>org.energyos</groupId>
+            <groupId>org.greenbuttonalliance</groupId>
             <artifactId>Common</artifactId>
             <version>${openespi-common.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${spring-security-oauth2.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax-servlet.version}</version>
 <!--             <scope>provided</scope> -->
         </dependency>
-
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
             <version>2.1</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
@@ -280,19 +251,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <!-- Databases - Uses HSQL by default -->
         <dependency>
             <groupId>org.hsqldb</groupId>
@@ -300,32 +268,27 @@
             <version>${hsqldb.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <!--Databases - MySQL-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
@@ -337,119 +300,121 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
             <version>${tomcat-jdbc.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>xmlunit</groupId>
             <artifactId>xmlunit</artifactId>
             <version>1.4</version>
         </dependency>
-
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-picocontainer</artifactId>
             <version>1.1.3</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
             <version>1.1.3</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-spring</artifactId>
             <version>1.1.3</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
         </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>2.34.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-oxm</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
-                
         <dependency>
         	<groupId>commons-codec</groupId>
         	<artifactId>commons-codec</artifactId>
         	<version>1.9</version>
         </dependency>
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.3</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
             <version>${apache-httpcomponent.version}</version>
         </dependency>
-
         <dependency>
             <groupId>rome</groupId>
             <artifactId>rome</artifactId>
             <version>1.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
         </dependency>
-
     </dependencies>
+
+    <prerequisites>
+        <maven>[3.2.1,]</maven>
+    </prerequisites>
+
+    <scm>
+        <connection>scm:git:https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java.git/</connection>
+        <developerConnection>scm:git:git@github.com:GreenButtonAlliance/OpenESPI-ThirdParty-java.git</developerConnection>
+        <url>https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/GreenButtonAlliance/OpenESPI-ThirdParty-java/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>CircleCi</system>
+        <url>https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java</url>
+    </ciManagement>
 
     <build>
         <finalName>ThirdParty</finalName>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -461,7 +426,6 @@
                 </includes>
             </resource>
         </resources>
-
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
@@ -474,7 +438,6 @@
                 </includes>
             </testResource>
         </testResources>
-
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -491,12 +454,7 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
             </plugin>
-
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven-surefire-plugin.version}</version>
@@ -504,9 +462,9 @@
                     <includes>
                         <include>**/*Tests.java</include>
                     </includes>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
             </plugin>
-
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
@@ -515,6 +473,7 @@
                         <include>**/*Featuresx.java</include>
                         <include>**/*Featurex.java</include>
                     </includes>
+                    <useSystemClassLoader>false</useSystemClassLoader>
                 </configuration>
                 <executions>
                     <execution>
@@ -525,50 +484,69 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-				<version>${maven-jetty-plugin.version}</version>
-                <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
-                    <stopPort>8005</stopPort>
-                    <stopKey>STOP</stopKey>
-                    <contextPath>/ThirdParty</contextPath>
-                </configuration>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>start-jetty</id>
-                        <phase>pre-integration-test</phase>
+                        <id>auto-clean</id>
+                        <phase>initialize</phase>
                         <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <scanIntervalSeconds>0</scanIntervalSeconds>
-                            <daemon>true</daemon>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>stop-jetty</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
+                            <goal>clean</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
-
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.maven.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.3</version>
+                <executions>
+                    <execution>
+                        <id>default-prepare-agent</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>pre-integration-test</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>post-integration-test</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.0</version>
                 <configuration>
                     <path>/ThirdParty</path>
-                    <url>http://services.greenbuttondata.org/manager/text</url>
+                    <url>https://sandbox.greenbutton.org:8443/manager/text</url>
                     <server>TomcatServerDeployment</server>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.jasig.maven</groupId>
                 <artifactId>maven-notice-plugin</artifactId>
@@ -582,7 +560,6 @@
                     </licenseMapping>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -604,44 +581,81 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-war-plugin</artifactId>
+            	<version>2.3</version>
+            	<configuration>
+            		<archive>
+            			<addMavenDescriptor>false</addMavenDescriptor>
+            			<manifest>
+            				<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            			</manifest>
+            			<manifestEntries>
+                          <Implementation-Build>${buildNumber}</Implementation-Build>
+                          <Implementation-Build-Time>${maven.build.timestamp}</Implementation-Build-Time>
+                        </manifestEntries>
+            		</archive>
+            		<warName>ThirdParty</warName>
+            	</configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                  <shortRevisionLength>7</shortRevisionLength>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+<!--        <pluginManagement>-->
+<!--            <plugins>-->
+<!--                <plugin>-->
+<!--                    <groupId>org.sonarsource.scanner.maven</groupId>-->
+<!--                    <artifactId>sonar-maven-plugin</artifactId>-->
+<!--                    <version>${sonar.maven.plugin.version}</version>-->
+<!--                </plugin>-->
+<!--            </plugins>-->
+<!--        </pluginManagement>-->
+    </build>
 
-	<plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-war-plugin</artifactId>
-		<version>2.3</version>
-		<configuration>
-			<archive>
-				<addMavenDescriptor>false</addMavenDescriptor>
-				<manifest>
-					<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-				</manifest>				
-				<manifestEntries>
-                  <Implementation-Build>${buildNumber}</Implementation-Build>
-                  <Implementation-Build-Time>${maven.build.timestamp}</Implementation-Build-Time>
-                </manifestEntries>
-				
-			</archive>
-			<warName>ThirdParty</warName>
-		</configuration>
-	</plugin>
-    <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.1</version>
-        <configuration>
-          <shortRevisionLength>7</shortRevisionLength>
-        </configuration>
-        <executions>
-            <execution>
-                <phase>validate</phase>
-                <goals>
-                    <goal>create</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
-  </plugins>
-
-  </build>
+    <repositories>
+        <repository>
+            <id>spring-maven-release</id>
+            <name>Spring Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </repository>
+        <repository>
+            <id>spring-maven-milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+        <repository>
+            <id>spring-maven-snapshot</id>
+            <url>http://maven.springframework.org/snapshot</url>
+            <name>Spring Maven Snapshot Repository</name>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>greenbuttonalliance-snapshot</id>
+            <name>Green Button Alliance Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>greenbuttonalliance-release</id>
+            <name>Green Button Alliance Release Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/releases</url>
+        </repository>
+    </repositories>
 </project>
 

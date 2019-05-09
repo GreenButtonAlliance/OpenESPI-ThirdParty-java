@@ -23,18 +23,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    <context:component-scan base-package="org.energyos.espi.common"/>
-    <context:component-scan base-package="org.energyos.espi.thirdparty"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.thirdparty"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="restTemplate" name="restTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
-    <bean id="clientRestTemplateFactory" name="clientRestTemplateFactory" class="org.energyos.espi.thirdparty.mocks.MockClientRestTemplateFactory" autowire-candidate="true"/>
+    <bean id="restTemplate" name="restTemplate" class="org.greenbuttonalliance.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
+    <bean id="clientRestTemplateFactory" name="clientRestTemplateFactory" class="org.greenbuttonalliance.espi.thirdparty.mocks.MockClientRestTemplateFactory" autowire-candidate="true"/>
 
-    <bean id="stateService" name="stateService" class="org.energyos.espi.thirdparty.mocks.MockStateServiceImpl" autowire-candidate="true"/>
+    <bean id="stateService" name="stateService" class="org.greenbuttonalliance.espi.thirdparty.mocks.MockStateServiceImpl" autowire-candidate="true"/>
 
     <!-- <bean id="API_FEED_URL" class="java.lang.String">
         <constructor-arg value="http://localhost:8080/DataCustodian/api/feed"/>
@@ -46,7 +46,7 @@
 
     <import resource="classpath:spring/business-config.xml"/>
 
-    <bean id="repositoryTemplate" name="mockTemplate" class="org.energyos.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
+    <bean id="repositoryTemplate" name="mockTemplate" class="org.greenbuttonalliance.espi.thirdparty.mocks.MockRestTemplate" autowire-candidate="true"/>
 
-    <!-- <bean id="seedDataGenerator" class="org.energyos.espi.thirdparty.factory.SeedDataGenerator" init-method="init"/> -->
+    <!-- <bean id="seedDataGenerator" class="SeedDataGenerator" init-method="init"/> -->
 </beans>

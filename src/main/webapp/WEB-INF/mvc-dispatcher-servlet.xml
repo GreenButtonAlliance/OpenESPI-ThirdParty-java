@@ -31,8 +31,8 @@
     <import resource="classpath:spring/oauth-config.xml"/>
     <import resource="classpath:spring/security-config.xml"/>
 
-    <context:component-scan base-package="org.energyos.espi.common"/>
-    <context:component-scan base-package="org.energyos.espi.thirdparty"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.common"/>
+    <context:component-scan base-package="org.greenbuttonalliance.espi.thirdparty"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
@@ -49,7 +49,7 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="stateService" name="stateService" class="org.energyos.espi.common.service.impl.StateServiceImpl" autowire-candidate="true"/>
+    <bean id="stateService" name="stateService" class="org.greenbuttonalliance.espi.common.service.impl.StateServiceImpl" autowire-candidate="true"/>
 
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="excludedExceptions" value="org.springframework.security.oauth2.client.resource.UserRedirectRequiredException"/>

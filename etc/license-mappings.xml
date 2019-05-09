@@ -27,7 +27,7 @@
         <license>COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.1</license>
     </artifact>
     <artifact>
-        <groupId>org.energyos</groupId>
+        <groupId>org.greenbuttonalliance</groupId>
         <artifactId>ThirdParty</artifactId>
         <license>Apache License, Version 2.0</license>
     </artifact>
