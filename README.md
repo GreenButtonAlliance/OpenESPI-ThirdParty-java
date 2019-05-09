@@ -1,4 +1,6 @@
 [![CircleCI](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java/tree/master.svg?style=svg)](https://circleci.com/gh/GreenButtonAlliance/OpenESPI-ThirdParty-java/tree/master)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GreenButtonAlliance_OpenESPI-ThirdParty-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=GreenButtonAlliance_OpenESPI-ThirdParty-java)
+
 
 OpenESPI-ThirdParty
 ======================
