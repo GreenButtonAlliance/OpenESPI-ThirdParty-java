@@ -2,8 +2,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GreenButtonAlliance_OpenESPI-ThirdParty-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=GreenButtonAlliance_OpenESPI-ThirdParty-java)
 
 
-OpenESPI-ThirdParty
-======================
+# OpenESPI-ThirdParty
 
 The Open Energy Services Provider Interface (ESPI) Third Party Repository Providing implementations of the interface used to provide energy usage information to retail customers.
 
