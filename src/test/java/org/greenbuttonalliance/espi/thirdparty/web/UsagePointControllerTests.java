@@ -1,19 +1,19 @@
 /*
- *     Copyright (c) 2018-2019 Green Button Alliance, Inc.
+ *    Copyright (c) 2018-2020 Green Button Alliance, Inc.
  *
- *     Portions copyright (c) 2013-2018 EnergyOS.org
+ *    Portions copyright (c) 2013-2018 EnergyOS.org
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
  *         http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
 
 package org.greenbuttonalliance.espi.thirdparty.web;
@@ -26,7 +26,6 @@ import org.greenbuttonalliance.espi.common.service.impl.UsagePointServiceImpl;
 import org.greenbuttonalliance.espi.common.test.EspiFactory;
 import org.greenbuttonalliance.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.ModelMap;
@@ -58,16 +57,15 @@ public class UsagePointControllerTests {
 	}
 
 	@Test
-	@Ignore
 	public void index_displaysIndexView() throws Exception {
 		when(resourceService.findAllIds(UsagePoint.class)).thenReturn(
 				new ArrayList<Long>());
-		assertEquals("/usagepoints/index",
+		assertEquals("/customer/usagepoints/index",
 				controller.index(mock(ModelMap.class), authentication));
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void index_findsUsagePointsForLoggedInCustomer()
 			throws JAXBException {
 		controller.index(mock(ModelMap.class), authentication);
@@ -77,7 +75,7 @@ public class UsagePointControllerTests {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void show_displaysShowView() throws Exception {
 		when(resourceService.findById(anyLong(), UsagePoint.class)).thenReturn(
 				EspiFactory.newUsagePoint());
@@ -86,7 +84,7 @@ public class UsagePointControllerTests {
 	}
 
 	@Test
-	@Ignore
+//	@Ignore
 	public void show_findsTheUsagePointByUUID() throws Exception {
 		UsagePoint usagePoint = Factory.newUsagePoint();
 		String hashedId = "hashedId";
