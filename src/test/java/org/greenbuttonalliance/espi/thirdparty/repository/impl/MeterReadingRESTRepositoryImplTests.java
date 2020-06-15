@@ -20,7 +20,7 @@ package org.greenbuttonalliance.espi.thirdparty.repository.impl;
 
 import org.greenbuttonalliance.espi.common.domain.MeterReading;
 import org.greenbuttonalliance.espi.common.domain.UsagePoint;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.greenbuttonalliance.espi.thirdparty.repository.UsagePointRESTRepository;
 import org.junit.Test;
 

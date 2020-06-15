@@ -22,7 +22,7 @@ import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.domain.UsagePoint;
 import org.greenbuttonalliance.espi.common.repositories.RetailCustomerRepository;
 import org.greenbuttonalliance.espi.common.repositories.UsagePointRepository;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class SeedDataGenerator {

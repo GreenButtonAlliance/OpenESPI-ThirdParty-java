@@ -25,7 +25,7 @@ import org.greenbuttonalliance.espi.common.domain.UsagePoint;
 import org.greenbuttonalliance.espi.common.repositories.UsagePointRepository;
 import org.greenbuttonalliance.espi.common.repositories.jpa.AuthorizationRepositoryImpl;
 import org.greenbuttonalliance.espi.common.service.impl.AuthorizationServiceImpl;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 

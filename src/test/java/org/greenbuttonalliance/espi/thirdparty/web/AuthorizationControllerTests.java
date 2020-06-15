@@ -23,7 +23,7 @@ import org.greenbuttonalliance.espi.common.domain.ApplicationInformation;
 import org.greenbuttonalliance.espi.common.domain.Authorization;
 import org.greenbuttonalliance.espi.common.domain.RetailCustomer;
 import org.greenbuttonalliance.espi.common.service.AuthorizationService;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;

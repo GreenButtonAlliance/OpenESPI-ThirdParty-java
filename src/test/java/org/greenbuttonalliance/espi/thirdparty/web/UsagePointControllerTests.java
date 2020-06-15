@@ -23,7 +23,7 @@ import org.greenbuttonalliance.espi.common.domain.UsagePoint;
 import org.greenbuttonalliance.espi.common.service.UsagePointService;
 import org.greenbuttonalliance.espi.common.service.impl.ResourceServiceImpl;
 import org.greenbuttonalliance.espi.common.service.impl.UsagePointServiceImpl;
-import org.greenbuttonalliance.espi.common.test.EspiFactory;
+import org.greenbuttonalliance.espi.common.support.EspiFactory;
 import org.greenbuttonalliance.espi.thirdparty.utils.factories.Factory;
 import org.junit.Before;
 import org.junit.Test;

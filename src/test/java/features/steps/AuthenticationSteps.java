@@ -19,7 +19,7 @@
 package features.steps;
 
 import cucumber.api.java.en.Then;
-import org.greenbuttonalliance.espi.common.test.WebDriverSingleton;
+import org.greenbuttonalliance.espi.common.support.WebDriverSingleton;
 import org.openqa.selenium.WebDriver;
 
 import static org.junit.Assert.assertTrue;

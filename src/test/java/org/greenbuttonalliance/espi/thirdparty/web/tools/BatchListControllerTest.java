@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.greenbuttonalliance.espi.common.test.EspiFactory.newBatchList;
+import static org.greenbuttonalliance.espi.common.support.EspiFactory.newBatchList;
 import static org.mockito.Mockito.*;
 
 public class BatchListControllerTest extends BaseTest {

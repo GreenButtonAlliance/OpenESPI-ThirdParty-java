@@ -18,8 +18,8 @@
 
 package features.steps;
 
-import org.greenbuttonalliance.espi.common.test.BaseStepUtils;
-import org.greenbuttonalliance.espi.common.test.CucumberSession;
+import org.greenbuttonalliance.espi.common.support.BaseStepUtils;
+import org.greenbuttonalliance.espi.common.support.CucumberSession;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
