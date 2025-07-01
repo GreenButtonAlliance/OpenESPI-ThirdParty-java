@@ -2,10 +2,13 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=GreenButtonAlliance_OpenESPI-ThirdParty-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=GreenButtonAlliance_OpenESPI-ThirdParty-java)
 
 
-# OpenESPI-ThirdParty -- Archived January 29, 2024
+# OpenESPI-ThirdParty -- Archived July 1, 2025
 
-NOTE: This repository has been archived and is no longer being maintained. The code is preserved here for historical 
-reference and access to the code base.
+**NOTE: This repository is no longer maintained. The original OpenESPI project has been archived and is no longer being
+maintained.  The original code is being migrated to Spring Boot 3.5 with a modernized architecture.  The new code is
+being developed in the [OpenESPI-GreenButton-Java](https://Github.com/GreenButtonAlliance/OpenESPI-GreenButton-Java),
+as a monorepo that contains the Data Custodian, Third Party, Common, and OAuth2 Authorization Server modules.**
+
 
 The Open Energy Services Provider Interface (ESPI) Third Party Repository Providing implementations of the interface used to provide energy usage information to retail customers.
 
