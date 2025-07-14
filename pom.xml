@@ -95,19 +95,19 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <!-- Spring -->
-        <spring.version>4.0.6.RELEASE</spring.version>
-        <spring.security.version>3.2.3.RELEASE</spring.security.version>
-        <spring-data-jpa.version>1.4.3.RELEASE</spring-data-jpa.version>
-        <spring-security-oauth2.version>2.0.2.RELEASE</spring-security-oauth2.version>
+        <spring.version>5.2.19.RELEASE</spring.version>
+        <spring.security.version>5.2.9.RELEASE</spring.security.version>
+        <spring-data-jpa.version>1.5.0.RELEASE</spring-data-jpa.version>
+        <spring-security-oauth2.version>2.4.2.RELEASE</spring-security-oauth2.version>
         <openespi-common.version>1.3-SNAPSHOT</openespi-common.version>
-        <apache-httpcomponent.version>4.3.2</apache-httpcomponent.version>
+        <apache-httpcomponent.version>4.5.13</apache-httpcomponent.version>
         <javax-servlet.version>3.0.1</javax-servlet.version>
 
         <!-- Hibernate / JPA -->
         <hibernate.version>4.2.1.Final</hibernate.version>
 
         <!-- Bean validation -->
-        <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
+        <hibernate-validator.version>6.0.19.Final</hibernate-validator.version>
 
         <!-- Database access -->
         <tomcat-jdbc.version>7.0.42</tomcat-jdbc.version>
@@ -345,7 +345,7 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.34.0</version>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -370,7 +370,7 @@
         <dependency>
         	<groupId>commons-codec</groupId>
         	<artifactId>commons-codec</artifactId>
-        	<version>1.9</version>
+        	<version>1.13</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
